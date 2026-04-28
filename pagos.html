@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Control de Pagos — I.E.T. Liceo Moderno Suesca</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo: #c0392b;
+  --rojo-dark: #962d22;
+  --azul: #1a237e;
+  --azul-mid: #283593;
+  --azul-light: #3949ab;
+  --naranja: #ff5a00;
+  --naranja-light: #ff7a30;
+  --verde: #27ae60;
+  --verde-light: #2ecc71;
+  --amarillo: #f39c12;
+  --gris: #f0f2f5;
+  --gris-mid: #e2e5eb;
+  --gris-dark: #8892a0;
+  --texto: #1a1f2e;
+  --texto-claro: #5a6478;
+  --blanco: #ffffff;
+  --sombra: 0 4px 24px rgba(26,35,126,0.10);
+  --sombra-hover: 0 8px 32px rgba(26,35,126,0.18);
+  --radio: 12px;
+  --radio-sm: 8px;
+  --sidebar-w: 240px;
+  --header-h: 64px;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--gris);color:var(--texto);min-height:100vh}
+
+/* ===== LOGIN ===== */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:linear-gradient(135deg,var(--azul) 0%,var(--azul-mid) 40%,var(--rojo) 100%);
+  position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.login-card{
+  background:rgba(255,255,255,0.97);
+  border-radius:20px;
+  padding:48px 44px;
+  width:100%;max-width:420px;
+  box-shadow:0 32px 80px rgba(0,0,0,0.3);
+  position:relative;z-index:1;
+  animation:slideUp .5s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo img,.login-logo .logo-placeholder{width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 12px}
+.logo-placeholder{
+  background:linear-gradient(135deg,var(--azul),var(--rojo));
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:28px;font-weight:800;letter-spacing:-1px;
+}
+.login-logo h1{font-size:15px;font-weight:700;color:var(--azul);line-height:1.3}
+.login-logo p{font-size:12px;color:var(--texto-claro);margin-top:2px}
+.login-title{font-size:22px;font-weight:800;color:var(--texto);margin-bottom:6px;text-align:center}
+.login-sub{font-size:13px;color:var(--texto-claro);text-align:center;margin-bottom:28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--texto-claro);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.form-control{
+  width:100%;padding:13px 16px;border:2px solid var(--gris-mid);
+  border-radius:var(--radio-sm);font-family:var(--font);font-size:14px;
+  transition:all .2s;background:var(--gris);color:var(--texto);
+}
+.form-control:focus{outline:none;border-color:var(--azul-light);background:white;box-shadow:0 0 0 3px rgba(57,73,171,0.1)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border:none;border-radius:var(--radio-sm);
+  font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;text-decoration:none;white-space:nowrap;
+}
+.btn-primary{background:linear-gradient(135deg,var(--azul),var(--azul-light));color:white;box-shadow:0 4px 16px rgba(26,35,126,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,35,126,0.4)}
+.btn-danger{background:linear-gradient(135deg,var(--rojo),#e74c3c);color:white}
+.btn-success{background:linear-gradient(135deg,var(--verde),var(--verde-light));color:white;box-shadow:0 4px 16px rgba(39,174,96,0.3)}
+.btn-success:hover{transform:translateY(-1px)}
+.btn-outline{background:transparent;border:2px solid var(--gris-mid);color:var(--texto-claro)}
+.btn-outline:hover{border-color:var(--azul-light);color:var(--azul)}
+.btn-naranja{background:linear-gradient(135deg,var(--naranja),var(--naranja-light));color:white}
+.btn-sm{padding:8px 14px;font-size:12px}
+.btn-full{width:100%;justify-content:center}
+.login-error{
+  background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);
+  color:var(--rojo);border-radius:var(--radio-sm);padding:10px 14px;
+  font-size:13px;margin-top:16px;display:none;
+}
+.login-blocked{
+  background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.4);
+  color:#b7770d;border-radius:var(--radio-sm);padding:10px 14px;
+  font-size:13px;margin-top:16px;text-align:center;display:none;
+}
+
+/* ===== APP LAYOUT ===== */
+#app{display:none;min-height:100vh;flex-direction:column}
+.app-header{
+  height:var(--header-h);background:linear-gradient(135deg,var(--azul) 0%,var(--azul-mid) 60%,var(--rojo) 100%);
+  display:flex;align-items:center;padding:0 20px;gap:16px;
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  box-shadow:0 2px 16px rgba(0,0,0,0.2);
+}
+.header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.header-logo img,.header-logo-icon{width:38px;height:38px;border-radius:50%;object-fit:cover}
+.header-logo-icon{
+  background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;
+  color:white;font-size:14px;font-weight:800;border:2px solid rgba(255,255,255,0.3);
+}
+.header-title h2{color:white;font-size:15px;font-weight:700;line-height:1.2}
+.header-title p{color:rgba(255,255,255,0.7);font-size:11px}
+.header-user{margin-left:auto;display:flex;align-items:center;gap:12px}
+.user-badge{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px;padding:6px 14px;color:white;font-size:12px;font-weight:600;
+}
+.menu-toggle{display:none;background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:18px;align-items:center;justify-content:center}
+
+.app-body{display:flex;margin-top:var(--header-h);min-height:calc(100vh - var(--header-h))}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:var(--sidebar-w);background:white;border-right:1px solid var(--gris-mid);
+  position:fixed;top:var(--header-h);bottom:0;left:0;overflow-y:auto;
+  z-index:90;transition:transform .3s;
+}
+.sidebar-nav{padding:16px 0}
+.nav-section{padding:6px 16px 2px;font-size:10px;font-weight:700;color:var(--gris-dark);text-transform:uppercase;letter-spacing:1px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:11px 20px;
+  cursor:pointer;transition:all .2s;border-left:3px solid transparent;
+  color:var(--texto-claro);font-size:14px;font-weight:500;
+}
+.nav-item:hover{background:rgba(26,35,126,0.05);color:var(--azul)}
+.nav-item.active{background:rgba(26,35,126,0.08);color:var(--azul);border-left-color:var(--azul);font-weight:600}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+
+/* ===== CONTENT ===== */
+.main-content{margin-left:var(--sidebar-w);flex:1;padding:28px;min-width:0}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page-title{font-size:22px;font-weight:800;color:var(--texto);margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--texto-claro);margin-bottom:24px}
+
+/* ===== CARDS ===== */
+.card{background:white;border-radius:var(--radio);box-shadow:var(--sombra);padding:24px;margin-bottom:20px}
+.card-title{font-size:14px;font-weight:700;color:var(--texto);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{
+  background:white;border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:20px;border-left:4px solid transparent;
+}
+.stat-card.verde{border-left-color:var(--verde)}
+.stat-card.rojo{border-left-color:var(--rojo)}
+.stat-card.azul{border-left-color:var(--azul)}
+.stat-card.naranja{border-left-color:var(--naranja)}
+.stat-label{font-size:12px;font-weight:600;color:var(--texto-claro);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--texto)}
+.stat-value.verde{color:var(--verde)}
+.stat-value.rojo{color:var(--rojo)}
+.stat-value.azul{color:var(--azul)}
+.stat-value.naranja{color:var(--naranja)}
+.stat-sub{font-size:12px;color:var(--texto-claro);margin-top:4px}
+
+/* ===== TABLES ===== */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--gris);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--texto-claro);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--gris-mid)}
+td{padding:12px 14px;border-bottom:1px solid var(--gris-mid);vertical-align:middle}
+tr:hover td{background:rgba(26,35,126,0.03)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-verde{background:rgba(39,174,96,0.12);color:var(--verde)}
+.badge-rojo{background:rgba(192,57,43,0.12);color:var(--rojo)}
+.badge-naranja{background:rgba(255,90,0,0.12);color:var(--naranja)}
+.badge-gris{background:var(--gris);color:var(--texto-claro)}
+
+/* ===== FORMS ===== */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-row.single{grid-template-columns:1fr}
+.form-row.triple{grid-template-columns:1fr 1fr 1fr}
+label.field-label{display:block;font-size:12px;font-weight:600;color:var(--texto-claro);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+select.form-control{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892a0' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+textarea.form-control{resize:vertical;min-height:80px}
+
+/* ===== SEARCH BOX ===== */
+.search-box{position:relative}
+.search-box input{padding-left:40px}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;z-index:1}
+.search-result{
+  background:white;border:2px solid var(--azul-light);border-radius:var(--radio-sm);
+  padding:16px;margin-top:12px;display:none;
+}
+.student-card-mini{display:flex;align-items:center;gap:14px}
+.student-avatar{
+  width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--azul-light));
+  display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:700;flex-shrink:0;
+}
+.student-name{font-weight:700;font-size:15px;color:var(--texto)}
+.student-meta{font-size:12px;color:var(--texto-claro);margin-top:2px}
+
+/* ===== UPLOAD AREA ===== */
+.upload-area{
+  border:2px dashed var(--gris-mid);border-radius:var(--radio-sm);padding:24px;
+  text-align:center;cursor:pointer;transition:all .2s;background:var(--gris);
+}
+.upload-area:hover{border-color:var(--azul-light);background:rgba(57,73,171,0.05)}
+.upload-area.has-file{border-color:var(--verde);background:rgba(39,174,96,0.05)}
+.upload-preview{max-width:100%;max-height:200px;border-radius:8px;margin-top:12px;display:none}
+
+/* ===== GRÁFICA BARRAS CSS ===== */
+.bar-chart{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.bar-row{display:grid;grid-template-columns:100px 1fr 80px;align-items:center;gap:12px}
+.bar-label{font-size:12px;font-weight:600;color:var(--texto-claro);text-align:right}
+.bar-track{height:20px;background:var(--gris);border-radius:10px;position:relative;overflow:hidden}
+.bar-fill{height:100%;border-radius:10px;transition:width .8s ease;min-width:2px}
+.bar-fill.verde{background:linear-gradient(90deg,var(--verde),var(--verde-light))}
+.bar-fill.rojo{background:linear-gradient(90deg,var(--rojo),#e74c3c)}
+.bar-fill.azul{background:linear-gradient(90deg,var(--azul),var(--azul-light))}
+.bar-value{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--texto-claro)}
+
+/* ===== ACCOUNT STATE TABLE ===== */
+.account-table{width:100%;border-collapse:collapse}
+.account-table th{background:var(--azul);color:white;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.account-table td{padding:11px 14px;border-bottom:1px solid var(--gris-mid);font-size:13px}
+.account-table tr.pagado td{background:rgba(39,174,96,0.04)}
+.account-table tr.mora td{background:rgba(192,57,43,0.04)}
+
+/* ===== RECEIPT ===== */
+#receipt-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  z-index:999;align-items:center;justify-content:center;
+}
+#receipt-modal.open{display:flex}
+.receipt-box{
+  background:white;width:500px;max-width:95vw;border-radius:var(--radio);
+  overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.3);
+}
+.receipt-header{
+  background:linear-gradient(135deg,var(--azul),var(--rojo));
+  color:white;padding:24px 28px;text-align:center;
+}
+.receipt-body{padding:24px 28px}
+.receipt-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gris-mid);font-size:13px}
+.receipt-row:last-child{border:none}
+.receipt-label{color:var(--texto-claro);font-weight:500}
+.receipt-val{font-weight:700;color:var(--texto)}
+.receipt-amount{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--verde);text-align:center;padding:16px 0}
+.receipt-footer{text-align:center;padding:20px 28px;border-top:1px solid var(--gris-mid);font-size:12px;color:var(--texto-claro)}
+.receipt-actions{display:flex;gap:10px;justify-content:center;padding:16px 28px 24px}
+
+/* ===== VOUCHER MODAL ===== */
+#voucher-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center}
+#voucher-modal.open{display:flex}
+.voucher-box{background:white;border-radius:var(--radio);padding:20px;max-width:90vw;max-height:90vh;overflow:auto;text-align:center}
+.voucher-box img{max-width:100%;max-height:70vh;border-radius:8px}
+
+/* ===== MOROSO STATUS ===== */
+.mora-total{
+  background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.2);
+  border-radius:var(--radio-sm);padding:14px 18px;
+  font-family:var(--mono);font-size:14px;font-weight:700;color:var(--rojo);
+  display:inline-block;
+}
+
+/* ===== ALERTS ===== */
+.alert{padding:12px 16px;border-radius:var(--radio-sm);margin-bottom:16px;font-size:13px;display:flex;align-items:center;gap:10px}
+.alert-info{background:rgba(57,73,171,0.08);border-left:3px solid var(--azul-light);color:var(--azul)}
+.alert-success{background:rgba(39,174,96,0.08);border-left:3px solid var(--verde);color:var(--verde)}
+.alert-danger{background:rgba(192,57,43,0.08);border-left:3px solid var(--rojo);color:var(--rojo)}
+.alert-warn{background:rgba(243,156,18,0.1);border-left:3px solid var(--amarillo);color:#b7770d}
+
+/* ===== FILTERS ===== */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.filters select,.filters input{
+  padding:8px 14px;border:2px solid var(--gris-mid);border-radius:var(--radio-sm);
+  font-family:var(--font);font-size:13px;background:white;color:var(--texto);
+}
+.filters select:focus,.filters input:focus{outline:none;border-color:var(--azul-light)}
+
+/* ===== LOADING ===== */
+#loading-overlay{
+  display:none;position:fixed;inset:0;background:rgba(255,255,255,0.9);
+  z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px;
+}
+#loading-overlay.show{display:flex}
+.spinner{width:40px;height:40px;border:4px solid var(--gris-mid);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .menu-toggle{display:flex}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main-content{margin-left:0;padding:16px}
+  .form-row{grid-template-columns:1fr}
+  .form-row.triple{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .bar-row{grid-template-columns:80px 1fr 60px}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:89}
+  .sidebar-overlay.open{display:block}
+}
+@media(max-width:480px){
+  .stat-grid{grid-template-columns:1fr}
+  .login-card{padding:32px 24px}
+}
+
+/* ===== DASHBOARD MINI CHART ===== */
+.mini-bar-chart{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:12px}
+.mini-bar-group{display:flex;flex-direction:column;align-items:center;flex:1;gap:2px}
+.mini-bar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height .8s ease}
+.mini-bar.esperado{background:var(--gris-mid)}
+.mini-bar.recaudado{background:linear-gradient(180deg,var(--verde-light),var(--verde))}
+.mini-label{font-size:9px;color:var(--texto-claro);text-align:center;margin-top:4px}
+
+/* step indicator */
+.steps{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--texto-claro)}
+.step-num{width:24px;height:24px;border-radius:50%;border:2px solid var(--gris-mid);display:flex;align-items:center;justify-content:center;font-size:11px}
+.step.active .step-num{background:var(--azul);border-color:var(--azul);color:white}
+.step.done .step-num{background:var(--verde);border-color:var(--verde);color:white}
+.step.active{color:var(--azul)}
+.step-sep{flex:1;height:2px;background:var(--gris-mid);max-width:40px}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-overlay"><div class="spinner"></div><p style="color:var(--texto-claro);font-size:13px">Cargando...</p></div>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-placeholder" id="logo-display">LMS</div>
+      <h1>Institución Educativa Técnica<br>Liceo Moderno Suesca</h1>
+      <p>Cundinamarca, Colombia</p>
+    </div>
+    <div class="login-title">Control de Pagos</div>
+    <p class="login-sub">Ingrese sus credenciales institucionales</p>
+    <div class="form-group">
+      <label>ID de Usuario</label>
+      <input type="text" id="login-user" class="form-control" placeholder="Ej: COORD001" autocomplete="username" oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <div class="form-group">
+      <label>Clave de Acceso</label>
+      <input type="password" id="login-pass" class="form-control" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">🔐 Ingresar al Sistema</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-blocked" id="login-blocked"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+  <!-- HEADER -->
+  <header class="app-header">
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="header-logo">
+      <div class="header-logo-icon" id="header-logo">LM</div>
+      <div class="header-title">
+        <h2>I.E.T. Liceo Moderno Suesca</h2>
+        <p>Control de Pagos Institucional</p>
+      </div>
+    </div>
+    <div class="header-user">
+      <div class="user-badge" id="user-badge">👤 Usuario</div>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()" style="border-color:rgba(255,255,255,0.3);color:white;background:rgba(255,255,255,0.1)">Salir</button>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-nav" id="sidebar-nav"></div>
+    </nav>
+    <!-- MAIN -->
+    <main class="main-content" id="main-content">
+      
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-title">🏠 Panel Principal</div>
+        <div class="page-sub">Resumen del año lectivo <span id="dash-year">2026</span></div>
+        <div class="stat-grid" id="dash-stats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap">
+          <div class="card">
+            <div class="card-title">📊 Recaudo Mensual</div>
+            <div id="dash-chart" class="bar-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">⚠️ Alertas del Mes</div>
+            <div id="dash-alerts"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REGISTRAR PAGO -->
+      <div class="page" id="page-registrar">
+        <div class="page-title">💰 Registrar Pago</div>
+        <div class="page-sub">Ingrese el comprobante de consignación del padre de familia</div>
+        <div class="steps" id="reg-steps">
+          <div class="step active" id="step-1"><div class="step-num">1</div><span>Buscar estudiante</span></div>
+          <div class="step-sep"></div>
+          <div class="step" id="step-2"><div class="step-num">2</div><span>Concepto</span></div>
+          <div class="step-sep"></div>
+          <div class="step" id="step-3"><div class="step-num">3</div><span>Comprobante</span></div>
+          <div class="step-sep"></div>
+          <div class="step" id="step-4"><div class="step-num">4</div><span>Confirmar</span></div>
+        </div>
+        <div class="card">
+          <!-- Paso 1: Buscar por curso → estudiante -->
+          <div id="reg-p1">
+            <div class="card-title">🔍 Seleccionar Estudiante</div>
+            <div class="form-row" style="margin-bottom:12px">
+              <div>
+                <label class="field-label">1️⃣ Curso</label>
+                <select id="reg-curso-select" class="form-control" onchange="onRegCursoChange()">
+                  <option value="">— Seleccione un curso —</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label">2️⃣ Estudiante</label>
+                <select id="reg-student-select" class="form-control" onchange="onRegStudentChange()" disabled>
+                  <option value="">— Primero seleccione curso —</option>
+                </select>
+              </div>
+            </div>
+            <div id="reg-student-preview" style="display:none;margin-top:8px"></div>
+          </div>
+          <!-- Paso 2: Concepto -->
+          <div id="reg-p2" style="display:none">
+            <div id="reg-student-info" class="search-result" style="display:block;margin-bottom:16px"></div>
+            <div class="card-title">💳 Concepto de Pago</div>
+            <div class="form-row">
+              <div>
+                <label class="field-label">Concepto</label>
+                <select id="reg-concept" class="form-control" onchange="onConceptChange()">
+                  <option value="">Seleccionar...</option>
+                  <option value="Matrícula">Matrícula</option>
+                  <option value="Mensualidad">Mensualidad</option>
+                </select>
+              </div>
+              <div id="reg-month-wrap" style="display:none">
+                <label class="field-label">Mes</label>
+                <select id="reg-month" class="form-control">
+                  <option value="">Seleccionar mes...</option>
+                  <option>Febrero</option><option>Marzo</option><option>Abril</option>
+                  <option>Mayo</option><option>Junio</option><option>Julio</option>
+                  <option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div>
+                <label class="field-label">Valor según tarifa</label>
+                <input type="text" id="reg-tarifa" class="form-control" readonly style="background:var(--gris);font-family:var(--mono);font-weight:700">
+              </div>
+              <div>
+                <label class="field-label">Valor pagado ($)</label>
+                <input type="number" id="reg-valor" class="form-control" placeholder="0" min="0">
+              </div>
+            </div>
+            <div class="alert alert-info" id="reg-concept-alert" style="display:none"></div>
+            <div style="display:flex;gap:10px">
+              <button class="btn btn-outline" onclick="regStep(1)">← Volver</button>
+              <button class="btn btn-primary" onclick="regStep(3)">Siguiente → Comprobante</button>
+            </div>
+          </div>
+          <!-- Paso 3: Comprobante -->
+          <div id="reg-p3" style="display:none">
+            <div class="card-title">🧾 Comprobante de Pago <span style="color:var(--rojo)">*obligatorio</span></div>
+            <div class="upload-area" id="upload-area" onclick="document.getElementById('voucher-file').click()">
+              <div style="font-size:32px;margin-bottom:8px">📎</div>
+              <div style="font-weight:600;color:var(--texto)">Click para subir comprobante</div>
+              <div style="font-size:12px;color:var(--texto-claro);margin-top:4px">JPG, PNG o PDF — máximo 2MB</div>
+            </div>
+            <input type="file" id="voucher-file" accept="image/*,.pdf" style="display:none" onchange="onVoucherSelect(event)">
+            <img id="upload-preview" class="upload-preview">
+            <div class="form-row" style="margin-top:16px">
+              <div>
+                <label class="field-label">Fecha de Pago</label>
+                <input type="date" id="reg-fecha" class="form-control">
+              </div>
+              <div>
+                <label class="field-label">N° Referencia/Consignación</label>
+                <input type="text" id="reg-ref" class="form-control" placeholder="Opcional">
+              </div>
+            </div>
+            <div>
+              <label class="field-label">Observaciones</label>
+              <textarea id="reg-obs" class="form-control" placeholder="Notas adicionales (opcional)"></textarea>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <button class="btn btn-outline" onclick="regStep(2)">← Volver</button>
+              <button class="btn btn-primary" onclick="regStep(4)">Siguiente → Confirmar</button>
+            </div>
+          </div>
+          <!-- Paso 4: Confirmar -->
+          <div id="reg-p4" style="display:none">
+            <div class="card-title">✅ Confirmar Registro</div>
+            <div id="reg-confirm-info"></div>
+            <div style="display:flex;gap:10px;margin-top:20px">
+              <button class="btn btn-outline" onclick="regStep(3)">← Volver</button>
+              <button class="btn btn-success" onclick="guardarPago()">💰 Registrar Pago</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONSULTAR ESTUDIANTE -->
+      <div class="page" id="page-consultar">
+        <div class="page-title">🔍 Consultar Estudiante</div>
+        <div class="page-sub">Estado de cuenta individual</div>
+        <div class="card">
+          <div class="search-box">
+            <input type="text" id="cons-search" class="form-control" placeholder="Nombre o número de documento..." oninput="searchStudentCons()">
+          </div>
+          <div id="cons-results" style="margin-top:12px"></div>
+        </div>
+        <div id="cons-detail" style="display:none">
+          <div class="card">
+            <div id="cons-student-header"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">📋 Estado de Cuenta</div>
+            <div class="table-wrap">
+              <table class="account-table" id="cons-table">
+                <thead><tr><th>Concepto</th><th>Valor</th><th>Estado</th><th>Fecha Pago</th><th>Acciones</th></tr></thead>
+                <tbody id="cons-tbody"></tbody>
+              </table>
+            </div>
+            <div id="cons-totals" style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap"></div>
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-outline" onclick="imprimirEstadoCuenta()">🧾 Imprimir Estado de Cuenta</button>
+              <button class="btn btn-outline" onclick="verComprobantes()">👁 Ver Comprobantes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTE MOROSOS -->
+      <div class="page" id="page-morosos">
+        <div class="page-title">📋 Reporte de Morosos</div>
+        <div class="page-sub" id="morosos-corte"></div>
+        <div class="card">
+          <div class="filters">
+            <select id="mor-curso" onchange="renderMorosos()"><option value="">Todos los cursos</option></select>
+            <select id="mor-concepto" onchange="renderMorosos()">
+              <option value="">Todos los conceptos</option>
+              <option>Matrícula</option>
+              <option>Mensualidad</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="imprimirMorosos()">🖨️ Imprimir</button>
+          </div>
+          <div id="morosos-summary" style="margin-bottom:16px"></div>
+          <div class="table-wrap">
+            <table><thead><tr><th>#</th><th>Estudiante</th><th>Curso</th><th>Conceptos en Mora</th><th>Total Debe</th></tr></thead>
+            <tbody id="morosos-tbody"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECAUDO MENSUAL -->
+      <div class="page" id="page-recaudo">
+        <div class="page-title">📊 Recaudo Mensual</div>
+        <div class="page-sub">Resumen financiero del año lectivo</div>
+        <div class="card">
+          <div class="card-title">📅 Detalle por Período</div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Período</th><th>Esperado</th><th>Recaudado</th><th>Pendiente</th><th>%</th></tr></thead>
+            <tbody id="recaudo-tbody"></tbody></table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📊 Gráfica de Recaudo</div>
+          <div id="recaudo-chart" class="bar-chart"></div>
+          <div style="margin-top:16px"><button class="btn btn-outline btn-sm" onclick="imprimirRecaudo()">🖨️ Imprimir Reporte</button></div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL -->
+      <div class="page" id="page-historial">
+        <div class="page-title">🧾 Historial de Pagos</div>
+        <div class="page-sub">Todos los pagos registrados</div>
+        <div class="card">
+          <div class="filters">
+            <select id="hist-curso" onchange="renderHistorial()"><option value="">Todos los cursos</option></select>
+            <select id="hist-mes" onchange="renderHistorial()">
+              <option value="">Todos los meses</option>
+              <option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option>
+              <option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option>
+              <option>Octubre</option><option>Noviembre</option>
+            </select>
+            <select id="hist-concepto" onchange="renderHistorial()">
+              <option value="">Todos</option><option>Matrícula</option><option>Mensualidad</option>
+            </select>
+            <input type="text" id="hist-search" placeholder="Buscar nombre..." oninput="renderHistorial()" style="padding:8px 14px;border:2px solid var(--gris-mid);border-radius:var(--radio-sm);font-family:var(--font);font-size:13px">
+          </div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Estudiante</th><th>Curso</th><th>Concepto</th><th>Valor</th><th>Fecha</th><th>Acciones</th></tr></thead>
+            <tbody id="historial-tbody"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONFIGURAR TARIFAS -->
+      <div class="page" id="page-tarifas">
+        <div class="page-title">⚙️ Configurar Tarifas</div>
+        <div class="page-sub">Define los valores del año lectivo</div>
+        <div class="card">
+          <div class="form-row single">
+            <div>
+              <label class="field-label">Año Lectivo</label>
+              <input type="number" id="tar-year" class="form-control" value="2026" style="max-width:120px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+            <div>
+              <div class="card-title" style="color:var(--azul)">🧒 Preescolar</div>
+              <p style="font-size:12px;color:var(--texto-claro);margin-bottom:12px">Prekinder, Kinder, Transición</p>
+              <div class="form-group"><label class="field-label">Matrícula ($)</label><input type="number" id="tar-pre-mat" class="form-control" placeholder="0"></div>
+              <div class="form-group"><label class="field-label">Mensualidad ($)</label><input type="number" id="tar-pre-men" class="form-control" placeholder="0"></div>
+            </div>
+            <div>
+              <div class="card-title" style="color:var(--naranja)">📚 Primaria</div>
+              <p style="font-size:12px;color:var(--texto-claro);margin-bottom:12px">Primero, Segundo, Tercero, Cuarto, Quinto</p>
+              <div class="form-group"><label class="field-label">Matrícula ($)</label><input type="number" id="tar-pri-mat" class="form-control" placeholder="0"></div>
+              <div class="form-group"><label class="field-label">Mensualidad ($)</label><input type="number" id="tar-pri-men" class="form-control" placeholder="0"></div>
+            </div>
+            <div>
+              <div class="card-title" style="color:var(--rojo)">🎓 Secundaria</div>
+              <p style="font-size:12px;color:var(--texto-claro);margin-bottom:12px">Sexto a Once</p>
+              <div class="form-group"><label class="field-label">Matrícula ($)</label><input type="number" id="tar-sec-mat" class="form-control" placeholder="0"></div>
+              <div class="form-group"><label class="field-label">Mensualidad ($)</label><input type="number" id="tar-sec-men" class="form-control" placeholder="0"></div>
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn btn-success" onclick="guardarTarifas()">💾 Guardar Tarifas</button>
+          </div>
+          <div id="tar-msg" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div id="receipt-modal">
+  <div class="receipt-box">
+    <div class="receipt-header">
+      <div style="font-size:13px;opacity:.8;margin-bottom:4px">INSTITUCIÓN EDUCATIVA TÉCNICA</div>
+      <div style="font-size:18px;font-weight:800">LICEO MODERNO SUESCA</div>
+      <div style="font-size:22px;font-weight:300;letter-spacing:2px;margin-top:8px">RECIBO DE PAGO</div>
+    </div>
+    <div class="receipt-body" id="receipt-body"></div>
+    <div class="receipt-footer">
+      <div>Registrado por: <strong id="receipt-by"></strong></div>
+      <div style="margin:12px 0">___________________________</div>
+      <div>Coordinadora Administrativa</div>
+      <div style="color:var(--gris-dark)">I.E.T. Liceo Moderno Suesca</div>
+    </div>
+    <div class="receipt-actions">
+      <button class="btn btn-outline" onclick="closeReceipt()">Cerrar</button>
+      <button class="btn btn-primary" onclick="printReceipt()">🖨️ Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOUCHER MODAL -->
+<div id="voucher-modal">
+  <div class="voucher-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <strong>Comprobante de Pago</strong>
+      <button class="btn btn-outline btn-sm" onclick="closeVoucher()">✕ Cerrar</button>
+    </div>
+    <img id="voucher-img" src="" alt="Comprobante">
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ======================== STATE ========================
+let currentUser = null; // {id, name, role: 'coordinadora'|'admin'|'rectoria'}
+let systemData = null; // Firebase system/data
+let tarifas = null;
+let allPagos = [];
+let allStudents = []; // [{name, doc, docType, courseName, courseLevel}]
+let loginAttempts = 0;
+let loginBlocked = false;
+let regSelectedStudent = null;
+let regVoucherBase64 = null;
+let consSelectedStudent = null;
+let receiptNum = 1;
+
+const MESES = ["Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre"];
+
+// ======================== HELPERS ========================
+function fmt(n){ return '$' + (n||0).toLocaleString('es-CO'); }
+function showLoading(v){ document.getElementById('loading-overlay').classList.toggle('show',v); }
+function show(id){ document.getElementById(id).style.display='block'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+
+function getCourseLevel(name){
+  const n = (name||'').toUpperCase();
+  if(n.includes("PREKINDER")||n.includes("KINDER")||n.includes("TRANSICI")) return "preescolar";
+  if(n.includes("PRIMERO")||n.includes("SEGUNDO")||n.includes("TERCERO")||n.includes("CUARTO")||n.includes("QUINTO")) return "primaria";
+  return "secundaria";
+}
+
+function getTarifa(level, concept){
+  if(!tarifas) return 0;
+  const t = tarifas[level] || {};
+  return concept === 'Matrícula' ? (t.matricula||0) : (t.mensualidad||0);
+}
+
+function mesActual(){
+  const m = new Date().getMonth(); // 0-11; enero=0
+  // Año lectivo Feb(1) a Nov(10)
+  if(m < 1) return MESES[0];
+  if(m > 10) return MESES[9];
+  return MESES[m-1];
+}
+
+function fechaHoy(){
+  const d = new Date();
+  return d.toISOString().split('T')[0];
+}
+
+function buildStudents(){
+  allStudents = [];
+  if(!systemData || !systemData.courses) return;
+  systemData.courses.forEach(c=>{
+    const level = getCourseLevel(c.name);
+    (c.students||[]).forEach(s=>{
+      allStudents.push({
+        name: s.name||s.nombre||'',
+        doc: s.doc||s.documento||'',
+        docType: s.docType||s.tipoDoc||'CC',
+        courseName: c.name||'',
+        courseId: c.id||'',
+        courseLevel: level
+      });
+    });
+  });
+}
+
+function studentInitial(name){
+  return (name||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+}
+
+// ======================== LOGIN ========================
+window.doLogin = async function(){
+  if(loginBlocked){ showBlockedMsg(); return; }
+  const uid = document.getElementById('login-user').value.trim().toUpperCase();
+  const pwd = document.getElementById('login-pass').value;
+  if(!uid||!pwd){ showLoginErr('Ingrese ID y clave.'); return; }
+  showLoading(true);
+  try {
+    const snap = await getDoc(doc(db,"system","data"));
+    if(!snap.exists()){ showLoginErr('Error al conectar con Firebase.'); showLoading(false); return; }
+    const data = snap.data();
+    systemData = data;
+
+    let user = null;
+    // ADMIN hardcoded
+    if(uid==="ADMIN" && pwd==="20261"){
+      user = {id:'ADMIN', name:'Administrador General', role:'admin'};
+    } else {
+      // Buscar en coordinators
+      const coords = data.coordinators || [];
+      for(const c of coords){
+        if((c.userId||c.id||'').toUpperCase()===uid && (c.key||c.clave||'')=== pwd){
+          const type = c.type||'';
+          const role = type.toLowerCase().includes('rect') ? 'rectoria' : 'coordinadora';
+          user = {id:uid, name:c.name||c.nombre||uid, role};
+          break;
+        }
+      }
+    }
+
+    if(!user){ loginAttempts++; showLoading(false); handleFailedLogin(); return; }
+    loginAttempts = 0;
+    currentUser = user;
+    systemData = data;
+    buildStudents();
+    await loadTarifas();
+    await loadPagos();
+    initApp();
+    showLoading(false);
+  } catch(e){ showLoading(false); showLoginErr('Error de conexión: ' + e.message); }
+};
+
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && document.getElementById('login-screen').style.display!=='none') window.doLogin(); });
+
+function handleFailedLogin(){
+  if(loginAttempts>=3){
+    loginBlocked=true;
+    document.getElementById('login-error').style.display='none';
+    document.getElementById('login-blocked').style.display='block';
+    showBlockedMsg();
+    setTimeout(()=>{ loginBlocked=false; loginAttempts=0; document.getElementById('login-blocked').style.display='none'; }, 300000);
+  } else {
+    showLoginErr(`Credenciales incorrectas. Intento ${loginAttempts}/3.`);
+  }
+}
+function showBlockedMsg(){ document.getElementById('login-blocked').textContent='⏳ Sistema bloqueado por 5 minutos por múltiples intentos fallidos.'; document.getElementById('login-blocked').style.display='block'; }
+function showLoginErr(msg){ const el=document.getElementById('login-error'); el.textContent=msg; el.style.display='block'; }
+
+// ======================== LOAD DATA ========================
+async function loadTarifas(){
+  try {
+    const snap = await getDoc(doc(db,"pagos_config","tarifas"));
+    tarifas = snap.exists() ? snap.data() : { preescolar:{matricula:0,mensualidad:0}, primaria:{matricula:0,mensualidad:0}, secundaria:{matricula:0,mensualidad:0}, year:2026 };
+  } catch(e){ tarifas = {preescolar:{matricula:0,mensualidad:0},primaria:{matricula:0,mensualidad:0},secundaria:{matricula:0,mensualidad:0},year:2026}; }
+}
+
+async function loadPagos(){
+  try {
+    const snap = await getDocs(collection(db,"pagos"));
+    allPagos = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allPagos.sort((a,b)=>(b.registeredAt||0)-(a.registeredAt||0));
+    // Get receipt counter
+    const rsnap = await getDoc(doc(db,"pagos_config","receiptCounter"));
+    receiptNum = rsnap.exists() ? (rsnap.data().count||1) : 1;
+  } catch(e){ allPagos=[]; }
+}
+
+// ======================== APP INIT ========================
+function initApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('user-badge').textContent = '👤 ' + currentUser.name;
+  buildSidebar();
+  loadTarifasForm();
+  buildCourseFilters();
+  buildRegCursoSelect();
+  navigateTo('dashboard');
+}
+
+window.doLogout = function(){
+  currentUser = null; allPagos = []; allStudents = [];
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-error').style.display='none';
+};
+
+// ======================== SIDEBAR ========================
+const NAV_ITEMS = {
+  coordinadora:[
+    {icon:'🏠',label:'Inicio',page:'dashboard'},
+    {icon:'💰',label:'Registrar Pago',page:'registrar'},
+    {icon:'🔍',label:'Consultar Estudiante',page:'consultar'},
+    {icon:'📋',label:'Reporte de Morosos',page:'morosos'},
+    {icon:'📊',label:'Recaudo Mensual',page:'recaudo'},
+    {icon:'🧾',label:'Historial de Pagos',page:'historial'},
+  ],
+  admin:[
+    {icon:'🏠',label:'Inicio',page:'dashboard'},
+    {icon:'🔍',label:'Consultar Estudiante',page:'consultar'},
+    {icon:'📋',label:'Reporte de Morosos',page:'morosos'},
+    {icon:'📊',label:'Recaudo Mensual',page:'recaudo'},
+    {icon:'🧾',label:'Historial de Pagos',page:'historial'},
+    {icon:'⚙️',label:'Configurar Tarifas',page:'tarifas'},
+  ],
+  rectoria:[
+    {icon:'🏠',label:'Inicio',page:'dashboard'},
+    {icon:'🔍',label:'Consultar Estudiante',page:'consultar'},
+    {icon:'📋',label:'Reporte de Morosos',page:'morosos'},
+    {icon:'📊',label:'Recaudo Mensual',page:'recaudo'},
+  ]
+};
+
+function buildSidebar(){
+  const nav = document.getElementById('sidebar-nav');
+  const items = NAV_ITEMS[currentUser.role]||[];
+  const rolLabel = {coordinadora:'Coordinadora Administrativa',admin:'Administrador',rectoria:'Rectoría'}[currentUser.role];
+  nav.innerHTML = `<div class="nav-section">${rolLabel}</div>` +
+    items.map(i=>`<div class="nav-item" id="nav-${i.page}" onclick="navigateTo('${i.page}')"><span class="nav-icon">${i.icon}</span>${i.label}</div>`).join('');
+}
+
+window.navigateTo = function(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('page-'+page);
+  if(pg) pg.classList.add('active');
+  const nav = document.getElementById('nav-'+page);
+  if(nav) nav.classList.add('active');
+  closeSidebar();
+  if(page==='dashboard') renderDashboard();
+  if(page==='morosos') renderMorosos();
+  if(page==='recaudo') renderRecaudo();
+  if(page==='historial') renderHistorial();
+  if(page==='tarifas') loadTarifasForm();
+};
+
+window.toggleSidebar = function(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('open'); };
+window.closeSidebar = function(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('open'); };
+
+// ======================== DASHBOARD ========================
+function renderDashboard(){
+  const year = tarifas?.year || 2026;
+  document.getElementById('dash-year').textContent = year;
+  const pagosAno = allPagos.filter(p=>p.year===year);
+  const mesHoy = mesActual();
+  const pagosMes = pagosAno.filter(p=>p.month===mesHoy||p.concept==='Matrícula' && new Date(p.paymentDate).getMonth()===new Date().getMonth());
+  const totalRec = pagosAno.reduce((a,p)=>a+(p.paidAmount||0),0);
+  const mesMes = pagosAno.filter(p=>p.month===mesHoy).reduce((a,p)=>a+(p.paidAmount||0),0);
+
+  // Alumnos al día / en mora
+  const studentsEnMora = allStudents.filter(s=>{
+    const pagosEst = pagosAno.filter(p=>p.studentDoc===s.doc);
+    const tieneMatricula = pagosEst.some(p=>p.concept==='Matrícula');
+    const mesesPagados = pagosEst.filter(p=>p.concept==='Mensualidad').map(p=>p.month);
+    const mesIdx = MESES.indexOf(mesHoy);
+    const mesesDebidos = MESES.slice(0, mesIdx+1);
+    const deben = !tieneMatricula || mesesDebidos.some(m=>!mesesPagados.includes(m));
+    return deben;
+  });
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="stat-card verde"><div class="stat-label">💰 Total recaudado año</div><div class="stat-value verde">${fmt(totalRec)}</div><div class="stat-sub">Año ${year}</div></div>
+    <div class="stat-card azul"><div class="stat-label">📅 Recaudado este mes</div><div class="stat-value azul">${fmt(mesMes)}</div><div class="stat-sub">${mesHoy}</div></div>
+    <div class="stat-card verde"><div class="stat-label">✅ Estudiantes al día</div><div class="stat-value verde">${allStudents.length - studentsEnMora.length}</div><div class="stat-sub">de ${allStudents.length} total</div></div>
+    <div class="stat-card rojo"><div class="stat-label">❌ Estudiantes en mora</div><div class="stat-value rojo">${studentsEnMora.length}</div><div class="stat-sub">requieren atención</div></div>
+  `;
+
+  // Gráfica
+  let chartHTML = '';
+  const maxVal = Math.max(...MESES.map(m=>{
+    const esp = allStudents.length * (m==='Matrícula'?0:getAvgMensualidad());
+    const rec = pagosAno.filter(p=>p.month===m).reduce((a,p)=>a+(p.paidAmount||0),0);
+    return Math.max(esp,rec,1);
+  }),1);
+
+  MESES.forEach(m=>{
+    const rec = pagosAno.filter(p=>p.month===m).reduce((a,p)=>a+(p.paidAmount||0),0);
+    const esp = allStudents.length * getAvgMensualidad();
+    const pct = Math.round((rec/Math.max(esp,1))*100);
+    chartHTML += `
+      <div class="bar-row">
+        <div class="bar-label">${m.substring(0,3)}</div>
+        <div class="bar-track"><div class="bar-fill verde" style="width:${Math.min(100,(rec/maxVal)*100)}%"></div></div>
+        <div class="bar-value">${fmt(rec)}</div>
+      </div>`;
+  });
+  document.getElementById('dash-chart').innerHTML = chartHTML;
+
+  // Alertas
+  const sinMatricula = allStudents.filter(s=>!pagosAno.some(p=>p.studentDoc===s.doc&&p.concept==='Matrícula')).length;
+  const sinMesAct = allStudents.filter(s=>!pagosAno.some(p=>p.studentDoc===s.doc&&p.month===mesHoy&&p.concept==='Mensualidad')).length;
+  document.getElementById('dash-alerts').innerHTML = `
+    <div class="alert alert-danger">❌ <strong>${sinMatricula}</strong> estudiantes sin matrícula registrada</div>
+    <div class="alert alert-warn">⏰ <strong>${sinMesAct}</strong> estudiantes sin mensualidad de ${mesHoy}</div>
+    <div class="alert alert-info">📌 Mes actual: <strong>${mesHoy}</strong></div>
+  `;
+}
+
+function getAvgMensualidad(){
+  if(!tarifas) return 0;
+  // Promedio ponderado simple
+  return Math.round((tarifas.preescolar.mensualidad + tarifas.primaria.mensualidad + tarifas.secundaria.mensualidad)/3);
+}
+
+// ======================== BUSCAR ESTUDIANTE ========================
+function searchStudents(query){
+  const q = query.trim().toUpperCase();
+  if(q.length<2) return [];
+  return allStudents.filter(s=>s.name.toUpperCase().includes(q)||s.doc.includes(q)).slice(0,8);
+}
+
+function studentCardHTML(s){
+  return `<div class="student-card-mini">
+    <div class="student-avatar">${studentInitial(s.name)}</div>
+    <div>
+      <div class="student-name">${s.name}</div>
+      <div class="student-meta">${s.courseName} &middot; ${s.docType} ${s.doc}</div>
+    </div>
+  </div>`;
+}
+
+// REGISTRAR - poblar select de cursos
+function buildRegCursoSelect(){
+  const sel = document.getElementById('reg-curso-select');
+  const cursos = (systemData?.courses||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  sel.innerHTML = '<option value="">— Seleccione un curso —</option>' +
+    cursos.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+window.onRegCursoChange = function(){
+  const cursoId = document.getElementById('reg-curso-select').value;
+  const selEst = document.getElementById('reg-student-select');
+  document.getElementById('reg-student-preview').style.display='none';
+  regSelectedStudent = null;
+  if(!cursoId){ selEst.innerHTML='<option value="">— Primero seleccione curso —</option>'; selEst.disabled=true; return; }
+  const curso = (systemData?.courses||[]).find(c=>c.id===cursoId||c.name===cursoId);
+  const students = (curso?.students||[]).slice().sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  selEst.innerHTML = '<option value="">— Seleccione estudiante —</option>' +
+    students.map((s,i)=>`<option value="${i}">${s.name||s.nombre||''} — ${s.doc||s.documento||''}</option>`).join('');
+  selEst.disabled = false;
+  // Guardar referencia del curso actual para uso posterior
+  selEst.dataset.cursoId = cursoId;
+};
+
+window.onRegStudentChange = function(){
+  const selEst = document.getElementById('reg-student-select');
+  const idx = selEst.value;
+  const cursoId = selEst.dataset.cursoId;
+  if(idx===''||!cursoId){ document.getElementById('reg-student-preview').style.display='none'; regSelectedStudent=null; return; }
+  const curso = (systemData?.courses||[]).find(c=>c.id===cursoId||c.name===cursoId);
+  const rawS = (curso?.students||[])[parseInt(idx)];
+  if(!rawS) return;
+  const s = {
+    name: rawS.name||rawS.nombre||'',
+    doc: rawS.doc||rawS.documento||'',
+    docType: rawS.docType||rawS.tipoDoc||'CC',
+    courseName: curso.name||'',
+    courseId: curso.id||'',
+    courseLevel: getCourseLevel(curso.name||'')
+  };
+  regSelectedStudent = s;
+  const prev = document.getElementById('reg-student-preview');
+  prev.style.display='block';
+  prev.innerHTML = `<div class="search-result" style="display:block">
+    ${studentCardHTML(s)}
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="badge badge-azul" style="background:rgba(26,35,126,0.12);color:var(--azul)">${s.courseLevel.toUpperCase()}</span>
+      <span class="badge badge-gris">Matrícula: ${fmt(getTarifa(s.courseLevel,'Matrícula'))}</span>
+      <span class="badge badge-gris">Mensualidad: ${fmt(getTarifa(s.courseLevel,'Mensualidad'))}</span>
+    </div>
+    <div style="margin-top:12px">
+      <button class="btn btn-primary" onclick="regStep(2)">Siguiente → Concepto de Pago</button>
+    </div>
+  </div>`;
+};
+
+window.selectStudentReg = function(s){
+  regSelectedStudent = s;
+  document.getElementById('reg-student-info').innerHTML = studentCardHTML(s) + `
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="badge badge-azul" style="background:rgba(26,35,126,0.12);color:var(--azul)">${s.courseLevel.toUpperCase()}</span>
+      <span class="badge badge-gris">Matrícula: ${fmt(getTarifa(s.courseLevel,'Matrícula'))}</span>
+      <span class="badge badge-gris">Mensualidad: ${fmt(getTarifa(s.courseLevel,'Mensualidad'))}</span>
+    </div>`;
+  regStep(2);
+};
+
+window.onConceptChange = function(){
+  const concept = document.getElementById('reg-concept').value;
+  document.getElementById('reg-month-wrap').style.display = concept==='Mensualidad'?'block':'none';
+  if(regSelectedStudent && concept){
+    const tarifa = getTarifa(regSelectedStudent.courseLevel, concept);
+    document.getElementById('reg-tarifa').value = fmt(tarifa);
+    document.getElementById('reg-valor').value = tarifa;
+  }
+};
+
+window.regStep = function(step){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('reg-p'+i).style.display = i===step?'block':'none';
+    const el = document.getElementById('step-'+i);
+    el.className = 'step' + (i<step?' done':i===step?' active':'');
+  });
+  if(step===4) buildConfirm();
+};
+
+function buildConfirm(){
+  const s = regSelectedStudent;
+  const concept = document.getElementById('reg-concept').value;
+  const month = document.getElementById('reg-month').value;
+  const valor = parseInt(document.getElementById('reg-valor').value)||0;
+  const fecha = document.getElementById('reg-fecha').value;
+  const ref = document.getElementById('reg-ref').value;
+  document.getElementById('reg-confirm-info').innerHTML = `
+    <div class="alert alert-info">
+      <div><strong>${s.name}</strong> — ${s.courseName}</div>
+      <div>Concepto: <strong>${concept}${month?' de '+month:''}</strong></div>
+      <div>Valor: <strong>${fmt(valor)}</strong></div>
+      <div>Fecha: <strong>${fecha}</strong></div>
+      ${ref?`<div>Referencia: <strong>${ref}</strong></div>`:''}
+      ${regVoucherBase64?'<div>✅ Comprobante adjunto</div>':'<div style="color:var(--rojo)">⚠️ Sin comprobante</div>'}
+    </div>`;
+}
+
+window.onVoucherSelect = function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ alert('El archivo supera 2MB. Por favor reduzca el tamaño.'); return; }
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    regVoucherBase64 = ev.target.result;
+    const area = document.getElementById('upload-area');
+    area.classList.add('has-file');
+    area.innerHTML = `<div style="font-size:24px">✅</div><div style="font-weight:600;color:var(--verde)">${file.name}</div><div style="font-size:11px;color:var(--texto-claro)">${(file.size/1024).toFixed(0)} KB</div>`;
+    if(file.type.startsWith('image/')){
+      const prev = document.getElementById('upload-preview');
+      prev.src = ev.target.result;
+      prev.style.display='block';
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.guardarPago = async function(){
+  const s = regSelectedStudent;
+  const concept = document.getElementById('reg-concept').value;
+  const month = document.getElementById('reg-month').value;
+  const valor = parseInt(document.getElementById('reg-valor').value)||0;
+  const fecha = document.getElementById('reg-fecha').value;
+  const ref = document.getElementById('reg-ref').value;
+  const obs = document.getElementById('reg-obs').value;
+
+  if(!concept){ alert('Seleccione concepto.'); return; }
+  if(concept==='Mensualidad'&&!month){ alert('Seleccione el mes.'); return; }
+  if(!regVoucherBase64){ alert('El comprobante es obligatorio.'); return; }
+  if(valor<=0){ alert('El valor debe ser mayor a cero.'); return; }
+
+  // Validar duplicados
+  const year = tarifas?.year||2026;
+  const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+  if(concept==='Matrícula' && pagosEst.some(p=>p.concept==='Matrícula')){ alert('Este estudiante ya tiene matrícula registrada para '+year+'.'); return; }
+  if(concept==='Mensualidad' && pagosEst.some(p=>p.concept==='Mensualidad'&&p.month===month)){ alert('Ya existe un pago de mensualidad de '+month+' para este estudiante.'); return; }
+
+  showLoading(true);
+  try {
+    const tarifa = getTarifa(s.courseLevel, concept);
+    const newPago = {
+      studentName: s.name, studentDoc: s.doc, courseName: s.courseName,
+      courseLevel: s.courseLevel, concept, month: month||null,
+      expectedAmount: tarifa, paidAmount: valor,
+      paymentDate: fecha, referenceNumber: ref||'',
+      paymentProof: regVoucherBase64, observations: obs||'',
+      registeredBy: currentUser.name, registeredAt: Date.now(), year
+    };
+    const docRef = await addDoc(collection(db,"pagos"), newPago);
+    // Increment receipt counter
+    await setDoc(doc(db,"pagos_config","receiptCounter"),{count: receiptNum+1});
+    newPago.id = docRef.id;
+    newPago.receiptNum = receiptNum;
+    allPagos.unshift(newPago);
+    receiptNum++;
+    showLoading(false);
+    // Reset form
+    document.getElementById('reg-curso-select').value='';
+    document.getElementById('reg-student-select').innerHTML='<option value="">— Primero seleccione curso —</option>';
+    document.getElementById('reg-student-select').disabled=true;
+    document.getElementById('reg-student-preview').style.display='none';
+    document.getElementById('reg-concept').value='';
+    document.getElementById('reg-valor').value='';
+    document.getElementById('reg-ref').value='';
+    document.getElementById('reg-obs').value='';
+    document.getElementById('reg-fecha').value = fechaHoy();
+    document.getElementById('upload-area').className='upload-area';
+    document.getElementById('upload-area').innerHTML='<div style="font-size:32px;margin-bottom:8px">📎</div><div style="font-weight:600;color:var(--texto)">Click para subir comprobante</div><div style="font-size:12px;color:var(--texto-claro);margin-top:4px">JPG, PNG o PDF — máximo 2MB</div>';
+    document.getElementById('upload-preview').style.display='none';
+    regVoucherBase64 = null;
+    regSelectedStudent = null;
+    regStep(1);
+    showReceiptModal(newPago);
+  } catch(e){ showLoading(false); alert('Error al guardar: '+e.message); }
+};
+
+// FECHA HOY default
+document.getElementById('reg-fecha').value = fechaHoy();
+
+// ======================== CONSULTAR ========================
+window.searchStudentCons = function(){
+  const q = document.getElementById('cons-search').value;
+  const res = searchStudents(q);
+  const div = document.getElementById('cons-results');
+  if(!q.trim()||res.length===0){ div.innerHTML=q.length>1?'<div class="alert alert-warn">Sin resultados</div>':''; document.getElementById('cons-detail').style.display='none'; return; }
+  div.innerHTML = res.map(s=>`
+    <div class="search-result" style="display:block;cursor:pointer;margin-bottom:8px" onclick="selectStudentCons(${JSON.stringify(s).replace(/"/g,'&quot;')})">
+      ${studentCardHTML(s)}
+    </div>`).join('');
+};
+
+window.selectStudentCons = function(s){
+  consSelectedStudent = s;
+  document.getElementById('cons-detail').style.display='block';
+  const year = tarifas?.year||2026;
+  const tarMat = getTarifa(s.courseLevel,'Matrícula');
+  const tarMen = getTarifa(s.courseLevel,'Mensualidad');
+  document.getElementById('cons-student-header').innerHTML = `
+    <div class="student-card-mini" style="margin-bottom:16px">
+      <div class="student-avatar" style="width:52px;height:52px;font-size:18px">${studentInitial(s.name)}</div>
+      <div>
+        <div style="font-size:18px;font-weight:800;color:var(--texto)">${s.name}</div>
+        <div style="font-size:13px;color:var(--texto-claro)">${s.courseName} &middot; ${s.docType} ${s.doc}</div>
+        <div style="font-size:12px;margin-top:4px;display:flex;gap:8px">
+          <span class="badge badge-azul" style="background:rgba(26,35,126,0.1);color:var(--azul)">${s.courseLevel.toUpperCase()}</span>
+          <span class="badge badge-gris">Mat: ${fmt(tarMat)}</span>
+          <span class="badge badge-gris">Men: ${fmt(tarMen)}</span>
+        </div>
+      </div>
+    </div>`;
+  renderConsTable(s, year, tarMat, tarMen);
+};
+
+function renderConsTable(s, year, tarMat, tarMen){
+  const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+  const mesIdx = MESES.indexOf(mesActual());
+  let rows='', totalPagado=0, totalPendiente=0;
+
+  // Matrícula
+  const pagMat = pagosEst.find(p=>p.concept==='Matrícula');
+  if(pagMat){ totalPagado+=pagMat.paidAmount||0; }
+  else { totalPendiente+=tarMat; }
+  rows+=`<tr class="${pagMat?'pagado':'mora'}">
+    <td><strong>Matrícula</strong></td>
+    <td style="font-family:var(--mono)">${fmt(tarMat)}</td>
+    <td>${pagMat?'<span class="badge badge-verde">✅ Pagado</span>':'<span class="badge badge-rojo">❌ Pendiente</span>'}</td>
+    <td style="font-family:var(--mono);font-size:12px">${pagMat?pagMat.paymentDate:'-'}</td>
+    <td>${pagMat?`<button class="btn btn-outline btn-sm" onclick="verVoucher('${pagMat.id}')">👁</button><button class="btn btn-outline btn-sm" onclick="showReceipt('${pagMat.id}')">🧾</button>`:''}</td>
+  </tr>`;
+
+  MESES.forEach((m,i)=>{
+    const pag = pagosEst.find(p=>p.concept==='Mensualidad'&&p.month===m);
+    let estado, clase;
+    if(pag){ estado='<span class="badge badge-verde">✅ Pagado</span>'; clase='pagado'; totalPagado+=pag.paidAmount||0; }
+    else if(i<=mesIdx){ estado='<span class="badge badge-rojo">❌ Pendiente</span>'; clase='mora'; totalPendiente+=tarMen; }
+    else { estado='<span class="badge badge-gris">⏳ Próximo</span>'; clase=''; totalPendiente+=tarMen; }
+    rows+=`<tr class="${clase}">
+      <td>${m}</td>
+      <td style="font-family:var(--mono)">${fmt(tarMen)}</td>
+      <td>${estado}</td>
+      <td style="font-family:var(--mono);font-size:12px">${pag?pag.paymentDate:'-'}</td>
+      <td>${pag?`<button class="btn btn-outline btn-sm" onclick="verVoucher('${pag.id}')">👁</button><button class="btn btn-outline btn-sm" onclick="showReceipt('${pag.id}')">🧾</button>`:''}</td>
+    </tr>`;
+  });
+
+  document.getElementById('cons-tbody').innerHTML = rows;
+  document.getElementById('cons-totals').innerHTML = `
+    <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:8px;padding:12px 18px;font-family:var(--mono);font-weight:700;color:var(--verde)">✅ Total pagado: ${fmt(totalPagado)}</div>
+    <div style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.2);border-radius:8px;padding:12px 18px;font-family:var(--mono);font-weight:700;color:var(--rojo)">❌ Total pendiente: ${fmt(totalPendiente)}</div>
+  `;
+}
+
+window.verVoucher = function(pagoId){
+  const p = allPagos.find(x=>x.id===pagoId);
+  if(!p||!p.paymentProof){ alert('Sin comprobante adjunto.'); return; }
+  document.getElementById('voucher-img').src = p.paymentProof;
+  document.getElementById('voucher-modal').classList.add('open');
+};
+window.closeVoucher = function(){ document.getElementById('voucher-modal').classList.remove('open'); };
+
+window.verComprobantes = function(){
+  if(!consSelectedStudent) return;
+  const year = tarifas?.year||2026;
+  const pagosEst = allPagos.filter(p=>p.studentDoc===consSelectedStudent.doc&&p.year===year&&p.paymentProof);
+  if(!pagosEst.length){ alert('Sin comprobantes registrados.'); return; }
+  verVoucher(pagosEst[0].id);
+};
+
+window.imprimirEstadoCuenta = function(){
+  if(!consSelectedStudent) return;
+  const year = tarifas?.year||2026;
+  const s = consSelectedStudent;
+  const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+  const tarMat = getTarifa(s.courseLevel,'Matrícula');
+  const tarMen = getTarifa(s.courseLevel,'Mensualidad');
+  let rows='';
+  const pagMat = pagosEst.find(p=>p.concept==='Matrícula');
+  rows+=`<tr><td>Matrícula</td><td>${fmt(tarMat)}</td><td>${pagMat?'✅ Pagado':'❌ Pendiente'}</td><td>${pagMat?pagMat.paymentDate:'-'}</td></tr>`;
+  MESES.forEach(m=>{
+    const pag = pagosEst.find(p=>p.concept==='Mensualidad'&&p.month===m);
+    rows+=`<tr><td>${m}</td><td>${fmt(tarMen)}</td><td>${pag?'✅ Pagado':'❌ Pendiente'}</td><td>${pag?pag.paymentDate:'-'}</td></tr>`;
+  });
+  const totalPag = pagosEst.reduce((a,p)=>a+(p.paidAmount||0),0);
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>Estado de Cuenta — ${s.name}</title>
+  <style>body{font-family:Arial,sans-serif;padding:24px}h1{font-size:16px}table{width:100%;border-collapse:collapse;margin-top:16px}th,td{padding:8px 12px;border:1px solid #ddd;font-size:12px}th{background:#1a237e;color:white}tfoot td{font-weight:bold;background:#f5f5f5}</style></head>
+  <body><h1>I.E.T. LICEO MODERNO SUESCA — ESTADO DE CUENTA ${year}</h1>
+  <p><strong>Estudiante:</strong> ${s.name} | <strong>Curso:</strong> ${s.courseName} | <strong>Doc:</strong> ${s.docType} ${s.doc}</p>
+  <table><thead><tr><th>Concepto</th><th>Valor</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${rows}</tbody>
+  <tfoot><tr><td colspan="3">TOTAL PAGADO</td><td>${fmt(totalPag)}</td></tr></tfoot></table>
+  <p style="margin-top:16px;font-size:11px;color:#666">Generado el ${new Date().toLocaleDateString('es-CO')}</p>
+  </body></html>`);
+  win.print();
+};
+
+// ======================== MOROSOS ========================
+window.renderMorosos = function(){
+  const year = tarifas?.year||2026;
+  const mesIdx = MESES.indexOf(mesActual());
+  const filCurso = document.getElementById('mor-curso').value;
+  const filCon = document.getElementById('mor-concepto').value;
+
+  const morosos = allStudents.filter(s=>{
+    if(filCurso && s.courseName!==filCurso) return false;
+    const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+    const tieneMatricula = pagosEst.some(p=>p.concept==='Matrícula');
+    const mesesPagados = pagosEst.filter(p=>p.concept==='Mensualidad').map(p=>p.month);
+    const mesesDebidos = MESES.slice(0,mesIdx+1);
+    if(filCon==='Matrícula') return !tieneMatricula;
+    if(filCon==='Mensualidad') return mesesDebidos.some(m=>!mesesPagados.includes(m));
+    return !tieneMatricula || mesesDebidos.some(m=>!mesesPagados.includes(m));
+  });
+
+  const totalMora = morosos.reduce((a,s)=>{
+    const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+    const tieneMatricula = pagosEst.some(p=>p.concept==='Matrícula');
+    const mesesPagados = pagosEst.filter(p=>p.concept==='Mensualidad').map(p=>p.month);
+    const mesesDebidos = MESES.slice(0,mesIdx+1);
+    let debe = 0;
+    if(!tieneMatricula && (!filCon||filCon==='Matrícula')) debe += getTarifa(s.courseLevel,'Matrícula');
+    mesesDebidos.forEach(m=>{ if(!mesesPagados.includes(m) && (!filCon||filCon==='Mensualidad')) debe+=getTarifa(s.courseLevel,'Mensualidad'); });
+    return a+debe;
+  },0);
+
+  document.getElementById('morosos-summary').innerHTML = `
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div class="mora-total">Total morosos: ${morosos.length} estudiantes</div>
+      <div class="mora-total">Total en mora: ${fmt(totalMora)}</div>
+    </div>`;
+
+  const rows = morosos.map((s,i)=>{
+    const pagosEst = allPagos.filter(p=>p.studentDoc===s.doc&&p.year===year);
+    const tieneMatricula = pagosEst.some(p=>p.concept==='Matrícula');
+    const mesesPagados = pagosEst.filter(p=>p.concept==='Mensualidad').map(p=>p.month);
+    const mesesDebidos = MESES.slice(0,mesIdx+1);
+    const conceptosMora=[];
+    if(!tieneMatricula) conceptosMora.push('Matrícula');
+    mesesDebidos.forEach(m=>{ if(!mesesPagados.includes(m)) conceptosMora.push(m); });
+    let debe=0;
+    conceptosMora.forEach(c=>{ debe+=c==='Matrícula'?getTarifa(s.courseLevel,'Matrícula'):getTarifa(s.courseLevel,'Mensualidad'); });
+    return `<tr>
+      <td style="font-family:var(--mono)">${i+1}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge badge-gris">${s.courseName}</span></td>
+      <td>${conceptosMora.map(c=>`<span class="badge badge-rojo" style="margin-right:2px">${c}</span>`).join('')}</td>
+      <td style="font-family:var(--mono);font-weight:700;color:var(--rojo)">${fmt(debe)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('morosos-tbody').innerHTML = rows||'<tr><td colspan="5" style="text-align:center;color:var(--texto-claro);padding:24px">🎉 ¡Sin estudiantes en mora!</td></tr>';
+  document.getElementById('morosos-corte').textContent = `Corte: ${mesActual()} ${year}`;
+};
+
+window.imprimirMorosos = function(){
+  const year = tarifas?.year||2026;
+  const tbl = document.getElementById('morosos-tbody').closest('table').outerHTML;
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>Reporte Morosos</title><style>body{font-family:Arial;padding:24px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #ddd;font-size:12px}th{background:#1a237e;color:white}</style></head><body><h2>I.E.T. LICEO MODERNO SUESCA — REPORTE DE MOROSOS ${year}</h2>${tbl}</body></html>`);
+  win.print();
+};
+
+// ======================== RECAUDO ========================
+function renderRecaudo(){
+  const year = tarifas?.year||2026;
+  const pagosAno = allPagos.filter(p=>p.year===year);
+
+  let rows='', chartHTML='';
+  let maxEsp=0;
+  const periodos = [{label:'Matrícula',isMat:true},...MESES.map(m=>({label:m,isMat:false}))];
+  const chartData=[];
+
+  periodos.forEach(per=>{
+    let esperado=0, recaudado=0;
+    allStudents.forEach(s=>{
+      esperado += getTarifa(s.courseLevel, per.isMat?'Matrícula':'Mensualidad');
+    });
+    if(per.isMat){
+      recaudado = pagosAno.filter(p=>p.concept==='Matrícula').reduce((a,p)=>a+(p.paidAmount||0),0);
+    } else {
+      recaudado = pagosAno.filter(p=>p.month===per.label).reduce((a,p)=>a+(p.paidAmount||0),0);
+    }
+    const pct = esperado>0?Math.round((recaudado/esperado)*100):0;
+    const pendiente = Math.max(0,esperado-recaudado);
+    maxEsp = Math.max(maxEsp,esperado,1);
+    chartData.push({label:per.label,esperado,recaudado,pct});
+    const color = pct>=80?'verde':pct>=50?'naranja':'rojo';
+    rows+=`<tr>
+      <td><strong>${per.label}</strong></td>
+      <td style="font-family:var(--mono)">${fmt(esperado)}</td>
+      <td style="font-family:var(--mono);color:var(--verde);font-weight:600">${fmt(recaudado)}</td>
+      <td style="font-family:var(--mono);color:var(--rojo)">${fmt(pendiente)}</td>
+      <td><span class="badge badge-${color}">${pct}%</span></td>
+    </tr>`;
+  });
+
+  document.getElementById('recaudo-tbody').innerHTML = rows;
+
+  chartData.forEach(d=>{
+    const pctBar = Math.round((d.recaudado/maxEsp)*100);
+    const espBar = Math.round((d.esperado/maxEsp)*100);
+    chartHTML+=`
+      <div class="bar-row">
+        <div class="bar-label">${d.label.substring(0,5)}</div>
+        <div class="bar-track" style="position:relative">
+          <div class="bar-fill" style="position:absolute;width:${espBar}%;background:var(--gris-mid);height:100%"></div>
+          <div class="bar-fill verde" style="position:absolute;width:${pctBar}%;height:100%"></div>
+        </div>
+        <div class="bar-value">${d.pct}%</div>
+      </div>`;
+  });
+  document.getElementById('recaudo-chart').innerHTML = chartHTML;
+}
+
+window.imprimirRecaudo = function(){
+  const tbl = document.getElementById('recaudo-tbody').closest('table').outerHTML;
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>Recaudo</title><style>body{font-family:Arial;padding:24px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #ddd;font-size:12px}th{background:#1a237e;color:white}</style></head><body><h2>RECAUDO MENSUAL — ${tarifas?.year||2026}</h2>${tbl}</body></html>`);
+  win.print();
+};
+
+// ======================== HISTORIAL ========================
+function renderHistorial(){
+  const filCurso = document.getElementById('hist-curso').value;
+  const filMes = document.getElementById('hist-mes').value;
+  const filCon = document.getElementById('hist-concepto').value;
+  const filQ = document.getElementById('hist-search').value.toUpperCase();
+
+  const pagos = allPagos.filter(p=>{
+    if(filCurso && p.courseName!==filCurso) return false;
+    if(filMes && p.month!==filMes) return false;
+    if(filCon && p.concept!==filCon) return false;
+    if(filQ && !(p.studentName||'').toUpperCase().includes(filQ)) return false;
+    return true;
+  });
+
+  const rows = pagos.map(p=>`<tr>
+    <td><strong>${p.studentName}</strong></td>
+    <td><span class="badge badge-gris">${p.courseName}</span></td>
+    <td>${p.concept}${p.month?' — '+p.month:''}</td>
+    <td style="font-family:var(--mono);font-weight:600;color:var(--verde)">${fmt(p.paidAmount)}</td>
+    <td style="font-size:12px;color:var(--texto-claro)">${p.paymentDate||'-'}</td>
+    <td>
+      <button class="btn btn-outline btn-sm" onclick="showReceipt('${p.id}')" title="Imprimir recibo">🧾</button>
+      ${p.paymentProof?`<button class="btn btn-outline btn-sm" onclick="verVoucher('${p.id}')" title="Ver comprobante">👁</button>`:''}
+    </td>
+  </tr>`).join('');
+  document.getElementById('historial-tbody').innerHTML = rows||'<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--texto-claro)">Sin registros</td></tr>';
+}
+
+// ======================== TARIFAS ========================
+function loadTarifasForm(){
+  if(!tarifas) return;
+  document.getElementById('tar-year').value = tarifas.year||2026;
+  document.getElementById('tar-pre-mat').value = tarifas.preescolar?.matricula||0;
+  document.getElementById('tar-pre-men').value = tarifas.preescolar?.mensualidad||0;
+  document.getElementById('tar-pri-mat').value = tarifas.primaria?.matricula||0;
+  document.getElementById('tar-pri-men').value = tarifas.primaria?.mensualidad||0;
+  document.getElementById('tar-sec-mat').value = tarifas.secundaria?.matricula||0;
+  document.getElementById('tar-sec-men').value = tarifas.secundaria?.mensualidad||0;
+}
+
+window.guardarTarifas = async function(){
+  const newTar = {
+    year: parseInt(document.getElementById('tar-year').value)||2026,
+    preescolar:{ matricula:parseInt(document.getElementById('tar-pre-mat').value)||0, mensualidad:parseInt(document.getElementById('tar-pre-men').value)||0 },
+    primaria:{ matricula:parseInt(document.getElementById('tar-pri-mat').value)||0, mensualidad:parseInt(document.getElementById('tar-pri-men').value)||0 },
+    secundaria:{ matricula:parseInt(document.getElementById('tar-sec-mat').value)||0, mensualidad:parseInt(document.getElementById('tar-sec-men').value)||0 },
+    meses:MESES, updatedAt:Date.now()
+  };
+  showLoading(true);
+  try {
+    await setDoc(doc(db,"pagos_config","tarifas"), newTar);
+    tarifas = newTar;
+    showLoading(false);
+    document.getElementById('tar-msg').innerHTML='<div class="alert alert-success">✅ Tarifas guardadas correctamente.</div>';
+    setTimeout(()=>document.getElementById('tar-msg').innerHTML='',3000);
+  } catch(e){ showLoading(false); document.getElementById('tar-msg').innerHTML=`<div class="alert alert-danger">Error: ${e.message}</div>`; }
+};
+
+// ======================== RECEIPT MODAL ========================
+window.showReceipt = function(pagoId){
+  const p = allPagos.find(x=>x.id===pagoId);
+  if(!p) return;
+  showReceiptModal(p);
+};
+
+function showReceiptModal(p){
+  const num = String(p.receiptNum||receiptNum).padStart(4,'0');
+  const fechaLarga = p.paymentDate ? new Date(p.paymentDate+'T12:00:00').toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'}) : '-';
+  document.getElementById('receipt-body').innerHTML = `
+    <div class="receipt-row"><span class="receipt-label">N° Recibo</span><span class="receipt-val" style="font-family:var(--mono)">REC-${p.year||2026}-${num}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Fecha</span><span class="receipt-val">${fechaLarga}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Estudiante</span><span class="receipt-val">${p.studentName}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Curso</span><span class="receipt-val">${p.courseName}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Documento</span><span class="receipt-val">${p.studentDoc}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Concepto</span><span class="receipt-val">${p.concept}${p.month?' de '+p.month:''}</span></div>
+    ${p.referenceNumber?`<div class="receipt-row"><span class="receipt-label">Referencia</span><span class="receipt-val" style="font-family:var(--mono)">${p.referenceNumber}</span></div>`:''}
+    <div class="receipt-amount">${fmt(p.paidAmount)}</div>
+    ${p.observations?`<div class="alert alert-info" style="font-size:12px">${p.observations}</div>`:''}
+  `;
+  document.getElementById('receipt-by').textContent = p.registeredBy||currentUser?.name||'';
+  document.getElementById('receipt-modal').classList.add('open');
+}
+
+window.closeReceipt = function(){ document.getElementById('receipt-modal').classList.remove('open'); };
+window.printReceipt = function(){
+  const modal = document.getElementById('receipt-modal');
+  const content = modal.querySelector('.receipt-box').innerHTML;
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>Recibo</title>
+  <style>
+    body{font-family:Arial,sans-serif;padding:0;max-width:500px;margin:0 auto}
+    .receipt-header{background:linear-gradient(135deg,#1a237e,#c0392b);color:white;padding:24px;text-align:center}
+    .receipt-body{padding:20px}
+    .receipt-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:13px}
+    .receipt-label{color:#666}.receipt-val{font-weight:700}
+    .receipt-amount{text-align:center;font-size:24px;font-weight:700;color:#27ae60;padding:16px}
+    .receipt-footer{text-align:center;padding:20px;border-top:1px solid #eee;font-size:12px;color:#666}
+    .receipt-actions{display:none}
+  </style></head><body>${content}</body></html>`);
+  win.print();
+};
+
+// ======================== COURSE FILTERS ========================
+function buildCourseFilters(){
+  const courses = [...new Set(allStudents.map(s=>s.courseName))].sort();
+  ['mor-curso','hist-curso'].forEach(id=>{
+    const sel = document.getElementById(id);
+    const val = sel.value;
+    sel.innerHTML = `<option value="">Todos los cursos</option>` + courses.map(c=>`<option>${c}</option>`).join('');
+    sel.value = val;
+  });
+}
+
+// ======================== EXPOSE globals ========================
+window.renderMorosos = renderMorosos;
+window.renderRecaudo = renderRecaudo;
+window.renderHistorial = renderHistorial;
+</script>
+</body>
+</html>
