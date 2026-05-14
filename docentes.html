@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Docentes · Liceo Moderno Suesca</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:#c0392b;--red-dark:#96281b;--navy:#1a237e;--navy-light:#283593;
+  --orange:#ff5a00;--green:#27ae60;--yellow:#f39c12;
+  --bg:#f0f2f5;--surface:#fff;--surface2:#f8f9fb;--border:#e2e5ea;
+  --text:#1a1d23;--text2:#5a6072;--text3:#9099a8;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --radius:14px;--radius-sm:8px;--header-h:60px;--nav-h:68px;
+  --font:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);font-family:var(--font);color:var(--text);-webkit-font-smoothing:antialiased;}
+body{display:flex;flex-direction:column;align-items:center;}
+#app{width:100%;max-width:600px;min-height:100vh;background:var(--surface);position:relative;display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.1);}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1d23;color:#fff;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{background:var(--green);}
+#toast.error{background:var(--red);}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;display:none;align-items:flex-end;justify-content:center;}
+.overlay.active{display:flex;}
+.modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;padding:24px;}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:16px;}
+#loadingScreen{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9000;}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#loadingScreen p{color:rgba(255,255,255,.7);margin-top:14px;font-size:13px;}
+#loginScreen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 24px;background:linear-gradient(160deg,var(--navy) 0%,var(--navy-light) 40%,var(--red) 100%);}
+#loginScreen h1{color:#fff;font-size:22px;font-weight:800;text-align:center;line-height:1.3;}
+#loginScreen p{color:rgba(255,255,255,.7);font-size:13px;margin-top:4px;text-align:center;}
+.login-logo{width:90px;height:90px;background:#fff;border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.25);font-size:44px;}
+.login-card{background:#fff;border-radius:20px;padding:28px 24px;width:100%;max-width:380px;margin-top:28px;box-shadow:var(--shadow-lg);}
+.field-wrap{margin-bottom:14px;}
+.field-wrap label{display:block;font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.inp{width:100%;height:48px;border:2px solid var(--border);border-radius:var(--radius-sm);padding:0 14px;font-size:15px;font-family:var(--font);outline:none;transition:border .2s;background:var(--surface2);}
+.inp:focus{border-color:var(--navy);background:#fff;}
+.btn-login{width:100%;height:50px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;transition:background .2s;margin-top:4px;}
+.btn-login:hover{background:var(--navy-light);}
+.btn-login:disabled{opacity:.5;cursor:not-allowed;}
+.login-error{color:var(--red);font-size:13px;font-weight:600;text-align:center;margin-top:10px;min-height:18px;}
+#header{height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);display:none;align-items:center;padding:0 16px;gap:12px;position:sticky;top:0;z-index:100;}
+.hdr-logo{width:34px;height:34px;border-radius:8px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.hdr-info{flex:1;min-width:0;}
+.hdr-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hdr-sub{font-size:11px;color:var(--text2);}
+.hdr-period{background:var(--navy);color:#fff;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;font-family:var(--mono);flex-shrink:0;}
+#content{flex:1;overflow-y:auto;padding-bottom:calc(var(--nav-h) + 8px);}
+.tab-pane{display:none;padding:16px;}
+.tab-pane.active{display:block;}
+#nav{height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);display:none;align-items:stretch;position:sticky;bottom:0;z-index:100;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;font-family:var(--font);color:var(--text3);transition:color .2s;padding:0;position:relative;}
+.nav-item.active{color:var(--navy);}
+.nav-item.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:2.5px;background:var(--navy);border-radius:0 0 3px 3px;}
+.nav-icon{font-size:22px;line-height:1;}
+.nav-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);}
+.card-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.alert-banner{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:1px solid #ffb74d;border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.alert-banner .icon{font-size:20px;}
+.alert-banner .msg{font-size:13px;font-weight:600;color:#e65100;}
+.success-banner{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-color:#81c784;}
+.success-banner .msg{color:#2e7d32;}
+.info-banner{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1px solid #90caf9;border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.info-banner .msg{font-size:13px;font-weight:600;color:#1565c0;}
+.prog-wrap{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:4px;}
+.prog-bar{height:100%;border-radius:3px;transition:width .4s;}
+.prog-red{background:var(--red);}.prog-orange{background:var(--orange);}.prog-green{background:var(--green);}
+/* COURSE PICKER */
+.course-picker{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.course-pill{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px 12px;cursor:pointer;font-family:var(--font);text-align:left;transition:all .2s;display:flex;flex-direction:column;gap:4px;}
+.course-pill:hover{border-color:var(--navy-light);background:#f5f7ff;}
+.course-pill.selected{border-color:var(--navy);background:#eef0ff;box-shadow:0 0 0 3px rgba(26,35,126,.12);}
+.course-pill-name{font-size:14px;font-weight:800;color:var(--navy);}
+.course-pill-count{font-size:11px;color:var(--text2);}
+/* SUBJECT LIST */
+.subj-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.subj-row{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .2s;}
+.subj-row:hover{border-color:var(--navy);background:#f5f7ff;transform:translateX(2px);}
+.subj-row-icon{width:42px;height:42px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0;}
+.subj-row-info{flex:1;min-width:0;}
+.subj-row-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.subj-row-sub{font-size:11px;color:var(--text2);}
+.subj-row-grade{font-family:var(--mono);font-size:15px;font-weight:700;}
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.bc-btn{font-size:12px;color:var(--text2);cursor:pointer;padding:4px 10px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);font-weight:600;font-family:var(--font);}
+.bc-btn:hover{background:var(--border);}
+.bc-sep{color:var(--text3);font-size:12px;}
+.bc-cur{font-size:13px;font-weight:700;color:var(--navy);}
+.section-title{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sel-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.sel-group.three{grid-template-columns:1fr 1fr 1fr;}
+.sel-wrap{display:flex;flex-direction:column;gap:4px;}
+.sel-wrap label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;}
+.sel-wrap select{height:44px;border:2px solid var(--border);border-radius:var(--radius-sm);padding:0 10px;font-size:13px;font-weight:600;font-family:var(--font);background:var(--surface);outline:none;cursor:pointer;}
+.sel-wrap select:focus{border-color:var(--navy);}
+.inp-sm{width:72px;height:44px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 4px;font-size:14px;font-family:var(--mono);font-weight:700;text-align:center;outline:none;transition:border .2s;background:var(--surface);}
+.inp-sm:focus{border-color:var(--navy);background:#f0f4ff;}
+.inp-sm.changed{background:#fff9c4;border-color:var(--yellow);}
+.textarea{width:100%;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;font-family:var(--font);outline:none;resize:vertical;min-height:70px;transition:border .2s;}
+.textarea:focus{border-color:var(--navy);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 18px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--navy);color:#fff;}.btn-primary:hover{background:var(--navy-light);}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);}.btn-secondary:hover{background:var(--border);}
+.btn-red{background:var(--red);color:#fff;}.btn-red:hover{background:var(--red-dark);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-sm{height:34px;padding:0 12px;font-size:12px;border-radius:6px;}
+.btn-full{width:100%;}
+.btn-icon{width:34px;height:34px;padding:0;border-radius:6px;font-size:15px;}
+.cat-block{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
+.cat-header{background:var(--surface2);padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.cat-name{font-size:13px;font-weight:700;flex:1;}
+.cat-pct{font-family:var(--mono);font-size:12px;color:var(--text2);}
+.cat-acts{padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.act-tag{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:4px;}
+.act-tag-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:0;}
+.add-act-inp{height:32px;border:1.5px dashed var(--border);border-radius:6px;padding:0 10px;font-size:12px;font-family:var(--font);outline:none;width:110px;}
+.add-act-inp:focus{border-color:var(--navy);}
+.student-card{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
+.student-card-hdr{display:flex;align-items:center;padding:11px 14px;background:var(--surface2);gap:10px;border-bottom:1px solid var(--border);}
+.student-num{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:22px;}
+.student-name{flex:1;font-size:13px;font-weight:700;}
+.student-body{padding:12px 14px;}
+.cat-grade-group{margin-bottom:10px;}
+.cat-grade-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.grade-inputs{display:flex;flex-wrap:wrap;gap:8px;}
+.grade-inp-wrap{display:flex;flex-direction:column;gap:3px;align-items:center;}
+.grade-inp-label{font-size:10px;color:var(--text3);text-align:center;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.att-student{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:10px;}
+.att-student:last-child{border-bottom:none;}
+.att-name{flex:1;font-size:13px;font-weight:600;}
+.att-btns{display:flex;gap:4px;}
+.att-btn{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.att-btn.active-P{background:#e8f5e9;border-color:var(--green);box-shadow:0 0 0 2px rgba(39,174,96,.2);}
+.att-btn.active-A{background:#ffebee;border-color:var(--red);box-shadow:0 0 0 2px rgba(192,57,43,.2);}
+.att-btn.active-T{background:#fff3e0;border-color:var(--orange);box-shadow:0 0 0 2px rgba(255,90,0,.2);}
+.att-btn.active-E{background:#e3f2fd;border-color:#1565c0;box-shadow:0 0 0 2px rgba(21,101,192,.2);}
+.logro-block{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.logro-hdr{background:var(--surface2);padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.logro-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text2);}
+.logro-body{padding:14px;}
+.ind-level{margin-bottom:10px;}
+.ind-level label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.ind-sup{color:#2e7d32;}.ind-alt{color:#1565c0;}.ind-bas{color:#f57f17;}.ind-low{color:#c62828;}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;color:#fff;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.stat-row:last-child{border-bottom:none;}
+.stat-label{font-size:13px;color:var(--text2);}
+.stat-val{font-family:var(--mono);font-size:14px;font-weight:700;}
+.perm-status{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;}
+.perm-pend{background:#fff3e0;color:#e65100;}.perm-ok{background:#e8f5e9;color:#2e7d32;}.perm-rej{background:#ffebee;color:#c62828;}
+.guide-toggle{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:8px;font-family:var(--font);}
+.guide-body{border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;font-size:12px;line-height:1.8;color:var(--text2);display:none;}
+.guide-body.open{display:block;}
+.countdown-bar{background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.countdown-bar .cd-num{font-family:var(--mono);font-size:22px;font-weight:700;background:rgba(255,255,255,.15);border-radius:6px;padding:2px 10px;}
+.empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.empty-icon{font-size:48px;margin-bottom:10px;}
+#footer{text-align:center;font-size:10px;color:var(--text3);padding:6px;border-top:1px solid var(--border);background:var(--surface);display:none;}
+@media(min-width:600px){
+  body{padding:20px 0;}
+  #app{border-radius:20px;min-height:auto;height:92vh;}
+  #content{height:calc(92vh - var(--header-h) - var(--nav-h));}
+}
+</style>
+</head>
+<body>
+<div id="loadingScreen"><div class="spinner"></div><p>Conectando con Firebase...</p></div>
+<div id="toast"></div>
+<div id="app">
+
+  <div id="loginScreen">
+    <div class="login-logo">🏫</div>
+    <h1>I.E.T. Liceo Moderno<br>Suesca</h1>
+    <p>Portal Docentes · 2026</p>
+    <div class="login-card">
+      <div class="field-wrap">
+        <label>ID de Usuario</label>
+        <input type="text" id="loginUser" class="inp" placeholder="Ej: 20" autocomplete="username" style="text-transform:uppercase">
+      </div>
+      <div class="field-wrap">
+        <label>Clave</label>
+        <input type="password" id="loginPass" class="inp" placeholder="••••" autocomplete="current-password">
+      </div>
+      <button class="btn-login" id="loginBtn" onclick="doLogin()">Ingresar</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <div id="header">
+    <div class="hdr-logo">🏫</div>
+    <div class="hdr-info">
+      <div class="hdr-name" id="hdrName">Docente</div>
+      <div class="hdr-sub" id="hdrSub">Liceo Moderno Suesca</div>
+    </div>
+    <div class="hdr-period" id="hdrPeriod">P–</div>
+  </div>
+
+  <div id="content">
+    <div class="tab-pane active" id="tab-inicio"><div id="inicioContent"></div></div>
+    <div class="tab-pane" id="tab-notas"><div id="notasContent"></div></div>
+    <div class="tab-pane" id="tab-asistencia"><div id="asistenciaContent"></div></div>
+    <div class="tab-pane" id="tab-logros"><div id="logrosContent"></div></div>
+    <div class="tab-pane" id="tab-perfil"><div id="perfilContent"></div></div>
+  </div>
+
+  <nav id="nav">
+    <button class="nav-item active" data-tab="inicio"><span class="nav-icon">🏠</span><span class="nav-label">Inicio</span></button>
+    <button class="nav-item" data-tab="notas"><span class="nav-icon">📊</span><span class="nav-label">Notas</span></button>
+    <button class="nav-item" data-tab="asistencia"><span class="nav-icon">📋</span><span class="nav-label">Asistencia</span></button>
+    <button class="nav-item" data-tab="logros"><span class="nav-icon">🎯</span><span class="nav-label">Logros</span></button>
+    <button class="nav-item" data-tab="perfil"><span class="nav-icon">👤</span><span class="nav-label">Perfil</span></button>
+  </nav>
+  <div id="footer"><span id="versionLabel"></span></div>
+</div>
+
+<div class="overlay" id="modalOverlay">
+  <div class="modal"><div class="modal-handle"></div><div id="modalBody"></div></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const APP_VERSION = "v1.1.0";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+
+let fireDb, firebaseReady = false;
+try { fireDb = getFirestore(initializeApp(firebaseConfig)); firebaseReady = true; } catch(e) { console.error(e); }
+
+let db = { courses:[], teachers:[], subjects:[], grades:{}, attendance:{}, logros:{}, absences:[], observations:{}, schoolInfo:{} };
+let session = { teacherId:null, teacher:null };
+let saveTimer = null;
+let failCount = parseInt(localStorage.getItem("lms_fail")||"0");
+let lockUntil = parseInt(localStorage.getItem("lms_lock")||"0");
+
+// Navigation state
+let inicioState = { courseId: null };
+let notasState  = { subjectId:null, courseId:null, period:null };
+let logrosState = { subjectId:null, courseId:null, period:null };
+let attDate = new Date().toISOString().slice(0,10);
+let attData = {};
+
+// ── UTILS ─────────────────────────────────────
+function toast(msg, type="", dur=2500) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.className = "show " + type;
+  clearTimeout(t._t); t._t = setTimeout(() => { t.className = ""; }, dur);
+}
+
+function getSortedCourses() {
+  return [...(db.courses||[])].sort((a,b) => (a.order||0) - (b.order||0));
+}
+
+function getActiveStudents(course) {
+  return (course.students||[]).filter(s => s.status !== "retirado");
+}
+
+// ── NAME RESOLVERS (safe) ─────────────────────
+function getSubjectName(id) {
+  if (!id) return "–";
+  const s = (db.subjects||[]).find(x => x.id === id);
+  return s ? s.name : `Materia (${id.slice(0,6)})`;
+}
+
+function getCourseName(id) {
+  if (!id) return "–";
+  const c = (db.courses||[]).find(x => x.id === id);
+  return c ? c.name : `Curso (${id.slice(0,6)})`;
+}
+
+// ── FILTER VALID ASSIGNMENTS ─────────────────
+// Removes assignments where courseId or subjectId don't exist in the DB
+function getValidAssignments(teacher) {
+  return (teacher.assignments||[]).filter(a => {
+    const cOk = (db.courses||[]).some(c => c.id === a.courseId);
+    const sOk = (db.subjects||[]).some(s => s.id === a.subjectId);
+    return cOk && sOk;
+  });
+}
+
+function gradeColor(g) {
+  if (g === null || g === undefined) return "var(--text3)";
+  const v = parseFloat(g);
+  if (v >= 3.6) return "var(--green)";
+  if (v >= 3.0) return "var(--yellow)";
+  return "var(--red)";
+}
+
+function daysLeft() {
+  const info = db.schoolInfo||{};
+  if (!info.deadline) return null;
+  const dl = new Date(info.deadline + (info.deadlineTime ? "T"+info.deadlineTime : ""));
+  return Math.ceil((dl - new Date()) / (1000*60*60*24));
+}
+
+function isPeriodLocked(period) {
+  const info = db.schoolInfo||{};
+  if (String(period) !== String(info.activePeriod||"1")) return true;
+  if (info.deadline) {
+    const dl = new Date(info.deadline + (info.deadlineTime ? "T"+info.deadlineTime : ""));
+    if (new Date() > dl) return true;
+  }
+  return false;
+}
+
+function gradeKey(tId, sId, cId, p) { return `${tId}_${sId}__${cId}_${p}`; }
+function makeId() { return Math.random().toString(36).slice(2,8); }
+
+// ── GRADE CALC ────────────────────────────────
+function calcStudentGrade(categories, gradeValues, studentIdx, totalStudents) {
+  let fg = 0, hasAny = false;
+  (categories||[]).forEach(cat => {
+    if (!cat.activities || cat.activities.length === 0) return;
+    if (cat.type === "puntos") {
+      const act = cat.activities[0];
+      let maxPts = 0;
+      for (let si = 0; si < totalStudents; si++) {
+        const v = gradeValues[`${si}_${cat.id}_${act.id}`];
+        if (v !== undefined && v !== null && v !== "") {
+          const pv = parseFloat(v); if (pv > maxPts) maxPts = pv;
+        }
+      }
+      const myPts = parseFloat(gradeValues[`${studentIdx}_${cat.id}_${act.id}`]||0);
+      if (gradeValues[`${studentIdx}_${cat.id}_${act.id}`] !== undefined) {
+        hasAny = true;
+        fg += (maxPts > 0 && myPts > 0 ? Math.min((myPts/maxPts)*4+1, 5) : 1.0) * (parseFloat(cat.pct)/100);
+      }
+    } else {
+      let cs = 0, cc = 0;
+      (cat.activities||[]).forEach(act => {
+        const v = gradeValues[`${studentIdx}_${cat.id}_${act.id}`];
+        if (v !== undefined && v !== null && v !== "") { cs += parseFloat(v); cc++; hasAny = true; }
+      });
+      if (cc > 0) fg += (cs/cc) * (parseFloat(cat.pct)/100);
+    }
+  });
+  return hasAny ? Math.round(fg*100)/100 : null;
+}
+
+function calcAllGrades(gd, total) {
+  const { categories=[], gradeValues={} } = gd;
+  return Array.from({length: total}, (_, i) => calcStudentGrade(categories, gradeValues, i, total));
+}
+
+// ── SAVE / LOAD ───────────────────────────────
+async function saveDB() {
+  localStorage.setItem("lms_db", JSON.stringify(db));
+  if (!firebaseReady) return;
+  if ((db.courses||[]).length === 0 && (db.teachers||[]).length === 0) return;
+  db._lastModified = Date.now();
+  db._lastModifiedBy = "teacher_" + session.teacherId;
+  try { await setDoc(doc(fireDb, "system", "data"), JSON.parse(JSON.stringify(db))); }
+  catch(e) { toast("Error al guardar", "error"); }
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(() => saveDB(), 900); }
+
+async function loadDB() {
+  try {
+    if (firebaseReady) {
+      const snap = await getDoc(doc(fireDb, "system", "data"));
+      if (snap.exists()) { db = snap.data(); localStorage.setItem("lms_db", JSON.stringify(db)); return true; }
+    }
+  } catch(e) {}
+  const local = localStorage.getItem("lms_db");
+  if (local) try { db = JSON.parse(local); return true; } catch(e) {}
+  return false;
+}
+
+// ── LOGIN ─────────────────────────────────────
+window.doLogin = async function() {
+  const now = Date.now();
+  if (now < lockUntil) {
+    document.getElementById("loginError").textContent = `Bloqueado. Espera ${Math.ceil((lockUntil-now)/1000)}s`;
+    return;
+  }
+  const userId = document.getElementById("loginUser").value.trim().replace(/\s+/g,"").toUpperCase();
+  const password = document.getElementById("loginPass").value;
+  if (!userId || !password) { document.getElementById("loginError").textContent = "Completa todos los campos"; return; }
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true; btn.textContent = "Verificando...";
+  try {
+    const snap = await getDoc(doc(fireDb, "system", "data"));
+    if (snap.exists()) db = snap.data();
+    const teacher = (db.teachers||[]).find(t =>
+      (t.userId||"").replace(/\s+/g,"").toUpperCase() === userId && t.key === password
+    );
+    if (teacher) {
+      failCount = 0; localStorage.setItem("lms_fail","0");
+      session.teacherId = teacher.id; session.teacher = teacher;
+      localStorage.setItem("lms_session", JSON.stringify({teacherId: teacher.id}));
+      startApp();
+    } else {
+      failCount++; localStorage.setItem("lms_fail", String(failCount));
+      if (failCount >= 3) {
+        const until = Date.now() + 5*60*1000;
+        localStorage.setItem("lms_lock", String(until)); lockUntil = until;
+        failCount = 0; localStorage.setItem("lms_fail","0");
+        document.getElementById("loginError").textContent = "3 intentos fallidos. Bloqueado 5 min.";
+      } else {
+        document.getElementById("loginError").textContent = `ID o clave incorrectos (${failCount}/3)`;
+      }
+    }
+  } catch(e) { document.getElementById("loginError").textContent = "Error de conexión."; }
+  btn.disabled = false; btn.textContent = "Ingresar";
+};
+
+// ── START APP ─────────────────────────────────
+function startApp() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("header").style.display = "flex";
+  document.getElementById("nav").style.display = "flex";
+  document.getElementById("footer").style.display = "block";
+  document.getElementById("versionLabel").textContent = APP_VERSION;
+  const t = session.teacher;
+  const fn = (t.name||"DOCENTE").split(" ")[0];
+  document.getElementById("hdrName").textContent = fn.charAt(0) + fn.slice(1).toLowerCase();
+  document.getElementById("hdrSub").textContent = t.name||"";
+  document.getElementById("hdrPeriod").textContent = "P" + (db.schoolInfo?.activePeriod||"–");
+  document.querySelectorAll(".nav-item").forEach(btn => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+  renderInicio();
+  switchTab("inicio");
+}
+
+function switchTab(tab) {
+  document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-"+tab).classList.add("active");
+  document.querySelector(`.nav-item[data-tab="${tab}"]`).classList.add("active");
+  if (tab==="inicio") renderInicio();
+  else if (tab==="notas") renderNotas();
+  else if (tab==="asistencia") renderAsistencia();
+  else if (tab==="logros") renderLogros();
+  else if (tab==="perfil") renderPerfil();
+}
+
+// ═════════════════════════════════════════════
+// TAB: INICIO — selector de curso + materias
+// ═════════════════════════════════════════════
+const SUBJ_ICONS = ["📐","📖","🔬","🌍","🎨","📝","🎵","🏃","🔢","🧪","📏","💻","🌐","⚗️","📜","🖊️","🎭","⚙️","🗺️","💡"];
+
+function renderInicio() {
+  const cont = document.getElementById("inicioContent");
+  const info = db.schoolInfo||{};
+  const period = info.activePeriod||"1";
+  const days = daysLeft();
+  const assignments = getValidAssignments(session.teacher);
+
+  // Group valid assignments by course
+  const byCourse = {};
+  assignments.forEach(a => {
+    if (!byCourse[a.courseId]) byCourse[a.courseId] = [];
+    if (!byCourse[a.courseId].includes(a.subjectId)) byCourse[a.courseId].push(a.subjectId);
+  });
+
+  const myCourseIds = Object.keys(byCourse);
+  const sorted = getSortedCourses().filter(c => myCourseIds.includes(c.id));
+
+  // Count pending subjects
+  let pending = 0;
+  assignments.forEach(a => {
+    const key = gradeKey(session.teacherId, a.subjectId, a.courseId, period);
+    const gd = (db.grades||{})[key]||{};
+    if (!gd.categories || gd.categories.length === 0) { pending++; return; }
+    const course = (db.courses||[]).find(c => c.id === a.courseId);
+    if (!course) return;
+    const students = getActiveStudents(course);
+    const vals = gd.gradeValues||{};
+    const hasG = students.some((_,si) => Object.keys(vals).some(k => k.startsWith(si+"_")));
+    if (!hasG) pending++;
+  });
+
+  let html = "";
+
+  // Greeting card
+  const tname = (session.teacher.name||"").split(" ")[0];
+  html += `<div class="card" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;border:none;">
+    <div style="font-size:20px;font-weight:800;margin-bottom:4px;">👋 Hola, ${tname.charAt(0)+tname.slice(1).toLowerCase()}</div>
+    <div style="font-size:13px;opacity:.85;">Periodo ${period}${days!==null ? ` · ${days>0?days+" días restantes":"Período cerrado"}` : ""}</div>
+  </div>`;
+
+  if (days !== null && days <= 7 && days > 0) {
+    html += `<div class="countdown-bar"><span class="cd-num">${days}</span>
+      <div><div style="font-size:13px;font-weight:700">Días para cerrar notas</div>
+      <div style="font-size:12px;opacity:.9">Límite: ${info.deadline} ${info.deadlineTime||""}</div></div></div>`;
+  }
+
+  if (pending > 0) {
+    html += `<div class="alert-banner"><span class="icon">⚠️</span><span class="msg">${pending} materia${pending>1?"s":""} pendiente${pending>1?"s":""} de calificar</span></div>`;
+  } else if (assignments.length > 0) {
+    html += `<div class="alert-banner success-banner"><span class="icon">✅</span><span class="msg">Todas las materias están al día</span></div>`;
+  }
+
+  if (sorted.length === 0) {
+    html += `<div class="empty"><div class="empty-icon">📚</div><p>No tienes materias asignadas</p></div>`;
+    cont.innerHTML = html; return;
+  }
+
+  // ── SELECTOR DE CURSOS (pills) ──
+  html += `<div class="section-title">🏫 Selecciona un curso</div>
+  <div class="course-picker">`;
+  sorted.forEach(course => {
+    const subs = byCourse[course.id]||[];
+    const isSelected = inicioState.courseId === course.id;
+    const students = getActiveStudents(course);
+    html += `<button class="course-pill${isSelected?" selected":""}" onclick="selectCourse('${course.id}')">
+      <span class="course-pill-name">${course.name}</span>
+      <span class="course-pill-count">${subs.length} materia${subs.length!==1?"s":""} · ${students.length} est.</span>
+    </button>`;
+  });
+  html += `</div>`;
+
+  // ── MATERIAS DEL CURSO SELECCIONADO ──
+  if (inicioState.courseId && byCourse[inicioState.courseId]) {
+    const course = sorted.find(c => c.id === inicioState.courseId);
+    const subs = byCourse[inicioState.courseId];
+    const students = course ? getActiveStudents(course) : [];
+    const total = students.length;
+
+    html += `<div class="section-title">📚 Materias de ${course?.name||""}</div>
+    <div class="subj-list">`;
+
+    subs.forEach((subId, idx) => {
+      const key = gradeKey(session.teacherId, subId, inicioState.courseId, period);
+      const gd = (db.grades||{})[key]||{};
+      const grades = (gd.categories && gd.gradeValues) ? calcAllGrades(gd, total) : [];
+      const filled = grades.filter(g => g !== null).length;
+      const pct = total > 0 ? Math.round(filled/total*100) : 0;
+      const graded = grades.filter(g => g !== null);
+      const avg = graded.length > 0 ? (graded.reduce((s,g)=>s+g,0)/graded.length).toFixed(2) : null;
+      const barCls = pct >= 70 ? "prog-green" : pct >= 30 ? "prog-orange" : "prog-red";
+      const icon = SUBJ_ICONS[idx % SUBJ_ICONS.length];
+
+      html += `<div class="subj-row" onclick="openSubject('${subId}','${inicioState.courseId}')">
+        <div class="subj-row-icon">${icon}</div>
+        <div class="subj-row-info">
+          <div class="subj-row-name">${getSubjectName(subId)}</div>
+          <div class="subj-row-sub">${filled}/${total} calificados</div>
+          <div class="prog-wrap"><div class="prog-bar ${barCls}" style="width:${pct}%"></div></div>
+        </div>
+        <div class="subj-row-grade" style="color:${avg?gradeColor(avg):"var(--text3)"}">${avg||"–"}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="info-banner">
+      <span style="font-size:20px">👆</span>
+      <span class="msg">Toca un curso para ver sus materias y calificar</span>
+    </div>`;
+  }
+
+  cont.innerHTML = html;
+}
+
+window.selectCourse = function(courseId) {
+  inicioState.courseId = (inicioState.courseId === courseId) ? null : courseId;
+  renderInicio();
+};
+
+window.openSubject = function(subjectId, courseId) {
+  notasState.subjectId = subjectId;
+  notasState.courseId = courseId;
+  notasState.period = db.schoolInfo?.activePeriod||"1";
+  switchTab("notas");
+};
+
+// ═════════════════════════════════════════════
+// TAB: NOTAS
+// ═════════════════════════════════════════════
+const DEFAULT_TEMPLATE = [
+  {name:"QUIZ",pct:10,activities:["Quiz 1","Quiz 2","Quiz 3","Quiz 4"]},
+  {name:"PRUEBA SABER",pct:20,activities:["Prueba Saber"]},
+  {name:"CUADERNO",pct:20,activities:["Cuaderno"]},
+  {name:"AUTOEVALUACIÓN",pct:10,activities:["Autoevaluación"]},
+  {name:"COEVALUACIÓN",pct:10,activities:["Coevaluación"]},
+  {name:"LABORATORIO",pct:20,activities:["Laboratorio 1","Laboratorio 2"]},
+  {name:"TAREAS",pct:10,activities:["Tarea 1","Tarea 2"]}
+];
+
+function renderNotas() {
+  const cont = document.getElementById("notasContent");
+  const assignments = getValidAssignments(session.teacher);
+  const period = db.schoolInfo?.activePeriod||"1";
+
+  if (!notasState.subjectId && assignments.length > 0) {
+    notasState.subjectId = assignments[0].subjectId;
+    notasState.courseId = assignments[0].courseId;
+  }
+  if (!notasState.period) notasState.period = period;
+
+  // Build course→subjects map
+  const byCourse = {};
+  assignments.forEach(a => {
+    if (!byCourse[a.courseId]) byCourse[a.courseId] = [];
+    if (!byCourse[a.courseId].includes(a.subjectId)) byCourse[a.courseId].push(a.subjectId);
+  });
+  const myCourses = getSortedCourses().filter(c => byCourse[c.id]);
+  const locked = isPeriodLocked(notasState.period);
+  const cName = notasState.courseId ? getCourseName(notasState.courseId) : "–";
+  const sName = notasState.subjectId ? getSubjectName(notasState.subjectId) : "–";
+
+  let html = "";
+
+  // Breadcrumb
+  html += `<div class="breadcrumb">
+    <button class="bc-btn" onclick="switchTab('inicio')">🏠 Inicio</button>
+    <span class="bc-sep">›</span>
+    <span class="bc-cur">${cName} · ${sName}</span>
+  </div>`;
+
+  // Selectors: Course first, then Subject, then Period
+  html += `<div class="sel-group three">
+    <div class="sel-wrap"><label>Curso</label>
+      <select onchange="onSelCourse(this.value)">
+        ${myCourses.map(c => `<option value="${c.id}" ${c.id===notasState.courseId?"selected":""}>${c.name}</option>`).join("")}
+      </select>
+    </div>
+    <div class="sel-wrap"><label>Materia</label>
+      <select onchange="onSelSubject(this.value)">
+        ${(byCourse[notasState.courseId]||[]).map(s => `<option value="${s}" ${s===notasState.subjectId?"selected":""}>${getSubjectName(s)}</option>`).join("")}
+      </select>
+    </div>
+    <div class="sel-wrap"><label>Periodo</label>
+      <select onchange="onSelPeriod(this.value)">
+        ${["1","2","3","4"].map(p => `<option value="${p}" ${p===notasState.period?"selected":""}>${p}</option>`).join("")}
+      </select>
+    </div>
+  </div>`;
+
+  if (locked && String(notasState.period) !== String(period)) {
+    html += `<div class="alert-banner"><span class="icon">🔒</span><span class="msg">Periodo ${notasState.period} — Solo lectura</span></div>`;
+  }
+
+  if (!notasState.subjectId || !notasState.courseId) {
+    cont.innerHTML = html + `<div class="empty"><div class="empty-icon">📊</div><p>Selecciona curso y materia</p></div>`;
+    return;
+  }
+
+  const key = gradeKey(session.teacherId, notasState.subjectId, notasState.courseId, notasState.period);
+  if (!db.grades) db.grades = {};
+  if (!db.grades[key]) db.grades[key] = { categories:[], gradeValues:{} };
+  const gd = db.grades[key];
+  if (!gd.gradeValues) gd.gradeValues = {};
+
+  const course = (db.courses||[]).find(c => c.id === notasState.courseId);
+  const students = course ? getActiveStudents(course) : [];
+  const totalCatPct = (gd.categories||[]).reduce((s,c) => s+parseFloat(c.pct||0), 0);
+
+  // Categories section
+  if (!locked) {
+    html += `<div class="card">
+      <div class="card-title">📐 Categorías de Evaluación
+        <span style="margin-left:auto;font-family:var(--mono);font-size:12px;color:${totalCatPct===100?"var(--green)":"var(--red)"}">Total: ${totalCatPct}%</span>
+      </div>`;
+    (gd.categories||[]).forEach((cat, ci) => {
+      html += `<div class="cat-block">
+        <div class="cat-header">
+          <span class="cat-name">${cat.name}${cat.type==="puntos"?" 🏆":""}</span>
+          <span class="cat-pct">${cat.pct}%</span>
+          <button class="btn btn-sm btn-secondary btn-icon" onclick="editCat('${key}',${ci})">✏️</button>
+          <button class="btn btn-sm btn-red btn-icon" onclick="deleteCat('${key}',${ci})">🗑</button>
+        </div>
+        <div class="cat-acts">
+          ${(cat.activities||[]).map((act,ai) => `<span class="act-tag">${act.name}<button class="act-tag-del" onclick="deleteAct('${key}',${ci},${ai})">✕</button></span>`).join("")}
+          <input class="add-act-inp" id="actInp_${ci}" placeholder="+ actividad" onkeydown="if(event.key==='Enter')addAct('${key}',${ci})">
+          <button class="btn btn-sm btn-primary" onclick="addAct('${key}',${ci})">+</button>
+        </div>
+      </div>`;
+    });
+    html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <button class="btn btn-primary btn-sm" onclick="showAddCat('${key}')">+ Categoría</button>
+      <button class="btn btn-secondary btn-sm" onclick="loadTemplate('${key}')">📋 Usar Plantilla</button>
+    </div></div>`;
+  }
+
+  if (students.length === 0) {
+    cont.innerHTML = html + `<div class="empty"><div class="empty-icon">👥</div><p>No hay estudiantes activos</p></div>`;
+    return;
+  }
+  if (!gd.categories || gd.categories.length === 0) {
+    cont.innerHTML = html + `<div class="alert-banner"><span class="icon">📐</span><span class="msg">Agrega categorías de evaluación para comenzar</span></div>`;
+    return;
+  }
+
+  const allGrades = calcAllGrades(gd, students.length);
+  const passing = allGrades.filter(g => g !== null && g >= 3.6).length;
+  const graded = allGrades.filter(g => g !== null);
+  const avg = graded.length > 0 ? (graded.reduce((s,g)=>s+g,0)/graded.length).toFixed(2) : null;
+
+  html += `<div class="section-title">📝 ${students.length} Estudiantes — ${cName}</div>`;
+
+  students.forEach((student, si) => {
+    const fg = allGrades[si];
+    const fgColor = gradeColor(fg);
+    const parts = [student.firstLastName, student.secondLastName, student.firstName, student.secondName].filter(Boolean);
+    const fullName = parts.join(" ");
+    html += `<div class="student-card" id="sc_${si}">
+      <div class="student-card-hdr">
+        <span class="student-num">${String(si+1).padStart(2,"0")}</span>
+        <span class="student-name">${fullName}</span>
+        <span style="font-family:var(--mono);font-size:15px;font-weight:700;color:${fgColor}" id="fg_${si}">${fg!==null?fg.toFixed(2):"–"}</span>
+      </div>
+      <div class="student-body">`;
+
+    (gd.categories||[]).forEach(cat => {
+      const isPuntos = cat.type === "puntos";
+      html += `<div class="cat-grade-group">
+        <div class="cat-grade-label">── ${cat.name} (${cat.pct}%) ──</div>
+        <div class="grade-inputs">`;
+      (cat.activities||[]).forEach(act => {
+        const vkey = `${si}_${cat.id}_${act.id}`;
+        const val = gd.gradeValues[vkey];
+        const dispVal = (val !== undefined && val !== null && val !== "") ? ""+val : "";
+        if (!locked) {
+          html += `<div class="grade-inp-wrap">
+            <input class="inp-sm" type="number"
+              min="${isPuntos?0:1}" max="${isPuntos?9999:5}" step="${isPuntos?1:0.1}"
+              value="${dispVal}" placeholder="–"
+              data-vkey="${vkey}" data-gkey="${key}" data-puntos="${isPuntos?1:0}"
+              oninput="this.classList.add('changed')"
+              onchange="onGradeChange(this)">
+            <span class="grade-inp-label">${act.name}</span>
+          </div>`;
+        } else {
+          html += `<div class="grade-inp-wrap">
+            <div class="inp-sm" style="display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1.5px solid var(--border);">${dispVal||"–"}</div>
+            <span class="grade-inp-label">${act.name}</span>
+          </div>`;
+        }
+      });
+      html += `</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  // Stats footer
+  html += `<div class="card" style="text-align:center">
+    <div style="display:flex;justify-content:center;gap:28px">
+      <div><div style="font-size:24px;font-weight:800;color:var(--green)">${passing}</div><div style="font-size:11px;color:var(--text2)">APRUEBAN</div></div>
+      <div><div style="font-size:24px;font-weight:800;color:var(--red)">${students.length-passing}</div><div style="font-size:11px;color:var(--text2)">REPUEBAN</div></div>
+      <div><div style="font-size:24px;font-weight:800;color:var(--navy)">${avg||"–"}</div><div style="font-size:11px;color:var(--text2)">PROMEDIO</div></div>
+    </div>
+  </div>`;
+
+  cont.innerHTML = html;
+}
+
+window.onSelCourse = function(v) {
+  notasState.courseId = v;
+  const assignments = getValidAssignments(session.teacher);
+  const subs = [...new Set(assignments.filter(a => a.courseId===v).map(a => a.subjectId))];
+  notasState.subjectId = subs.length > 0 ? subs[0] : null;
+  renderNotas();
+};
+window.onSelSubject = function(v) { notasState.subjectId = v; renderNotas(); };
+window.onSelPeriod  = function(v) { notasState.period = v; renderNotas(); };
+
+window.onGradeChange = function(el) {
+  const vkey = el.dataset.vkey;
+  const gkey = el.dataset.gkey;
+  const isPuntos = el.dataset.puntos === "1";
+  el.classList.remove("changed");
+  const val = el.value;
+  if (val === "") {
+    delete db.grades[gkey].gradeValues[vkey];
+  } else {
+    let num = parseFloat(val);
+    if (!isPuntos) { num = Math.max(1, Math.min(5, num)); el.value = num; }
+    db.grades[gkey].gradeValues[vkey] = num;
+  }
+  // Recalc all students
+  const gd = db.grades[gkey];
+  const course = (db.courses||[]).find(c => c.id === notasState.courseId);
+  const students = course ? getActiveStudents(course) : [];
+  const allG = calcAllGrades(gd, students.length);
+  students.forEach((_, si) => {
+    const el2 = document.getElementById(`fg_${si}`);
+    if (el2) { el2.textContent = allG[si]!==null ? allG[si].toFixed(2) : "–"; el2.style.color = gradeColor(allG[si]); }
+  });
+  scheduleSave();
+};
+
+window.deleteCat = function(key, ci) {
+  if (!confirm("¿Eliminar esta categoría?")) return;
+  db.grades[key].categories.splice(ci, 1);
+  scheduleSave(); renderNotas();
+};
+window.deleteAct = function(key, ci, ai) {
+  db.grades[key].categories[ci].activities.splice(ai, 1);
+  scheduleSave(); renderNotas();
+};
+window.addAct = function(key, ci) {
+  const inp = document.getElementById(`actInp_${ci}`);
+  if (!inp || !inp.value.trim()) return;
+  db.grades[key].categories[ci].activities.push({id: makeId(), name: inp.value.trim().toUpperCase()});
+  scheduleSave(); renderNotas();
+};
+window.loadTemplate = function(key) {
+  if (!confirm("¿Cargar plantilla? Reemplaza las categorías actuales.")) return;
+  db.grades[key].categories = DEFAULT_TEMPLATE.map(t => ({
+    id: makeId(), name: t.name, pct: t.pct, type: null,
+    activities: t.activities.map(a => ({id: makeId(), name: a}))
+  }));
+  db.grades[key].gradeValues = {};
+  scheduleSave(); renderNotas();
+};
+window.showAddCat = function(key) {
+  document.getElementById("modalBody").innerHTML = `
+    <h3>+ Nueva Categoría</h3>
+    <div class="field-wrap"><label>Nombre</label><input class="inp" id="cN" placeholder="Ej: EXAMEN" style="text-transform:uppercase"></div>
+    <div class="field-wrap"><label>Porcentaje (%)</label><input class="inp" id="cP" type="number" min="1" max="100" placeholder="10"></div>
+    <div class="field-wrap"><label>Tipo</label>
+      <select class="inp" id="cT"><option value="">Normal (1.0–5.0)</option><option value="puntos">Puntos/Sellos 🏆</option></select></div>
+    <button class="btn btn-primary btn-full" onclick="confirmAddCat('${key}')">Agregar</button>
+    <button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="closeModal()">Cancelar</button>`;
+  openModal();
+};
+window.confirmAddCat = function(key) {
+  const name = (document.getElementById("cN").value||"").trim().toUpperCase();
+  const pct = parseFloat(document.getElementById("cP").value)||0;
+  const type = document.getElementById("cT").value||null;
+  if (!name || !pct) { toast("Completa los campos","error"); return; }
+  db.grades[key].categories.push({id:makeId(),name,pct,type,activities:[]});
+  scheduleSave(); closeModal(); renderNotas();
+};
+window.editCat = function(key, ci) {
+  const cat = db.grades[key].categories[ci];
+  document.getElementById("modalBody").innerHTML = `
+    <h3>✏️ Editar Categoría</h3>
+    <div class="field-wrap"><label>Nombre</label><input class="inp" id="eN" value="${cat.name}" style="text-transform:uppercase"></div>
+    <div class="field-wrap"><label>Porcentaje (%)</label><input class="inp" id="eP" type="number" value="${cat.pct}"></div>
+    <div class="field-wrap"><label>Tipo</label>
+      <select class="inp" id="eT"><option value="" ${!cat.type?"selected":""}>Normal</option><option value="puntos" ${cat.type==="puntos"?"selected":""}>Puntos/Sellos 🏆</option></select></div>
+    <button class="btn btn-primary btn-full" onclick="confirmEditCat('${key}',${ci})">Guardar</button>
+    <button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="closeModal()">Cancelar</button>`;
+  openModal();
+};
+window.confirmEditCat = function(key, ci) {
+  const name = (document.getElementById("eN").value||"").trim().toUpperCase();
+  const pct = parseFloat(document.getElementById("eP").value)||0;
+  const type = document.getElementById("eT").value||null;
+  if (!name || !pct) { toast("Completa los campos","error"); return; }
+  Object.assign(db.grades[key].categories[ci], {name, pct, type});
+  scheduleSave(); closeModal(); renderNotas();
+};
+
+// ═════════════════════════════════════════════
+// TAB: ASISTENCIA
+// ═════════════════════════════════════════════
+function renderAsistencia() {
+  const cont = document.getElementById("asistenciaContent");
+  const courses = (db.courses||[]).filter(c => c.directorId === session.teacherId);
+  if (courses.length === 0) {
+    cont.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><p>No eres director de ningún curso</p><p style="font-size:12px;margin-top:8px;color:var(--text3)">Solo los directores de curso pueden tomar asistencia</p></div>`;
+    return;
+  }
+  const course = courses[0];
+  const students = getActiveStudents(course);
+  const attKey = `${course.id}_${attDate}`;
+  if (!db.attendance) db.attendance = {};
+  attData = db.attendance[attKey] || {};
+  // Pre-fill all as "presente" if no data yet
+  if (Object.keys(attData).length === 0) {
+    students.forEach((_, si) => { attData[String(si)] = {status:"presente"}; });
+  }
+
+  let html = `<div class="section-title">📋 Asistencia — ${course.name}</div>
+  <div class="card">
+    <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap">
+      <div class="sel-wrap" style="flex:1"><label>Fecha</label>
+        <input class="inp" type="date" value="${attDate}" onchange="onAttDate(this.value)">
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="markAll('${course.id}','presente')">✅ Todos presentes</button>
+    </div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">`;
+
+  students.forEach((s, si) => {
+    const st = (attData[String(si)]||{}).status||"presente";
+    const fullName = [s.firstLastName, s.firstName].filter(Boolean).join(" ");
+    html += `<div class="att-student">
+      <div class="att-name">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-right:6px">${String(si+1).padStart(2,"0")}</span>
+        ${fullName}
+      </div>
+      <div class="att-btns">
+        <button class="att-btn ${st==="presente"?"active-P":""}" onclick="setAtt('${course.id}',${si},'presente')" title="Presente">✅</button>
+        <button class="att-btn ${st==="ausente"?"active-A":""}" onclick="setAtt('${course.id}',${si},'ausente')" title="Ausente">❌</button>
+        <button class="att-btn ${st==="tardanza"?"active-T":""}" onclick="setAtt('${course.id}',${si},'tardanza')" title="Tardanza">⏰</button>
+        <button class="att-btn ${st==="excusa"?"active-E":""}" onclick="setAtt('${course.id}',${si},'excusa')" title="Excusa">📄</button>
+      </div>
+    </div>`;
+  });
+
+  html += `</div>
+  <button class="btn btn-primary btn-full" style="margin-top:4px" onclick="saveAtt('${course.id}')">💾 Guardar Asistencia</button>
+  <div style="margin-top:16px">
+    <button class="guide-toggle" onclick="toggleConsolidado(this)">📊 Ver Consolidado <span>▼</span></button>
+    <div class="guide-body" id="consolidadoBody"></div>
+  </div>`;
+
+  cont.innerHTML = html;
+}
+
+window.onAttDate = function(v) { attDate = v; renderAsistencia(); };
+window.setAtt = function(courseId, si, status) {
+  const k = `${courseId}_${attDate}`;
+  if (!db.attendance) db.attendance = {};
+  if (!db.attendance[k]) db.attendance[k] = {};
+  db.attendance[k][String(si)] = {status};
+  attData = db.attendance[k];
+  const rows = document.querySelectorAll(".att-student");
+  const row = rows[si];
+  if (row) {
+    row.querySelectorAll(".att-btn").forEach(b => b.className = "att-btn");
+    const map = {presente:"active-P",ausente:"active-A",tardanza:"active-T",excusa:"active-E"};
+    const btns = row.querySelectorAll(".att-btn");
+    const idx = ["presente","ausente","tardanza","excusa"].indexOf(status);
+    if (idx >= 0 && btns[idx]) btns[idx].classList.add(map[status]);
+  }
+};
+window.markAll = function(courseId, status) {
+  const course = (db.courses||[]).find(c => c.id === courseId);
+  if (!course) return;
+  const students = getActiveStudents(course);
+  const k = `${courseId}_${attDate}`;
+  if (!db.attendance) db.attendance = {};
+  db.attendance[k] = {};
+  students.forEach((_, si) => { db.attendance[k][String(si)] = {status}; });
+  attData = db.attendance[k];
+  renderAsistencia();
+};
+window.saveAtt = function(courseId) {
+  const k = `${courseId}_${attDate}`;
+  if (!db.attendance) db.attendance = {};
+  db.attendance[k] = attData;
+  saveDB().then(() => toast("Asistencia guardada ✅","success"));
+};
+window.toggleConsolidado = function(btn) {
+  const body = document.getElementById("consolidadoBody");
+  if (body.classList.toggle("open")) {
+    btn.querySelector("span").textContent = "▲";
+    renderConsolidado(body);
+  } else btn.querySelector("span").textContent = "▼";
+};
+function renderConsolidado(el) {
+  const courses = (db.courses||[]).filter(c => c.directorId === session.teacherId);
+  if (!courses.length) { el.innerHTML = "<p>Sin datos</p>"; return; }
+  const course = courses[0];
+  const students = getActiveStudents(course);
+  const allKeys = Object.keys(db.attendance||{}).filter(k => k.startsWith(course.id+"_")).sort().slice(-20);
+  if (!allKeys.length) { el.innerHTML = `<p style="color:var(--text3)">No hay registros aún</p>`; return; }
+  const icons = {presente:"✅",ausente:"❌",tardanza:"⏰",excusa:"📄"};
+  let html = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+    <tr style="background:var(--surface2)">
+      <th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);white-space:nowrap">Estudiante</th>`;
+  allKeys.forEach(k => {
+    const d = k.replace(course.id+"_","");
+    html += `<th style="padding:2px 4px;border-bottom:1px solid var(--border);white-space:nowrap">${d.slice(5)}</th>`;
+  });
+  html += `<th style="padding:2px 4px">P</th><th>A</th><th>T</th><th>E</th></tr>`;
+  students.forEach((s, si) => {
+    let p=0,a=0,t=0,e=0;
+    const name = [s.firstLastName,s.firstName].filter(Boolean).join(" ");
+    html += `<tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);white-space:nowrap">${name}</td>`;
+    allKeys.forEach(k => {
+      const st = ((db.attendance[k]||{})[String(si)]||{}).status;
+      if(st==="presente")p++;else if(st==="ausente")a++;else if(st==="tardanza")t++;else if(st==="excusa")e++;
+      html += `<td style="text-align:center;border-bottom:1px solid var(--border)">${icons[st]||"–"}</td>`;
+    });
+    html += `<td style="text-align:center;color:var(--green);font-weight:700">${p}</td>
+      <td style="text-align:center;color:var(--red);font-weight:700">${a}</td>
+      <td style="text-align:center;color:var(--orange);font-weight:700">${t}</td>
+      <td style="text-align:center;color:#1565c0;font-weight:700">${e}</td></tr>`;
+  });
+  html += `</table></div>`;
+  el.innerHTML = html;
+}
+
+// ═════════════════════════════════════════════
+// TAB: LOGROS
+// ═════════════════════════════════════════════
+const VERB_MAP = {
+  identifica:{sup:"Identifica con precisión y detalle",alt:"Identifica correctamente",bas:"Identifica parcialmente",low:"Se le dificulta identificar"},
+  reconoce:{sup:"Reconoce con exactitud",alt:"Reconoce la mayoría",bas:"Reconoce algunos elementos",low:"Tiene dificultad para reconocer"},
+  describe:{sup:"Describe con precisión y fluidez",alt:"Describe correctamente",bas:"Describe de forma básica",low:"Presenta dificultad al describir"},
+  explica:{sup:"Explica con claridad y profundidad",alt:"Explica de forma clara",bas:"Explica de forma general",low:"Requiere apoyo para explicar"},
+  interpreta:{sup:"Interpreta con nivel crítico alto",alt:"Interpreta correctamente",bas:"Interpreta de forma básica",low:"Se le dificulta interpretar"},
+  compara:{sup:"Compara con rigor y criterio",alt:"Compara adecuadamente",bas:"Realiza comparaciones básicas",low:"Presenta dificultad al comparar"},
+  clasifica:{sup:"Clasifica con precisión y criterio",alt:"Clasifica correctamente",bas:"Realiza clasificaciones básicas",low:"Se le dificulta clasificar"},
+  resuelve:{sup:"Resuelve con eficiencia y creatividad",alt:"Resuelve correctamente",bas:"Resuelve con apoyo",low:"Requiere guía para resolver"},
+  aplica:{sup:"Aplica con destreza en contextos diversos",alt:"Aplica correctamente",bas:"Aplica en situaciones básicas",low:"Se le dificulta aplicar"},
+  demuestra:{sup:"Demuestra con seguridad y dominio",alt:"Demuestra correctamente",bas:"Demuestra parcialmente",low:"Tiene dificultad para demostrar"},
+  analiza:{sup:"Analiza con profundidad y rigor",alt:"Analiza correctamente",bas:"Realiza análisis básicos",low:"Se le dificulta analizar"},
+  evalúa:{sup:"Evalúa con criterio y profundidad",alt:"Evalúa correctamente",bas:"Realiza evaluaciones básicas",low:"Se le dificulta evaluar"},
+  argumenta:{sup:"Argumenta con solidez y coherencia",alt:"Argumenta correctamente",bas:"Presenta argumentos básicos",low:"Tiene dificultad para argumentar"},
+  propone:{sup:"Propone soluciones creativas",alt:"Propone adecuadamente",bas:"Realiza propuestas básicas",low:"Se le dificulta proponer"},
+  comprende:{sup:"Comprende con profundidad y amplitud",alt:"Comprende correctamente",bas:"Comprende parcialmente",low:"Presenta dificultad para comprender"},
+  relaciona:{sup:"Relaciona con precisión y amplitud",alt:"Relaciona correctamente",bas:"Realiza relaciones básicas",low:"Se le dificulta relacionar"},
+  crea:{sup:"Crea con originalidad y calidad",alt:"Crea correctamente",bas:"Crea con apoyo",low:"Tiene dificultad para crear"},
+  diseña:{sup:"Diseña con creatividad y precisión",alt:"Diseña correctamente",bas:"Realiza diseños básicos",low:"Se le dificulta diseñar"},
+  lee:{sup:"Lee con fluidez, comprensión y análisis",alt:"Lee correctamente",bas:"Lee con comprensión básica",low:"Presenta dificultad lectora"},
+  escribe:{sup:"Escribe con coherencia, riqueza y estilo",alt:"Escribe correctamente",bas:"Escribe de forma básica",low:"Presenta dificultad para escribir"},
+};
+function generateIndicators(text) {
+  const lower = text.toLowerCase();
+  for (const [verb, levels] of Object.entries(VERB_MAP)) {
+    if (lower.includes(verb)) {
+      const rest = text.replace(new RegExp(verb, "i"), "").trim();
+      return { superior:`${levels.sup} ${rest}`, alto:`${levels.alt} ${rest}`, basico:`${levels.bas} ${rest}`, bajo:`${levels.low} ${rest}` };
+    }
+  }
+  return { superior:"", alto:"", basico:"", bajo:"" };
+}
+
+function renderLogros() {
+  const cont = document.getElementById("logrosContent");
+  const assignments = getValidAssignments(session.teacher);
+  const period = db.schoolInfo?.activePeriod||"1";
+  if (!logrosState.subjectId && assignments.length > 0) {
+    logrosState.subjectId = assignments[0].subjectId;
+    logrosState.courseId = assignments[0].courseId;
+    logrosState.period = period;
+  }
+  if (!logrosState.period) logrosState.period = period;
+
+  const byCourse = {};
+  assignments.forEach(a => {
+    if (!byCourse[a.courseId]) byCourse[a.courseId] = [];
+    if (!byCourse[a.courseId].includes(a.subjectId)) byCourse[a.courseId].push(a.subjectId);
+  });
+  const myCourses = getSortedCourses().filter(c => byCourse[c.id]);
+
+  let html = `<div class="sel-group">
+    <div class="sel-wrap"><label>Curso</label>
+      <select onchange="onLCourse(this.value)">
+        ${myCourses.map(c => `<option value="${c.id}" ${c.id===logrosState.courseId?"selected":""}>${c.name}</option>`).join("")}
+      </select>
+    </div>
+    <div class="sel-wrap"><label>Materia</label>
+      <select onchange="onLSubj(this.value)">
+        ${(byCourse[logrosState.courseId]||[]).map(s => `<option value="${s}" ${s===logrosState.subjectId?"selected":""}>${getSubjectName(s)}</option>`).join("")}
+      </select>
+    </div>
+  </div>`;
+
+  html += `<button class="guide-toggle" onclick="toggleGuide(this)">📖 ¿Cómo construir un logro? <span>▼</span></button>
+  <div class="guide-body" id="guideBody">
+    <strong>Estructura:</strong> VERBO + CONTENIDO + CONDICIÓN<br><br>
+    <strong>Verbos recomendados por nivel:</strong><br>
+    • Conocer: identifica, reconoce, describe<br>
+    • Comprender: explica, interpreta, compara<br>
+    • Aplicar: resuelve, aplica, demuestra<br>
+    • Analizar: analiza, evalúa, argumenta<br><br>
+    ✅ <em>Correcto:</em> "Identifica las partes de la célula en situaciones experimentales"<br>
+    ❌ <em>Incorrecto:</em> "La célula" (sin verbo ni condición)
+  </div>`;
+
+  if (!logrosState.subjectId || !logrosState.courseId) {
+    cont.innerHTML = html + `<div class="empty"><div class="empty-icon">🎯</div><p>Selecciona curso y materia</p></div>`;
+    return;
+  }
+
+  const lkey = `${session.teacherId}_${logrosState.subjectId}_${logrosState.courseId}_${logrosState.period}`;
+  if (!db.logros) db.logros = {};
+  if (!db.logros[lkey]) db.logros[lkey] = [];
+  const logros = db.logros[lkey];
+
+  logros.forEach((log, li) => {
+    html += `<div class="logro-block">
+      <div class="logro-hdr">
+        <span class="logro-num">LOGRO ${li+1}</span>
+        <button class="btn btn-sm btn-red btn-icon" style="margin-left:auto" onclick="deleteLogro('${lkey}',${li})">🗑</button>
+      </div>
+      <div class="logro-body">
+        <div class="field-wrap" style="margin-bottom:10px">
+          <label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">DESCRIPCIÓN DEL LOGRO</label>
+          <textarea class="textarea" rows="3" placeholder="Ej: Identifica las partes de la célula..."
+            oninput="updateLogro('${lkey}',${li},'text',this.value)">${log.text||""}</textarea>
+          <button class="btn btn-secondary btn-sm" style="margin-top:6px" onclick="genInd('${lkey}',${li})">🧠 Generar Indicadores</button>
+        </div>
+        <div class="ind-level"><label class="ind-sup">⭐ Superior (4.6–5.0)</label>
+          <textarea class="textarea" rows="2" id="is_${li}" oninput="updateLogro('${lkey}',${li},'superior',this.value)">${log.superior||""}</textarea>
+        </div>
+        <div class="ind-level"><label class="ind-alt">🔵 Alto (4.0–4.5)</label>
+          <textarea class="textarea" rows="2" id="ia_${li}" oninput="updateLogro('${lkey}',${li},'alto',this.value)">${log.alto||""}</textarea>
+        </div>
+        <div class="ind-level"><label class="ind-bas">🟡 Básico (3.6–3.9)</label>
+          <textarea class="textarea" rows="2" id="ib_${li}" oninput="updateLogro('${lkey}',${li},'basico',this.value)">${log.basico||""}</textarea>
+        </div>
+        <div class="ind-level"><label class="ind-low">🔴 Bajo (1.0–3.5)</label>
+          <textarea class="textarea" rows="2" id="il_${li}" oninput="updateLogro('${lkey}',${li},'bajo',this.value)">${log.bajo||""}</textarea>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  html += `<div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="addLogro('${lkey}')">+ Agregar Logro</button>
+    <button class="btn btn-green" onclick="saveDB().then(()=>toast('Logros guardados ✅','success'))">💾 Guardar</button>
+  </div>`;
+
+  cont.innerHTML = html;
+}
+
+window.onLCourse = function(v) {
+  logrosState.courseId = v;
+  const a = getValidAssignments(session.teacher).filter(x => x.courseId === v);
+  if (a.length) logrosState.subjectId = a[0].subjectId;
+  renderLogros();
+};
+window.onLSubj = function(v) { logrosState.subjectId = v; renderLogros(); };
+window.toggleGuide = function(btn) {
+  const b = document.getElementById("guideBody");
+  b.classList.toggle("open");
+  btn.querySelector("span").textContent = b.classList.contains("open") ? "▲" : "▼";
+};
+window.updateLogro = function(key, li, field, val) { db.logros[key][li][field] = val; scheduleSave(); };
+window.deleteLogro = function(key, li) {
+  if (!confirm("¿Eliminar este logro?")) return;
+  db.logros[key].splice(li, 1);
+  scheduleSave(); renderLogros();
+};
+window.addLogro = function(key) {
+  db.logros[key].push({id:makeId(), text:"", superior:"", alto:"", basico:"", bajo:""});
+  scheduleSave(); renderLogros();
+};
+window.genInd = function(key, li) {
+  const log = db.logros[key][li];
+  if (!log.text?.trim()) { toast("Escribe el logro primero","error"); return; }
+  const ind = generateIndicators(log.text);
+  Object.assign(log, {
+    superior: ind.superior||log.superior, alto: ind.alto||log.alto,
+    basico: ind.basico||log.basico, bajo: ind.bajo||log.bajo
+  });
+  const f = {superior:`is_${li}`,alto:`ia_${li}`,basico:`ib_${li}`,bajo:`il_${li}`};
+  Object.entries(f).forEach(([k,id]) => { const el = document.getElementById(id); if (el) el.value = log[k]; });
+  toast("Indicadores generados 🧠","success"); scheduleSave();
+};
+
+// ═════════════════════════════════════════════
+// TAB: PERFIL
+// ═════════════════════════════════════════════
+function renderPerfil() {
+  const cont = document.getElementById("perfilContent");
+  const t = session.teacher;
+  const period = db.schoolInfo?.activePeriod||"1";
+  const assignments = getValidAssignments(t);
+  const isDirector = (db.courses||[]).some(c => c.directorId === t.id);
+
+  // Compute stats
+  let totalG = [], bySubCourse = {};
+  assignments.forEach(a => {
+    const key = gradeKey(t.id, a.subjectId, a.courseId, period);
+    const gd = (db.grades||{})[key]||{};
+    const course = (db.courses||[]).find(c => c.id === a.courseId);
+    if (!course) return;
+    const students = getActiveStudents(course);
+    if (gd.categories && gd.gradeValues) {
+      const gs = calcAllGrades(gd, students.length).filter(g => g !== null);
+      totalG = [...totalG, ...gs];
+      const label = `${getSubjectName(a.subjectId)} – ${getCourseName(a.courseId)}`;
+      bySubCourse[label] = [...(bySubCourse[label]||[]), ...gs];
+    }
+  });
+  const overallAvg = totalG.length > 0 ? (totalG.reduce((s,g)=>s+g,0)/totalG.length).toFixed(2) : null;
+  const myPerms = (db.absences||[]).filter(p => p.teacherId === t.id);
+
+  let html = `<div class="card" style="text-align:center">
+    <div class="profile-avatar">${t.emoji||"👤"}</div>
+    <div style="font-size:16px;font-weight:800;margin-bottom:4px">${t.name||""}</div>
+    <div style="font-size:13px;color:var(--text2)">ID: ${t.userId||"–"}</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">${assignments.length} asignaciones activas</div>
+    ${isDirector?`<div style="margin-top:6px;display:inline-flex;align-items:center;gap:4px;background:#e3f2fd;color:#1565c0;border-radius:100px;padding:4px 10px;font-size:12px;font-weight:700">🏫 Director de Curso</div>`:""}
+  </div>`;
+
+  html += `<div class="card"><div class="card-title">📊 Mi Rendimiento</div>`;
+  if (overallAvg) {
+    html += `<div class="stat-row"><span class="stat-label">Promedio general</span><span class="stat-val" style="color:${gradeColor(overallAvg)}">${overallAvg}</span></div>`;
+    Object.entries(bySubCourse).forEach(([name, gs]) => {
+      const avg = (gs.reduce((s,g)=>s+g,0)/gs.length).toFixed(2);
+      const pct = parseFloat(avg)/5*100;
+      html += `<div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <span style="font-size:12px">${name}</span>
+          <span style="font-family:var(--mono);font-size:12px;font-weight:700;color:${gradeColor(avg)}">${avg}</span>
+        </div>
+        <div class="prog-wrap"><div class="prog-bar ${parseFloat(avg)>=3.6?"prog-green":"prog-red"}" style="width:${pct}%"></div></div>
+      </div>`;
+    });
+  } else {
+    html += `<p style="font-size:13px;color:var(--text3);text-align:center">Aún no hay notas registradas</p>`;
+  }
+  html += `</div>`;
+
+  html += `<div class="card"><div class="card-title">🔑 Cambiar Clave</div>
+    <div class="field-wrap"><label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">CLAVE ACTUAL</label><input class="inp" type="password" id="oldK" placeholder="••••"></div>
+    <div class="field-wrap"><label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">NUEVA CLAVE</label><input class="inp" type="password" id="newK" placeholder="••••"></div>
+    <div class="field-wrap" style="margin-bottom:12px"><label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">CONFIRMAR</label><input class="inp" type="password" id="confK" placeholder="••••"></div>
+    <button class="btn btn-primary btn-full" onclick="changeKey()">Cambiar Clave</button>
+  </div>`;
+
+  html += `<div class="card"><div class="card-title">📝 Solicitar Permiso</div>
+    <div class="field-wrap"><label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">FECHA</label><input class="inp" type="date" id="pDate" value="${new Date().toISOString().slice(0,10)}"></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <div class="sel-wrap" style="flex:1"><label>DESDE</label><input class="inp" type="time" id="pFrom" value="08:00"></div>
+      <div class="sel-wrap" style="flex:1"><label>HASTA</label><input class="inp" type="time" id="pTo" value="12:00"></div>
+    </div>
+    <div class="field-wrap" style="margin-bottom:12px"><label style="display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px">MOTIVO</label><textarea class="textarea" id="pReason" placeholder="Describe el motivo del permiso"></textarea></div>
+    <button class="btn btn-primary btn-full" onclick="submitPerm()">Enviar Solicitud</button>
+  </div>`;
+
+  if (myPerms.length > 0) {
+    html += `<div class="card"><div class="card-title">📋 Mis Permisos</div>`;
+    [...myPerms].reverse().forEach(p => {
+      const cls = {pendiente:"perm-pend",aprobado:"perm-ok",rechazado:"perm-rej"}[p.status]||"perm-pend";
+      html += `<div class="stat-row">
+        <div><div style="font-size:13px;font-weight:600">${p.date}</div>
+        <div style="font-size:11px;color:var(--text2)">${p.timeFrom}–${p.timeTo} · ${p.reason}</div></div>
+        <span class="perm-status ${cls}">${p.status||"pendiente"}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (isDirector) {
+    const dirCourse = (db.courses||[]).find(c => c.directorId === t.id);
+    if (dirCourse) {
+      const obsKey = `${dirCourse.id}_${period}`;
+      if (!db.observations) db.observations = {};
+      const obs = db.observations[obsKey]||{};
+      const students = getActiveStudents(dirCourse);
+      html += `<div class="card"><div class="card-title">📝 Observaciones — ${dirCourse.name}</div>`;
+      students.forEach((s, si) => {
+        const fullName = [s.firstLastName, s.firstName].filter(Boolean).join(" ");
+        html += `<div style="margin-bottom:12px">
+          <label style="display:block;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:4px">${String(si+1).padStart(2,"0")}. ${fullName}</label>
+          <textarea class="textarea" rows="2" placeholder="Observación para el boletín..."
+            oninput="updateObs('${obsKey}',${si},this.value)">${obs[String(si)]||""}</textarea>
+        </div>`;
+      });
+      html += `<button class="btn btn-primary btn-full" onclick="saveDB().then(()=>toast('Observaciones guardadas ✅','success'))">💾 Guardar Observaciones</button></div>`;
+    }
+  }
+
+  html += `<button class="btn btn-red btn-full" style="margin-top:4px;margin-bottom:20px" onclick="logout()">🚪 Cerrar Sesión</button>`;
+  cont.innerHTML = html;
+}
+
+window.changeKey = function() {
+  const old = document.getElementById("oldK").value;
+  const nw = document.getElementById("newK").value;
+  const conf = document.getElementById("confK").value;
+  if (!old||!nw||!conf) { toast("Completa todos los campos","error"); return; }
+  if (old !== session.teacher.key) { toast("Clave actual incorrecta","error"); return; }
+  if (nw !== conf) { toast("Las claves no coinciden","error"); return; }
+  if (nw.length < 4) { toast("Mínimo 4 caracteres","error"); return; }
+  const ti = (db.teachers||[]).findIndex(t => t.id === session.teacherId);
+  if (ti < 0) return;
+  db.teachers[ti].key = nw; session.teacher.key = nw;
+  saveDB().then(() => { toast("Clave actualizada ✅","success"); renderPerfil(); });
+};
+window.submitPerm = function() {
+  const date = document.getElementById("pDate").value;
+  const from = document.getElementById("pFrom").value;
+  const to = document.getElementById("pTo").value;
+  const reason = document.getElementById("pReason").value.trim();
+  if (!date||!from||!to||!reason) { toast("Completa todos los campos","error"); return; }
+  if (!db.absences) db.absences = [];
+  db.absences.push({id:makeId(),teacherId:session.teacherId,date,timeFrom:from,timeTo:to,reason,status:"pendiente"});
+  saveDB().then(() => { toast("Solicitud enviada ✅","success"); renderPerfil(); });
+};
+window.updateObs = function(key, si, val) {
+  if (!db.observations) db.observations = {};
+  if (!db.observations[key]) db.observations[key] = {};
+  db.observations[key][String(si)] = val;
+  scheduleSave();
+};
+window.logout = function() {
+  if (!confirm("¿Cerrar sesión?")) return;
+  localStorage.removeItem("lms_session");
+  location.reload();
+};
+
+// MODAL
+window.openModal = function() { document.getElementById("modalOverlay").classList.add("active"); };
+window.closeModal = function() { document.getElementById("modalOverlay").classList.remove("active"); };
+document.getElementById("modalOverlay").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalOverlay")) closeModal();
+});
+
+// ── INIT ──────────────────────────────────────
+async function init() {
+  document.getElementById("versionLabel").textContent = APP_VERSION;
+  ["loginUser","loginPass"].forEach(id => {
+    document.getElementById(id)?.addEventListener("keydown", e => { if (e.key==="Enter") doLogin(); });
+  });
+  const sess = localStorage.getItem("lms_session");
+  if (sess) {
+    try {
+      const parsed = JSON.parse(sess);
+      await loadDB();
+      const teacher = (db.teachers||[]).find(t => t.id === parsed.teacherId);
+      if (teacher) {
+        session.teacherId = teacher.id; session.teacher = teacher;
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("loadingScreen").style.display = "none";
+        startApp(); return;
+      }
+    } catch(e) {}
+  }
+  document.getElementById("loadingScreen").style.display = "none";
+}
+
+init();
+</script>
+</body>
+</html>
