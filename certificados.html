@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Certificados Estudiantiles · I.E.T. Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#1a237e;--azul2:#283593;--azul3:#3949ab;--azul-bg:#eef0fb;--azul-rim:#c5caed;
+  --rojo:#c0392b;--rojo-h:#a93226;--rojo-bg:#fdf2f1;--rojo-rim:#f5c6c2;
+  --verde:#1e8449;--verde-bg:#eafaf1;--verde-rim:#a9dfbf;
+  --naranja:#d35400;--naranja-bg:#fef5ec;--naranja-rim:#f5cba7;
+  --gris1:#f5f6fa;--gris2:#eaecf4;--gris3:#d5d8e8;--gris4:#9fa3bc;
+  --gris5:#6b6f88;--gris6:#3d4060;--negro:#1c1e2d;
+  --shadow-sm:0 1px 4px rgba(20,24,80,.07);
+  --shadow-md:0 4px 18px rgba(20,24,80,.11);
+  --shadow-lg:0 12px 40px rgba(20,24,80,.14);
+  --r:16px;--rs:10px;
+  --font:'Inter',sans-serif;--serif:'Playfair Display',serif;--mono:'JetBrains Mono',monospace;
+  --tr:all .18s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:#f0f2f8;color:var(--negro);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* HEADER */
+.hdr{background:linear-gradient(145deg,#0d1257 0%,var(--azul) 40%,var(--azul2) 70%,#7b1a24 100%);color:#fff;position:relative;overflow:hidden;}
+.hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(255,255,255,.06) 0%,transparent 60%);}
+.hdr-inner{max-width:520px;margin:0 auto;padding:24px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;}
+.hdr-logo{width:72px;height:72px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 6px 24px rgba(0,0,0,.3);border:3px solid rgba(255,255,255,.35);overflow:hidden;flex-shrink:0;}
+.hdr-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.hdr-text{text-align:center;}
+.hdr-text h1{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.3px;line-height:1.3;}
+.hdr-text p{font-size:11.5px;opacity:.72;margin-top:4px;letter-spacing:.2px;}
+.hdr-ver{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:9px;background:rgba(255,255,255,.13);padding:2px 8px;border-radius:20px;color:rgba(255,255,255,.75);}
+
+/* WRAP */
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px;}
+
+/* SCREENS */
+.screen{display:none;}
+.screen.on{display:block;animation:fadeUp .22s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* STEPPER */
+.stepper{display:flex;gap:4px;margin-bottom:20px;align-items:center;}
+.step-item{display:flex;align-items:center;gap:4px;flex:1;}
+.step-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:2px solid var(--gris3);color:var(--gris4);background:#fff;transition:var(--tr);}
+.step-circle.done{background:var(--verde);border-color:var(--verde);color:#fff;}
+.step-circle.active{background:var(--azul);border-color:var(--azul);color:#fff;box-shadow:0 0 0 4px var(--azul-bg);}
+.step-line{flex:1;height:2px;background:var(--gris3);border-radius:1px;transition:var(--tr);}
+.step-line.done{background:var(--verde);}
+
+/* CARDS */
+.card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:14px;box-shadow:var(--shadow-sm);border:1px solid var(--gris2);}
+.card-tit{font-size:15px;font-weight:700;color:var(--azul);margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.card-tit .ico{font-size:20px;}
+
+/* HOME */
+.home-head{text-align:center;padding:22px 0 18px;}
+.home-head h2{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--azul);}
+.home-head p{font-size:13px;color:var(--gris5);margin-top:5px;}
+
+.hbtn{display:flex;align-items:center;gap:16px;width:100%;background:#fff;border:1.5px solid var(--gris2);border-radius:var(--r);padding:18px 20px;cursor:pointer;text-align:left;margin-bottom:10px;box-shadow:var(--shadow-sm);transition:var(--tr);}
+.hbtn:hover,.hbtn:active{border-color:var(--azul);box-shadow:0 0 0 3px var(--azul-bg),var(--shadow-md);transform:translateY(-2px);}
+.hbtn-ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.hbtn-ico.r{background:var(--rojo-bg);}
+.hbtn-ico.b{background:var(--azul-bg);}
+.hbtn-ico.g{background:var(--verde-bg);}
+.hbtn-txt strong{display:block;font-size:15px;font-weight:700;color:var(--negro);}
+.hbtn-txt span{font-size:12px;color:var(--gris5);display:block;margin-top:2px;}
+.hbtn-arr{margin-left:auto;color:var(--gris4);font-size:20px;flex-shrink:0;}
+.admin-link{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;padding:12px;color:var(--gris5);font-size:13px;cursor:pointer;border-radius:var(--rs);transition:var(--tr);border:1px dashed var(--gris3);}
+.admin-link:hover{color:var(--azul);border-color:var(--azul-rim);background:var(--azul-bg);}
+
+/* FORMS */
+.fg{margin-bottom:14px;}
+.flabel{display:block;font-size:11px;font-weight:700;color:var(--gris5);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;}
+.finput{width:100%;padding:13px 16px;border:1.5px solid var(--gris3);border-radius:var(--rs);font-family:var(--font);font-size:15px;color:var(--negro);background:#fff;transition:var(--tr);outline:none;-webkit-appearance:none;}
+.finput:focus{border-color:var(--azul3);box-shadow:0 0 0 3px var(--azul-bg);}
+.finput.mono{font-family:var(--mono);letter-spacing:1px;}
+.fselect{width:100%;padding:13px 38px 13px 16px;border:1.5px solid var(--gris3);border-radius:var(--rs);font-family:var(--font);font-size:15px;color:var(--negro);background:#fff;outline:none;-webkit-appearance:none;appearance:none;transition:var(--tr);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6f88' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.fselect:focus{border-color:var(--azul3);box-shadow:0 0 0 3px var(--azul-bg);}
+
+/* BTNS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:var(--rs);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;border:none;outline:none;transition:var(--tr);min-height:50px;-webkit-appearance:none;}
+.btn-primary{background:var(--azul);color:#fff;width:100%;box-shadow:0 4px 16px rgba(26,35,126,.25);}
+.btn-primary:hover{background:#141a6e;transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.btn-danger{background:var(--rojo);color:#fff;box-shadow:0 4px 12px rgba(192,57,43,.22);}
+.btn-danger:hover{background:var(--rojo-h);}
+.btn-success{background:var(--verde);color:#fff;}
+.btn-success:hover{background:#176039;}
+.btn-outline{background:transparent;color:var(--azul);border:1.5px solid var(--azul-rim);}
+.btn-outline:hover{background:var(--azul-bg);}
+.btn-ghost{background:var(--gris1);color:var(--gris6);border:1px solid var(--gris2);}
+.btn-ghost:hover{background:var(--gris2);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;}
+.btn-sm{padding:9px 16px;font-size:13px;min-height:38px;}
+.btn-row{display:flex;gap:10px;margin-top:16px;}
+.btn-row .btn{flex:1;}
+
+/* STUDENT CARD */
+.s-card{background:var(--azul-bg);border:1.5px solid var(--azul-rim);border-radius:var(--r);padding:16px;margin-top:14px;}
+.s-name{font-size:16px;font-weight:800;color:var(--azul);}
+.s-info{font-size:13px;color:var(--gris6);margin-top:4px;line-height:1.75;}
+
+/* STUDENT LIST (hermanos) */
+.student-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--verde-bg);border:1px solid var(--verde-rim);border-radius:var(--rs);margin-bottom:8px;}
+.student-item-info{flex:1;}
+.student-item-name{font-size:13px;font-weight:700;color:var(--negro);}
+.student-item-sub{font-size:11px;color:var(--gris5);margin-top:2px;}
+.student-remove{background:none;border:none;cursor:pointer;font-size:16px;color:var(--gris4);padding:4px;border-radius:6px;transition:var(--tr);}
+.student-remove:hover{color:var(--rojo);background:var(--rojo-bg);}
+
+/* ADD SIBLING BTN */
+.add-sibling{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border:1.5px dashed var(--azul-rim);border-radius:var(--rs);background:transparent;color:var(--azul);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);font-family:var(--font);margin-top:4px;}
+.add-sibling:hover{background:var(--azul-bg);border-color:var(--azul);}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.b-green{background:var(--verde-bg);color:var(--verde);}
+.b-orange{background:var(--naranja-bg);color:var(--naranja);}
+.b-red{background:var(--rojo-bg);color:var(--rojo);}
+.b-blue{background:var(--azul-bg);color:var(--azul);}
+.b-gray{background:var(--gris2);color:var(--gris5);}
+
+/* CERT OPTIONS */
+.cert-option{border:2px solid var(--gris3);border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer;transition:var(--tr);background:#fff;position:relative;}
+.cert-option:hover,.cert-option.sel{border-color:var(--azul);background:var(--azul-bg);}
+.cert-option.sel::after{content:'✓';position:absolute;top:12px;right:14px;width:24px;height:24px;border-radius:50%;background:var(--azul);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:24px;text-align:center;}
+.cert-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.cert-ico{width:46px;height:46px;border-radius:12px;background:var(--azul-bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.cert-name{font-size:15px;font-weight:700;color:var(--negro);}
+.cert-desc{font-size:12px;color:var(--gris5);margin-top:1px;}
+.cert-price{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--rojo);margin-top:10px;}
+
+/* TOTAL BOX */
+.total-box{background:linear-gradient(135deg,var(--azul-bg),#f0f2ff);border:1.5px solid var(--azul-rim);border-radius:var(--rs);padding:14px 16px;margin-top:8px;}
+.total-amount{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--rojo);}
+.total-detail{font-size:11px;color:var(--gris5);margin-top:4px;line-height:1.7;}
+
+/* PAYMENT */
+.pay-box{background:var(--gris1);border:1px solid var(--gris2);border-radius:var(--rs);padding:15px;margin-bottom:14px;}
+.pay-amount{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--rojo);display:block;margin-bottom:10px;}
+.pay-row{display:flex;gap:8px;font-size:13px;color:var(--gris6);line-height:1.85;}
+.pay-row span:first-child{color:var(--gris4);min-width:90px;font-size:12px;font-weight:600;}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--gris3);border-radius:var(--r);padding:30px 20px;text-align:center;cursor:pointer;transition:var(--tr);position:relative;}
+.upload-zone:hover{border-color:var(--azul);background:var(--azul-bg);}
+.upload-zone.has{border-color:var(--verde);background:var(--verde-bg);border-style:solid;}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-ico{font-size:34px;margin-bottom:8px;}
+.upload-txt{font-size:14px;font-weight:600;color:var(--gris6);}
+.upload-hint{font-size:12px;color:var(--gris4);margin-top:4px;}
+.preview-img{max-width:100%;max-height:180px;border-radius:8px;margin-top:12px;object-fit:contain;}
+
+/* SUMMARY */
+.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--gris2);gap:12px;}
+.sum-row:last-child{border-bottom:none;}
+.sum-lbl{font-size:11px;font-weight:700;color:var(--gris5);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0;}
+.sum-val{font-size:14px;font-weight:600;color:var(--negro);text-align:right;}
+.sum-val.accent{color:var(--rojo);font-family:var(--mono);}
+
+/* SUCCESS */
+.success-hero{background:linear-gradient(135deg,var(--verde-bg),#fff);border:1.5px solid var(--verde-rim);border-radius:var(--r);padding:32px 20px;text-align:center;margin-bottom:16px;}
+.success-ico{font-size:56px;margin-bottom:14px;}
+.success-tit{font-family:var(--serif);font-size:24px;color:var(--verde);}
+.success-sub{font-size:13px;color:var(--gris5);margin-top:6px;}
+.rad-box{background:#fff;border:1.5px solid var(--gris2);border-radius:var(--rs);padding:18px;text-align:center;margin:16px 0;box-shadow:var(--shadow-sm);}
+.rad-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--gris5);margin-bottom:6px;}
+.rad-code{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--azul);letter-spacing:1px;line-height:1.8;}
+
+/* STATUS */
+.status-card{background:#fff;border:1px solid var(--gris2);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+.status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.status-rad{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--azul);}
+.status-info{font-size:13px;color:var(--gris6);line-height:1.85;}
+
+/* VERIFY */
+.verify-box{border-radius:var(--r);padding:24px;margin-top:16px;text-align:center;}
+.verify-box.ok{background:var(--verde-bg);border:2px solid var(--verde-rim);}
+.verify-box.fail{background:var(--rojo-bg);border:2px solid var(--rojo-rim);}
+.verify-ico{font-size:48px;margin-bottom:12px;}
+.verify-tit{font-size:17px;font-weight:800;margin-bottom:14px;}
+.verify-box.ok .verify-tit{color:var(--verde);}
+.verify-box.fail .verify-tit{color:var(--rojo);}
+.verify-row{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:13px;text-align:left;}
+.verify-row:last-child{border-bottom:none;}
+.verify-row .vk{color:var(--gris5);min-width:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0;}
+.verify-row .vv{font-weight:600;color:var(--negro);}
+
+/* ADMIN */
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.admin-tit{font-family:var(--serif);font-size:22px;color:var(--azul);}
+.admin-user{font-size:12px;color:var(--gris5);}
+.tabs{display:flex;background:var(--gris2);border-radius:var(--rs);padding:3px;margin-bottom:18px;gap:2px;}
+.tab{flex:1;padding:10px 6px;border:none;background:transparent;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;color:var(--gris5);cursor:pointer;transition:var(--tr);}
+.tab.on{background:#fff;color:var(--azul);box-shadow:var(--shadow-sm);}
+.apanel{display:none;}
+.apanel.on{display:block;}
+.sol-card{background:#fff;border:1px solid var(--gris2);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:var(--tr);}
+.sol-card:hover{box-shadow:var(--shadow-md);}
+.sol-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.sol-rad{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--azul);}
+.sol-info{font-size:13px;color:var(--gris6);line-height:1.85;}
+.sol-info strong{color:var(--negro);}
+.sol-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-box{background:#fff;border:1px solid var(--gris2);border-radius:var(--rs);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm);}
+.stat-num{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--azul);}
+.stat-lbl{font-size:10px;color:var(--gris5);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+
+/* MISC */
+.divider{height:1px;background:var(--gris2);margin:16px 0;}
+.info-box{background:var(--azul-bg);border-left:3px solid var(--azul);border-radius:0 var(--rs) var(--rs) 0;padding:13px 15px;font-size:13px;color:var(--gris6);margin-bottom:15px;line-height:1.65;}
+.warn-box{background:var(--naranja-bg);border-left:3px solid var(--naranja);border-radius:0 var(--rs) var(--rs) 0;padding:13px 15px;font-size:13px;color:var(--gris6);margin-bottom:15px;line-height:1.65;}
+.err-box{background:var(--rojo-bg);border-left:3px solid var(--rojo);border-radius:0 var(--rs) var(--rs) 0;padding:13px 15px;font-size:13px;color:var(--rojo);margin-bottom:15px;line-height:1.65;}
+.ok-box{background:var(--verde-bg);border-left:3px solid var(--verde);border-radius:0 var(--rs) var(--rs) 0;padding:13px 15px;font-size:13px;color:var(--verde);margin-bottom:15px;line-height:1.65;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--gris5);font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;margin-bottom:8px;background:none;border:none;font-family:var(--font);}
+.back-btn:hover{color:var(--azul);}
+.empty{text-align:center;padding:40px 20px;color:var(--gris4);}
+.empty .ei{font-size:42px;margin-bottom:12px;}
+.empty p{font-size:14px;}
+.filter-bar{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.fbtn{padding:7px 15px;border-radius:20px;border:1.5px solid var(--gris3);background:#fff;font-size:12px;font-weight:600;color:var(--gris5);cursor:pointer;white-space:nowrap;transition:var(--tr);font-family:var(--font);}
+.fbtn.on{background:var(--azul);border-color:var(--azul);color:#fff;}
+.search-box{position:relative;margin-bottom:14px;}
+.search-box .finput{padding-left:42px;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+.proof-img{width:100%;border-radius:var(--rs);max-height:320px;object-fit:contain;}
+.timeline{list-style:none;padding:0;margin:14px 0 0;}
+.tl-item{display:flex;gap:12px;padding-bottom:14px;position:relative;}
+.tl-item::before{content:'';position:absolute;left:11px;top:24px;bottom:0;width:2px;background:var(--gris2);}
+.tl-item:last-child::before{display:none;}
+.tl-dot{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid var(--gris3);background:#fff;z-index:1;}
+.tl-dot.done{background:var(--verde);border-color:var(--verde);color:#fff;}
+.tl-dot.now{background:var(--azul);border-color:var(--azul);color:#fff;}
+.tl-dot.future{background:#fff;color:var(--gris4);}
+.tl-text{padding-top:2px;}
+.tl-title{font-size:13px;font-weight:600;color:var(--negro);}
+.tl-date{font-size:11px;color:var(--gris5);margin-top:2px;}
+
+/* LOADING */
+.loading{position:fixed;inset:0;background:rgba(240,242,248,.9);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(5px);}
+.loading.on{display:flex;}
+.spinner{width:44px;height:44px;border:3px solid var(--gris3);border-top-color:var(--azul);border-radius:50%;animation:spin .75s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-msg{margin-top:16px;font-size:14px;font-weight:600;color:var(--gris6);}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--negro);color:#fff;padding:12px 22px;border-radius:var(--rs);font-size:14px;font-weight:500;z-index:10001;transition:transform .28s ease;max-width:340px;text-align:center;box-shadow:var(--shadow-lg);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{background:var(--verde);}
+.toast.err{background:var(--rojo);}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(28,30,45,.58);display:none;align-items:flex-end;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+.modal-bg.on{display:flex;}
+.modal{background:#fff;border-radius:24px 24px 0 0;padding:22px 22px 44px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;animation:slideUp .28s cubic-bezier(.4,0,.2,1);}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{width:36px;height:4px;background:var(--gris3);border-radius:2px;margin:0 auto 20px;}
+.modal-tit{font-size:17px;font-weight:700;color:var(--negro);margin-bottom:16px;}
+
+@media(max-width:360px){.stats-row{grid-template-columns:repeat(3,1fr);}.stat-num{font-size:20px;}}
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading"><div class="spinner"></div><div class="loading-msg" id="loadingMsg">Procesando...</div></div>
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"><div class="modal-handle"></div><div id="modalBody"></div></div></div>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-ver" id="verTag">v3.0</div>
+    <div class="hdr-logo" id="hdrLogo">🏫</div>
+    <div class="hdr-text">
+      <h1>I.E.T. Liceo Moderno Suesca</h1>
+      <p>Certificados Estudiantiles Digitales · Cundinamarca</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- HOME -->
+<div class="screen on" id="sHome">
+  <div class="home-head"><h2>¿Cómo podemos ayudarte?</h2><p>Selecciona la opción que necesitas</p></div>
+  <button class="hbtn" onclick="window.initSolicitar()">
+    <div class="hbtn-ico r">📄</div>
+    <div class="hbtn-txt"><strong>Solicitar Certificado</strong><span>Certif. de estudio o calificaciones</span></div>
+    <span class="hbtn-arr">›</span>
+  </button>
+  <button class="hbtn" onclick="window.showScreen('sConsultar')">
+    <div class="hbtn-ico b">🔍</div>
+    <div class="hbtn-txt"><strong>Consultar Mi Solicitud</strong><span>Busca por número de documento</span></div>
+    <span class="hbtn-arr">›</span>
+  </button>
+  <button class="hbtn" onclick="window.showScreen('sVerificar')">
+    <div class="hbtn-ico g">✅</div>
+    <div class="hbtn-txt"><strong>Verificar Certificado</strong><span>Comprueba la autenticidad</span></div>
+    <span class="hbtn-arr">›</span>
+  </button>
+  <div class="admin-link" onclick="window.openAdminLogin()">🔐 Acceso Administrativo</div>
+</div>
+
+<!-- SOLICITAR -->
+<div class="screen" id="sSolicitar">
+  <button class="back-btn" onclick="window.goHome()">← Volver al inicio</button>
+  <div class="stepper" id="stepper">
+    <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-line" id="sl1"></div></div>
+    <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-line" id="sl2"></div></div>
+    <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-line" id="sl3"></div></div>
+    <div class="step-item"><div class="step-circle" id="sc4">4</div><div class="step-line" id="sl4"></div></div>
+    <div class="step-item"><div class="step-circle" id="sc5">5</div></div>
+  </div>
+
+  <!-- P1 -->
+  <div id="p1">
+    <div class="card">
+      <div class="card-tit"><span class="ico">👦</span>Estudiante(s)</div>
+      <div class="info-box">Puedes agregar <strong>varios estudiantes</strong> (hermanos) en una sola solicitud. Cada uno recibirá su propio certificado.</div>
+      <div id="listaEstudiantes"></div>
+      <div class="fg" style="margin-bottom:8px;">
+        <label class="flabel">Número de documento</label>
+        <div style="display:flex;gap:8px;">
+          <input class="finput mono" type="number" id="docInput" placeholder="Ej: 1078350533" inputmode="numeric" style="flex:1;">
+          <button class="btn btn-outline" style="width:auto;padding:0 18px;flex-shrink:0;min-height:50px;" onclick="window.buscarEstudiante()">🔍</button>
+        </div>
+      </div>
+      <div id="studentResult" style="display:none;"></div>
+      <div id="btnContinuarP1" style="display:none;margin-top:14px;">
+        <button class="btn btn-primary" onclick="window.irPaso(2)">Continuar → (<span id="numEstLabel">0</span> estudiante(s))</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div id="p2" style="display:none;">
+    <div class="card">
+      <div class="card-tit"><span class="ico">📋</span>Tipo de Certificado</div>
+      <div class="info-box">Selecciona <strong>uno o ambos</strong> tipos. Se generará uno para cada estudiante.</div>
+      <div class="cert-option" id="coEstudio" onclick="window.toggleCert('estudio')">
+        <div class="cert-head">
+          <div class="cert-ico">📄</div>
+          <div style="flex:1;"><div class="cert-name">Certificado de Estudio</div><div class="cert-desc">Constancia de matrícula activa</div></div>
+          <div id="chkEstudio" style="width:26px;height:26px;border-radius:50%;border:2px solid var(--gris3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;transition:all .15s;color:transparent;"></div>
+        </div>
+        <div class="cert-price" id="pEstudio">$15,000 por estudiante</div>
+      </div>
+      <div class="cert-option" id="coNotas" onclick="window.toggleCert('notas')">
+        <div class="cert-head">
+          <div class="cert-ico">📊</div>
+          <div style="flex:1;"><div class="cert-name">Certificado de Notas</div><div class="cert-desc">Calificaciones del período</div></div>
+          <div id="chkNotas" style="width:26px;height:26px;border-radius:50%;border:2px solid var(--gris3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;transition:all .15s;color:transparent;"></div>
+        </div>
+        <div id="periodoBox" style="display:none;margin-top:10px;" onclick="event.stopPropagation()">
+          <label class="flabel">Período académico</label>
+          <select class="fselect" id="periodoSel"><option value="1">Período 1</option><option value="2">Período 2</option><option value="3">Período 3</option><option value="4">Período 4</option><option value="all">Año completo</option></select>
+        </div>
+        <div class="cert-price" id="pNotas">$20,000 por estudiante</div>
+      </div>
+      <div id="totalBox" style="display:none;">
+        <div class="total-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13px;color:var(--gris6);font-weight:600;">Total a pagar</span>
+            <span class="total-amount" id="totalCalculado"></span>
+          </div>
+          <div class="total-detail" id="totalDetalle"></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:14px;" id="btnP2" onclick="window.validarPaso2()" disabled>Continuar →</button>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div id="p3" style="display:none;">
+    <div class="card">
+      <div class="card-tit"><span class="ico">👤</span>Datos del Acudiente</div>
+      <div class="fg"><label class="flabel">Nombre completo</label><input class="finput" type="text" id="pNombre" placeholder="María García López"></div>
+      <div class="fg"><label class="flabel">Teléfono</label><input class="finput" type="tel" id="pTel" placeholder="3001234567" inputmode="tel"></div>
+      <div class="fg"><label class="flabel">Correo electrónico</label><input class="finput" type="email" id="pEmail" placeholder="correo@email.com" inputmode="email"></div>
+      <button class="btn btn-primary" onclick="window.validarPaso3()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div id="p4" style="display:none;">
+    <div class="card">
+      <div class="card-tit"><span class="ico">💳</span>Comprobante de Pago</div>
+      <div class="pay-box" id="payBox">
+        <span class="pay-amount" id="payAmount">$0</span>
+        <div id="payBankInfo"><span style="color:var(--gris4)">Cargando datos bancarios...</span></div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Foto del comprobante</label>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" accept="image/*,application/pdf" onchange="window.handleFile(event)">
+          <div class="upload-ico">📷</div>
+          <div class="upload-txt">Toca para tomar foto o subir archivo</div>
+          <div class="upload-hint">JPG, PNG o PDF · Máximo 2 MB</div>
+        </div>
+        <img id="imgPreview" class="preview-img" style="display:none;">
+      </div>
+      <div class="fg"><label class="flabel">Referencia (opcional)</label><input class="finput mono" type="text" id="payRef" placeholder="REF-123456"></div>
+      <button class="btn btn-primary" onclick="window.validarPaso4()">Revisar y Enviar →</button>
+    </div>
+  </div>
+
+  <!-- P5 -->
+  <div id="p5" style="display:none;">
+    <div class="card">
+      <div class="card-tit"><span class="ico">📋</span>Confirmar Solicitud</div>
+      <div id="resumenBody"></div>
+      <div class="divider"></div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="window.irPaso(4)">← Atrás</button>
+        <button class="btn btn-primary" onclick="window.enviarSolicitud()">📤 Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSULTAR -->
+<div class="screen" id="sConsultar">
+  <button class="back-btn" onclick="window.goHome()">← Volver al inicio</button>
+  <div class="card">
+    <div class="card-tit"><span class="ico">🔍</span>Consultar Mis Solicitudes</div>
+    <div class="info-box">Ingresa el <strong>número de documento</strong> del estudiante para ver todas sus solicitudes.</div>
+    <div class="fg"><label class="flabel">Número de documento del estudiante</label><input class="finput mono" type="number" id="radInput" placeholder="Ej: 1078350533" inputmode="numeric"></div>
+    <button class="btn btn-primary" onclick="window.consultarEstado()">🔍 Consultar</button>
+  </div>
+  <div id="consultaRes"></div>
+</div>
+
+<!-- VERIFICAR -->
+<div class="screen" id="sVerificar">
+  <button class="back-btn" onclick="window.goHome()">← Volver al inicio</button>
+  <div class="card">
+    <div class="card-tit"><span class="ico">✅</span>Verificar Autenticidad</div>
+    <div class="info-box">Ingresa el código de verificación del certificado o escanea el código QR.</div>
+    <div class="fg"><label class="flabel">Código de verificación</label><input class="finput mono" type="text" id="verifyInput" placeholder="LMS-2026-0001-ABCD" style="text-transform:uppercase;"></div>
+    <button class="btn btn-primary" onclick="window.verificarCert()">✅ Verificar</button>
+  </div>
+  <div id="verifyRes"></div>
+</div>
+
+<!-- SUCCESS -->
+<div class="screen" id="sSuccess">
+  <div class="success-hero"><div class="success-ico">✅</div><div class="success-tit">¡Solicitud Enviada!</div><div class="success-sub">Recibida correctamente. Te avisaremos cuando esté lista.</div></div>
+  <div class="rad-box">
+    <div class="rad-lbl">Radicado(s) generado(s)</div>
+    <div class="rad-code" id="sucRadicados">—</div>
+  </div>
+  <div class="card">
+    <ul style="font-size:13px;color:var(--gris6);line-height:2;padding-left:4px;list-style:none;">
+      <li>📌 <strong>Guarda los radicados</strong> para consultar el estado.</li>
+      <li>⏰ Plazo máximo: <strong>3 días hábiles</strong>.</li>
+      <li>📥 Descarga desde "Consultar Mi Solicitud" con tu documento.</li>
+    </ul>
+  </div>
+  <button class="btn btn-primary" onclick="window.goHome()">🏠 Volver al Inicio</button>
+</div>
+
+<!-- ADMIN -->
+<div class="screen" id="sAdmin">
+  <div class="admin-topbar"><div><div class="admin-tit">Administración</div><div class="admin-user" id="adminUserLabel">—</div></div><button class="btn btn-ghost btn-sm" onclick="window.logout()">Salir</button></div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num" id="statPend">—</div><div class="stat-lbl">Pendientes</div></div>
+    <div class="stat-box"><div class="stat-num" id="statListo">—</div><div class="stat-lbl">Listos</div></div>
+    <div class="stat-box"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">Total</div></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="window.switchTab('taPend')">⏳ Pendientes</button>
+    <button class="tab" onclick="window.switchTab('taTodas')">📋 Todas</button>
+    <button class="tab" onclick="window.switchTab('taCfg')">⚙️ Config</button>
+  </div>
+  <div class="apanel on" id="taPend"><div id="listPend"></div></div>
+  <div class="apanel" id="taTodas">
+    <div class="search-box"><span class="search-icon">🔍</span><input class="finput" type="text" id="searchAdmin" placeholder="Buscar por nombre, doc o radicado..." oninput="window.filtrarLista()" style="padding-left:42px;"></div>
+    <div class="filter-bar" id="filterBar">
+      <button class="fbtn on" onclick="window.setFilter('all',this)">Todas</button>
+      <button class="fbtn" onclick="window.setFilter('pendiente',this)">⏳ Pendientes</button>
+      <button class="fbtn" onclick="window.setFilter('listo',this)">📄 Listas</button>
+      <button class="fbtn" onclick="window.setFilter('rechazado',this)">❌ Rechazadas</button>
+    </div>
+    <div id="listTodas"></div>
+  </div>
+  <div class="apanel" id="taCfg">
+    <div class="card">
+      <div class="card-tit"><span class="ico">💰</span>Tarifas</div>
+      <div class="fg"><label class="flabel">Certificado de Estudio</label><input class="finput mono" type="number" id="cPrecioEst" placeholder="15000"></div>
+      <div class="fg"><label class="flabel">Certificado de Notas</label><input class="finput mono" type="number" id="cPrecioNot" placeholder="20000"></div>
+    </div>
+    <div class="card">
+      <div class="card-tit"><span class="ico">🏦</span>Datos Bancarios</div>
+      <div class="fg"><label class="flabel">Banco</label><input class="finput" type="text" id="cBanco" placeholder="Bancolombia"></div>
+      <div class="fg"><label class="flabel">Tipo de cuenta</label><select class="fselect" id="cTipoCuenta"><option value="Ahorros">Ahorros</option><option value="Corriente">Corriente</option></select></div>
+      <div class="fg"><label class="flabel">Número de cuenta</label><input class="finput mono" type="text" id="cNumCuenta" placeholder="123-456789-01"></div>
+      <div class="fg"><label class="flabel">Titular</label><input class="finput" type="text" id="cTitular" placeholder="I.E.T. Liceo Moderno Suesca"></div>
+      <button class="btn btn-primary" onclick="window.guardarCfg()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const APP_VER = "v3.0";
+const VERIFY_BASE = "https://alejandrozambranovalbuena-eng.github.io/calificaciones/certificados.html";
+const FB_CFG = {
+  apiKey:"AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain:"liceo-suesca-notas.firebaseapp.com",
+  projectId:"liceo-suesca-notas",
+  storageBucket:"liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId:"1000406739498",
+  appId:"1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+
+const fbApp = initializeApp(FB_CFG);
+const db = getFirestore(fbApp);
+
+let appData = null;
+let cfg = { precioEstudio:15000, precioNotas:20000, banco:'', tipoCuenta:'Ahorros', numCuenta:'', titular:'I.E.T. Liceo Moderno Suesca' };
+// Multi-student state
+let selStudents = []; // [{name, doc, courseName, courseId, idx, ...}]
+let selTipos = [];    // ['estudio'] | ['notas'] | ['estudio','notas']
+let selPeriodo = '1';
+let selFileB64 = null;
+let adminId = null;
+let allSolicitudes = [];
+let filtroActual = 'all';
+
+document.getElementById('verTag').textContent = APP_VER;
+document.getElementById('modalBg').addEventListener('click', e => { if(e.target===document.getElementById('modalBg')) hideModal(); });
+
+(async()=>{ await loadCfg(); await loadData(); checkVerifyUrl(); })();
+
+async function loadData() {
+  try {
+    const snap = await getDoc(doc(db,"system","data"));
+    if(snap.exists()){
+      appData = snap.data();
+      const logo = appData.schoolInfo?.logoBase64;
+      if(logo) document.getElementById('hdrLogo').innerHTML=`<img src="${logo}" alt="Logo">`;
+    }
+  } catch(e){ console.warn('loadData:',e); }
+}
+
+async function loadCfg() {
+  try {
+    const snap = await getDoc(doc(db,"certificados_config","tarifas"));
+    if(snap.exists()) cfg={...cfg,...snap.data()};
+  } catch(e){}
+  syncPrices();
+}
+
+function syncPrices() {
+  document.getElementById('pEstudio').textContent='$'+Number(cfg.precioEstudio).toLocaleString('es-CO')+' por estudiante';
+  document.getElementById('pNotas').textContent='$'+Number(cfg.precioNotas).toLocaleString('es-CO')+' por estudiante';
+}
+
+function checkVerifyUrl() {
+  const v = new URLSearchParams(location.search).get('verify');
+  if(v){ showScreen('sVerificar'); document.getElementById('verifyInput').value=v.toUpperCase(); setTimeout(verificarCert,400); }
+}
+
+/* UTILS */
+window.showScreen = function(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); document.getElementById(id).classList.add('on'); window.scrollTo(0,0); };
+function load(msg='Procesando...'){ document.getElementById('loadingMsg').textContent=msg; document.getElementById('loading').classList.add('on'); }
+function unload(){ document.getElementById('loading').classList.remove('on'); }
+let _tt; function toast(msg,type=''){ const el=document.getElementById('toast'); el.textContent=msg; el.className=`toast show ${type}`; clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),3200); }
+function showModal(html){ document.getElementById('modalBody').innerHTML=html; document.getElementById('modalBg').classList.add('on'); }
+window.hideModal=function(){ document.getElementById('modalBg').classList.remove('on'); };
+const MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+function fmtDate(ts){ if(!ts)return'—'; const d=new Date(ts); return`${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}, ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function statusBadge(s){ const M={pendiente:['⏳','b-orange','Pendiente'],aprobado:['✅','b-green','Aprobado'],listo:['📄','b-blue','Listo'],rechazado:['❌','b-red','Rechazado']}; const[i,c,l]=M[s]||['❓','b-gray','—']; return`<span class="badge ${c}">${i} ${l}</span>`; }
+function periodoLabel(v){ return{'1':'Período 1','2':'Período 2','3':'Período 3','4':'Período 4','all':'Año completo'}[v]||v; }
+function periodoLabelLong(v){ return{'1':'el Período 1','2':'el Período 2','3':'el Período 3','4':'el Período 4','all':'todos los períodos del año'}[v]||v; }
+
+/* NAV */
+window.goHome=function(){ showScreen('sHome'); resetSolicitar(); };
+window.initSolicitar=function(){ resetSolicitar(); showScreen('sSolicitar'); irPaso(1); };
+window.irPaso=function(n){
+  for(let i=1;i<=5;i++){const el=document.getElementById(`p${i}`);if(el)el.style.display=i===n?'block':'none';}
+  for(let i=1;i<=5;i++){
+    const c=document.getElementById(`sc${i}`),l=document.getElementById(`sl${i}`);
+    c.className='step-circle '+(i<n?'done':i===n?'active':'');
+    c.textContent=i<n?'✓':String(i);
+    if(l)l.className='step-line '+(i<n?'done':'');
+  }
+  window.scrollTo(0,0);
+};
+
+function resetSolicitar(){
+  selStudents=[]; selTipos=[]; selPeriodo='1'; selFileB64=null;
+  ['docInput','pNombre','pTel','pEmail','payRef'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('studentResult').style.display='none';
+  document.getElementById('listaEstudiantes').innerHTML='';
+  document.getElementById('btnContinuarP1').style.display='none';
+  document.getElementById('imgPreview').style.display='none';
+  document.getElementById('uploadZone').classList.remove('has');
+  document.querySelector('#uploadZone .upload-txt').textContent='Toca para tomar foto o subir archivo';
+  ['coEstudio','coNotas'].forEach(id=>document.getElementById(id).classList.remove('sel'));
+  ['chkEstudio','chkNotas'].forEach(id=>{const el=document.getElementById(id);if(el){el.style.background='';el.style.borderColor='';el.style.color='transparent';el.textContent='';}});
+  const tb=document.getElementById('totalBox');if(tb)tb.style.display='none';
+  const pb=document.getElementById('periodoBox');if(pb)pb.style.display='none';
+  const bp=document.getElementById('btnP2');if(bp)bp.disabled=true;
+}
+
+/* PASO 1 */
+window.buscarEstudiante=async function(){
+  const docNum=document.getElementById('docInput').value.trim();
+  if(!docNum){toast('Ingresa el número de documento','err');return;}
+  if(selStudents.find(s=>String(s.doc||'')=== String(docNum))){toast('Ese estudiante ya está en la lista','err');return;}
+  load('Buscando estudiante...');
+  try{
+    if(!appData) await loadData();
+    let found=null,course=null;
+    if(appData?.courses){
+      for(const[cid,c]of Object.entries(appData.courses)){
+        if(!c.students)continue;
+        const idx=c.students.findIndex(s=>String(s.doc||s.documentNumber||s.document||'')===String(docNum));
+        if(idx!==-1){found={...c.students[idx],idx,courseId:cid};course=c;break;}
+      }
+    }
+    unload();
+    const resDiv=document.getElementById('studentResult');
+    resDiv.style.display='block';
+    if(found){
+      window._foundStudent={...found,courseName:course.name||course.courseName||'Sin curso'};
+      resDiv.innerHTML=`
+        <div class="s-card">
+          <div class="s-name">${(found.name||found.fullName||'Estudiante').toUpperCase()}</div>
+          <div class="s-info">Grado: <strong>${course.name||course.courseName||'—'}</strong> · Doc: <strong>${docNum}</strong></div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button class="btn btn-primary" onclick="window.agregarEstudiante()" style="flex:1;">➕ Agregar</button>
+          </div>
+        </div>`;
+    } else {
+      window._foundStudent=null;
+      resDiv.innerHTML=`<div class="err-box">❌ No se encontró ningún estudiante con ese documento.</div>`;
+    }
+  } catch(e){ unload(); toast('Error al buscar','err'); console.error(e); }
+};
+document.getElementById('docInput').addEventListener('keypress',e=>{if(e.key==='Enter')window.buscarEstudiante();});
+
+window.agregarEstudiante=function(){
+  if(!window._foundStudent)return;
+  selStudents.push(window._foundStudent);
+  window._foundStudent=null;
+  document.getElementById('docInput').value='';
+  document.getElementById('studentResult').style.display='none';
+  renderListaEstudiantes();
+  toast('✅ Estudiante agregado','ok');
+};
+
+window.quitarEstudiante=function(idx){
+  selStudents.splice(idx,1);
+  renderListaEstudiantes();
+};
+
+function renderListaEstudiantes(){
+  const lista=document.getElementById('listaEstudiantes');
+  const btn=document.getElementById('btnContinuarP1');
+  const num=document.getElementById('numEstLabel');
+  lista.innerHTML=selStudents.map((s,i)=>`
+    <div class="student-item">
+      <span style="font-size:22px;">👦</span>
+      <div class="student-item-info">
+        <div class="student-item-name">${(s.name||s.fullName||'').toUpperCase()}</div>
+        <div class="student-item-sub">${s.courseName} · Doc: ${s.doc||''}</div>
+      </div>
+      <button class="student-remove" onclick="window.quitarEstudiante(${i})">✕</button>
+    </div>`).join('');
+  if(selStudents.length){
+    if(num)num.textContent=selStudents.length;
+    btn.style.display='block';
+  } else {
+    btn.style.display='none';
+  }
+  calcularTotal();
+}
+
+/* PASO 2 */
+window.toggleCert=function(tipo){
+  const idx=selTipos.indexOf(tipo);
+  if(idx>=0)selTipos.splice(idx,1); else selTipos.push(tipo);
+  const selE=selTipos.includes('estudio'),selN=selTipos.includes('notas');
+  document.getElementById('coEstudio').classList.toggle('sel',selE);
+  document.getElementById('coNotas').classList.toggle('sel',selN);
+  const chkE=document.getElementById('chkEstudio'),chkN=document.getElementById('chkNotas');
+  chkE.style.background=selE?'var(--azul)':''; chkE.style.borderColor=selE?'var(--azul)':''; chkE.style.color=selE?'#fff':'transparent'; chkE.textContent=selE?'✓':'';
+  chkN.style.background=selN?'var(--azul)':''; chkN.style.borderColor=selN?'var(--azul)':''; chkN.style.color=selN?'#fff':'transparent'; chkN.textContent=selN?'✓':'';
+  document.getElementById('periodoBox').style.display=selN?'block':'none';
+  calcularTotal();
+  document.getElementById('btnP2').disabled=selTipos.length===0;
+};
+
+function calcularTotal(){
+  const n=selStudents.length||1;
+  const selE=selTipos.includes('estudio'),selN=selTipos.includes('notas');
+  const tb=document.getElementById('totalBox');
+  if(!selTipos.length){tb.style.display='none';return;}
+  tb.style.display='block';
+  let total=0,det=[];
+  if(selE){const s=cfg.precioEstudio*n;total+=s;det.push(`Estudio: ${n}×$${Number(cfg.precioEstudio).toLocaleString('es-CO')}=$${s.toLocaleString('es-CO')}`);}
+  if(selN){const s=cfg.precioNotas*n;total+=s;det.push(`Notas: ${n}×$${Number(cfg.precioNotas).toLocaleString('es-CO')}=$${s.toLocaleString('es-CO')}`);}
+  document.getElementById('totalCalculado').textContent='$'+total.toLocaleString('es-CO');
+  document.getElementById('totalDetalle').innerHTML=det.join('<br>');
+}
+
+window.validarPaso2=function(){
+  if(!selTipos.length){toast('Selecciona al menos un tipo','err');return;}
+  if(selTipos.includes('notas'))selPeriodo=document.getElementById('periodoSel').value;
+  irPaso(3);
+};
+
+/* PASO 3 */
+window.validarPaso3=function(){
+  const n=document.getElementById('pNombre').value.trim();
+  const t=document.getElementById('pTel').value.trim();
+  const e=document.getElementById('pEmail').value.trim();
+  if(!n){toast('Ingresa el nombre','err');return;}
+  if(!t||t.length<7){toast('Teléfono inválido','err');return;}
+  if(!e||!e.includes('@')){toast('Correo inválido','err');return;}
+  let total=0;
+  const n2=selStudents.length;
+  if(selTipos.includes('estudio'))total+=cfg.precioEstudio*n2;
+  if(selTipos.includes('notas'))total+=cfg.precioNotas*n2;
+  document.getElementById('payAmount').textContent='$'+total.toLocaleString('es-CO');
+  let bh=cfg.banco?`<div class="pay-row"><span>Banco</span><span><strong>${cfg.banco}</strong></span></div><div class="pay-row"><span>Cuenta</span><span><strong>${cfg.tipoCuenta} ${cfg.numCuenta}</strong></span></div><div class="pay-row"><span>A nombre de</span><span><strong>${cfg.titular}</strong></span></div>`:`<span style="font-size:12px;color:var(--gris4);">Consulte los datos de pago con la institución.</span>`;
+  document.getElementById('payBankInfo').innerHTML=bh;
+  irPaso(4);
+};
+
+/* PASO 4 */
+window.handleFile=function(ev){
+  const file=ev.target.files[0];if(!file)return;
+  if(file.size>2*1024*1024){toast('Máximo 2 MB','err');return;}
+  const r=new FileReader();
+  r.onload=e=>{
+    selFileB64=e.target.result;
+    const p=document.getElementById('imgPreview');
+    if(file.type.startsWith('image/')){p.src=selFileB64;p.style.display='block';}else p.style.display='none';
+    document.getElementById('uploadZone').classList.add('has');
+    document.querySelector('#uploadZone .upload-txt').textContent='✅ '+file.name;
+  };
+  r.readAsDataURL(file);
+};
+
+window.validarPaso4=function(){
+  if(!selFileB64){toast('Debes subir el comprobante','err');return;}
+  construirResumen();irPaso(5);
+};
+
+/* PASO 5 */
+function construirResumen(){
+  const n=selStudents.length;
+  let total=0;
+  if(selTipos.includes('estudio'))total+=cfg.precioEstudio*n;
+  if(selTipos.includes('notas'))total+=cfg.precioNotas*n;
+  const certLabel=selTipos.map(t=>t==='estudio'?'Certif. Estudio':'Certif. Notas').join(' + ');
+  const estList=selStudents.map(s=>`<div style="font-weight:600;">${(s.name||s.fullName||'').toUpperCase()} <span style="font-weight:400;color:var(--gris5);">(${s.courseName})</span></div>`).join('');
+  document.getElementById('resumenBody').innerHTML=`
+    <div class="sum-row"><span class="sum-lbl">Estudiante(s)</span><span class="sum-val">${estList}</span></div>
+    <div class="sum-row"><span class="sum-lbl">Certificado(s)</span><span class="sum-val">${certLabel}</span></div>
+    ${selTipos.includes('notas')?`<div class="sum-row"><span class="sum-lbl">Período</span><span class="sum-val">${periodoLabel(selPeriodo)}</span></div>`:''}
+    <div class="sum-row"><span class="sum-lbl">Total</span><span class="sum-val accent">$${total.toLocaleString('es-CO')}</span></div>
+    <div class="sum-row"><span class="sum-lbl">Acudiente</span><span class="sum-val">${document.getElementById('pNombre').value}</span></div>
+    <div class="sum-row"><span class="sum-lbl">Teléfono</span><span class="sum-val">${document.getElementById('pTel').value}</span></div>
+    <div class="sum-row"><span class="sum-lbl">Correo</span><span class="sum-val">${document.getElementById('pEmail').value}</span></div>
+    <div class="sum-row"><span class="sum-lbl">Comprobante</span><span class="sum-val">✅ Adjunto</span></div>`;
+}
+
+/* ENVIAR - genera un radicado por cada estudiante+tipo */
+window.enviarSolicitud=async function(){
+  load('Enviando solicitud...');
+  try{
+    const year=new Date().getFullYear();
+    const snap=await getDocs(query(collection(db,"cert_solicitudes"),where("year","==",year)));
+    let base=snap.size;
+    const parentName=document.getElementById('pNombre').value.trim();
+    const parentPhone=document.getElementById('pTel').value.trim();
+    const parentEmail=document.getElementById('pEmail').value.trim();
+    const paymentRef=document.getElementById('payRef').value.trim();
+    const radicados=[];
+    for(const student of selStudents){
+      for(const tipo of selTipos){
+        base++;
+        const cons=String(base).padStart(4,'0');
+        const radicado=`CERT-${year}-${cons}`;
+        radicados.push(radicado);
+        const precio=tipo==='notas'?cfg.precioNotas:cfg.precioEstudio;
+        await addDoc(collection(db,"cert_solicitudes"),{
+          radicado,
+          studentName:(student.name||student.fullName||'').toUpperCase(),
+          studentDoc:String(student.doc||student.documentNumber||student.document||''),
+          courseName:student.courseName,courseId:student.courseId,studentIdx:student.idx,
+          type:tipo,period:tipo==='notas'?selPeriodo:'all',
+          amount:Number(precio),parentName,parentPhone,parentEmail,
+          paymentProof:selFileB64,paymentRef,
+          status:'pendiente',requestedAt:Date.now(),year,
+          reviewedAt:null,reviewedBy:null,certificateHash:null
+        });
+      }
+    }
+    unload();
+    document.getElementById('sucRadicados').innerHTML=radicados.map(r=>`<div>${r}</div>`).join('');
+    showScreen('sSuccess');
+  } catch(e){ unload(); toast('Error al enviar','err'); console.error(e); }
+};
+
+/* CONSULTAR POR DOCUMENTO */
+window.consultarEstado=async function(){
+  const docNum=document.getElementById('radInput').value.trim();
+  if(!docNum){toast('Ingresa el número de documento','err');return;}
+  load('Consultando...');
+  const div=document.getElementById('consultaRes');
+  try{
+    const q=query(collection(db,"cert_solicitudes"),where("studentDoc","==",String(docNum)));
+    const snap=await getDocs(q);
+    unload();
+    if(snap.empty){div.innerHTML=`<div class="err-box">❌ No se encontraron solicitudes para ese documento.</div>`;return;}
+    const docs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.requestedAt-a.requestedAt);
+    div.innerHTML=`
+      <div style="font-size:12px;color:var(--gris5);margin-bottom:10px;font-weight:600;">${docs.length} solicitud(es) para <strong>${docs[0].studentName}</strong></div>
+      ${docs.map(d=>{
+        const certLabel=d.type==='estudio'?'Certificado de Estudio':'Certificado de Notas';
+        const dlBtn=d.status==='listo'&&d.certificateHash?`<button class="btn btn-primary btn-sm" style="width:100%;margin-top:10px;" onclick="window.descargarCert('${d.id}')">📥 Descargar PDF</button>`:'';
+        const motivo=d.status==='rechazado'&&d.motivo?`<br><span style="font-size:12px;color:var(--rojo);">Motivo: ${d.motivo}</span>`:'';
+        return`<div class="status-card">
+          <div class="status-header"><span class="status-rad">${d.radicado}</span>${statusBadge(d.status)}</div>
+          <div class="status-info">${certLabel}${d.type==='notas'?' · '+periodoLabel(d.period):''} · <strong style="color:var(--rojo);">$${Number(d.amount).toLocaleString('es-CO')}</strong><br>Solicitado: ${fmtDate(d.requestedAt)}${motivo}</div>
+          <ul class="timeline">${buildTimeline(d)}</ul>${dlBtn}</div>`;
+      }).join('')}`;
+  } catch(e){ unload(); toast('Error al consultar','err'); }
+};
+
+function buildTimeline(d){
+  const steps=[{label:'Solicitud enviada',date:d.requestedAt,done:true},{label:'Pago verificado',date:d.reviewedAt&&(d.status==='listo'||d.status==='aprobado')?d.reviewedAt:null,done:d.status==='listo'||d.status==='aprobado'},{label:'Certificado listo',date:d.status==='listo'?d.reviewedAt:null,done:d.status==='listo'}];
+  const now=steps.findIndex(s=>!s.done);
+  return steps.map((s,i)=>{const cls=s.done?'done':i===now?'now':'future';const ico=s.done?'✓':i===now?'→':'○';return`<li class="tl-item"><div class="tl-dot ${cls}">${ico}</div><div class="tl-text"><div class="tl-title">${s.label}</div>${s.date?`<div class="tl-date">${fmtDate(s.date)}</div>`:''}</div></li>`;}).join('');
+}
+
+window.descargarCert=async function(docId){
+  load('Generando certificado...');
+  try{const snap=await getDoc(doc(db,"cert_solicitudes",docId));unload();await generatePDF(snap.data());}
+  catch(e){unload();toast('Error al descargar','err');}
+};
+
+/* VERIFICAR */
+window.verificarCert=async function(){
+  const code=document.getElementById('verifyInput').value.trim().toUpperCase();
+  if(!code){toast('Ingresa el código','err');return;}
+  load('Verificando...');
+  const div=document.getElementById('verifyRes');
+  try{
+    const snap=await getDoc(doc(db,"cert_verificaciones",code));
+    unload();
+    if(snap.exists()){
+      const d=snap.data();
+      div.innerHTML=`<div class="verify-box ok"><div class="verify-ico">✅</div><div class="verify-tit">CERTIFICADO AUTÉNTICO</div><div>
+        <div class="verify-row"><span class="vk">Expedido por</span><span class="vv">I.E.T. Liceo Moderno Suesca</span></div>
+        <div class="verify-row"><span class="vk">Estudiante</span><span class="vv">${d.studentName}</span></div>
+        <div class="verify-row"><span class="vk">Tipo</span><span class="vv">${d.type==='estudio'?'Certificado de Estudio':'Certificado de Notas'}</span></div>
+        <div class="verify-row"><span class="vk">Radicado</span><span class="vv">${d.radicado}</span></div>
+        <div class="verify-row"><span class="vk">Expedición</span><span class="vv">${fmtDate(d.issuedAt)}</span></div>
+      </div></div>`;
+    } else {
+      div.innerHTML=`<div class="verify-box fail"><div class="verify-ico">❌</div><div class="verify-tit">CERTIFICADO NO VÁLIDO</div><p style="font-size:13px;color:var(--rojo);">Este código no corresponde a ningún certificado expedido por la institución.</p></div>`;
+    }
+  } catch(e){ unload(); toast('Error al verificar','err'); }
+};
+
+/* ADMIN */
+window.openAdminLogin=function(){
+  showModal(`<div class="modal-tit">🔐 Acceso Administrativo</div>
+    <div class="fg"><label class="flabel">Usuario</label><input class="finput" type="text" id="aId" placeholder="ADMIN" autocomplete="off"></div>
+    <div class="fg"><label class="flabel">Clave</label><input class="finput" type="password" id="aKey" placeholder="••••••"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="window.hideModal()">Cancelar</button><button class="btn btn-primary" onclick="window.loginAdmin()">Ingresar →</button></div>`);
+  setTimeout(()=>document.getElementById('aId')?.focus(),150);
+};
+
+window.loginAdmin=async function(){
+  const id=document.getElementById('aId').value.trim().toUpperCase();
+  const key=document.getElementById('aKey').value.trim();
+  let ok=false;
+  if(id==='ADMIN'&&key==='20261'){ok=true;adminId='ADMIN';}
+  else if(appData?.coordinators){const f=appData.coordinators.find(c=>c.userId===id&&c.key===key);if(f){ok=true;adminId=f.userId;}}
+  if(ok){hideModal();document.getElementById('adminUserLabel').textContent=`Sesión: ${adminId}`;showScreen('sAdmin');await cargarAdmin();}
+  else toast('Credenciales incorrectas','err');
+};
+
+window.logout=function(){adminId=null;goHome();};
+
+async function cargarAdmin(){
+  load('Cargando...');
+  try{
+    const snap=await getDocs(collection(db,"cert_solicitudes"));
+    allSolicitudes=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.requestedAt-a.requestedAt);
+    const pend=allSolicitudes.filter(s=>s.status==='pendiente').length;
+    const listo=allSolicitudes.filter(s=>s.status==='listo').length;
+    document.getElementById('statPend').textContent=pend;
+    document.getElementById('statListo').textContent=listo;
+    document.getElementById('statTotal').textContent=allSolicitudes.length;
+    renderPendientes();renderTodas();
+    const cSnap=await getDoc(doc(db,"certificados_config","tarifas"));
+    if(cSnap.exists()){const c=cSnap.data();document.getElementById('cPrecioEst').value=c.precioEstudio||15000;document.getElementById('cPrecioNot').value=c.precioNotas||20000;document.getElementById('cBanco').value=c.banco||'';document.getElementById('cTipoCuenta').value=c.tipoCuenta||'Ahorros';document.getElementById('cNumCuenta').value=c.numCuenta||'';document.getElementById('cTitular').value=c.titular||'';}
+    unload();
+  } catch(e){unload();toast('Error cargando datos','err');}
+}
+
+function renderPendientes(){
+  const pend=allSolicitudes.filter(s=>s.status==='pendiente');
+  const div=document.getElementById('listPend');
+  div.innerHTML=pend.length?pend.map(s=>cardAdmin(s)).join(''):`<div class="empty"><div class="ei">🎉</div><p>No hay solicitudes pendientes</p></div>`;
+}
+
+window.filtrarLista=function(){renderTodas();};
+window.setFilter=function(f,btn){filtroActual=f;document.querySelectorAll('#filterBar .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderTodas();};
+
+function renderTodas(){
+  const q=(document.getElementById('searchAdmin')?.value||'').toLowerCase();
+  let list=allSolicitudes;
+  if(filtroActual!=='all')list=list.filter(s=>s.status===filtroActual);
+  if(q)list=list.filter(s=>(s.studentName+s.radicado+s.parentName+s.studentDoc).toLowerCase().includes(q));
+  const div=document.getElementById('listTodas');
+  div.innerHTML=list.length?list.map(s=>cardAdmin(s)).join(''):`<div class="empty"><div class="ei">📭</div><p>Sin resultados</p></div>`;
+}
+
+function cardAdmin(s){
+  const cl=s.type==='estudio'?'Certif. Estudio':'Certif. Notas';
+  let acts='';
+  if(s.status==='pendiente')acts=`<button class="btn btn-outline btn-sm" onclick="window.verComprobante('${s.id}')">👁 Ver</button><button class="btn btn-success btn-sm" onclick="window.aprobar('${s.id}')">✅ Aprobar</button><button class="btn btn-danger btn-sm" onclick="window.rechazar('${s.id}')">❌ Rechazar</button>`;
+  else if(s.status==='listo')acts=`<button class="btn btn-outline btn-sm" onclick="window.descargarCertAdmin('${s.id}')">📥 PDF</button>`;
+  const extra=s.status==='rechazado'&&s.motivo?`<br><span style="font-size:12px;color:var(--rojo);">Motivo: ${s.motivo}</span>`:'';
+  return`<div class="sol-card"><div class="sol-head"><span class="sol-rad">${s.radicado}</span>${statusBadge(s.status)}</div><div class="sol-info"><strong>${s.studentName}</strong> · ${s.courseName}<br>${cl} · <strong style="color:var(--rojo);">$${Number(s.amount).toLocaleString('es-CO')}</strong><br>Doc: ${s.studentDoc} · ${s.parentName} · ${s.parentPhone}<br><span style="font-size:12px;color:var(--gris5);">${fmtDate(s.requestedAt)}</span>${extra}</div>${acts?`<div class="sol-actions">${acts}</div>`:''}</div>`;
+}
+
+window.verComprobante=async function(docId){
+  const snap=await getDoc(doc(db,"cert_solicitudes",docId));const d=snap.data();
+  if(!d.paymentProof){toast('Sin comprobante','err');return;}
+  showModal(`<div class="modal-tit">💳 Comprobante</div><p style="font-size:13px;color:var(--gris5);margin-bottom:12px;">${d.studentName} · ${d.radicado}</p><img src="${d.paymentProof}" class="proof-img">${d.paymentRef?`<p style="margin-top:10px;font-size:13px;">Ref: <strong>${d.paymentRef}</strong></p>`:''}<button class="btn btn-ghost" style="margin-top:16px;width:100%;" onclick="window.hideModal()">Cerrar</button>`);
+};
+
+window.aprobar=async function(docId){
+  load('Aprobando...');
+  try{
+    const snap=await getDoc(doc(db,"cert_solicitudes",docId));const d=snap.data();
+    const code=genCode(d.radicado);
+    await setDoc(doc(db,"cert_verificaciones",code),{radicado:d.radicado,studentName:d.studentName,type:d.type,issuedAt:Date.now(),hash:code.split('-').pop(),valid:true});
+    await updateDoc(doc(db,"cert_solicitudes",docId),{status:'listo',reviewedAt:Date.now(),reviewedBy:adminId,certificateHash:code});
+    unload();toast('✅ Certificado aprobado','ok');await cargarAdmin();
+  } catch(e){unload();toast('Error al aprobar','err');}
+};
+
+window.rechazar=function(docId){
+  showModal(`<div class="modal-tit">❌ Rechazar Solicitud</div>
+    <div class="fg"><label class="flabel">Motivo</label><select class="fselect" id="mSel"><option>Comprobante ilegible</option><option>Monto incorrecto</option><option>Pago no verificado</option><option>Otro</option></select></div>
+    <div class="fg"><label class="flabel">Detalle (opcional)</label><input class="finput" type="text" id="mDet" placeholder="..."></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="window.hideModal()">Cancelar</button><button class="btn btn-danger" onclick="window.confirmarRechazo('${docId}')">Confirmar</button></div>`);
+};
+
+window.confirmarRechazo=async function(docId){
+  const m=document.getElementById('mSel').value,dt=document.getElementById('mDet').value.trim();
+  hideModal();load('Rechazando...');
+  try{await updateDoc(doc(db,"cert_solicitudes",docId),{status:'rechazado',reviewedAt:Date.now(),reviewedBy:adminId,motivo:dt?`${m}: ${dt}`:m});unload();toast('Solicitud rechazada','err');await cargarAdmin();}
+  catch(e){unload();toast('Error','err');}
+};
+
+window.descargarCertAdmin=async function(docId){
+  load('Generando PDF...');
+  try{const snap=await getDoc(doc(db,"cert_solicitudes",docId));unload();await generatePDF(snap.data());}
+  catch(e){unload();toast('Error','err');}
+};
+
+window.guardarCfg=async function(){
+  const nc={precioEstudio:Number(document.getElementById('cPrecioEst').value)||15000,precioNotas:Number(document.getElementById('cPrecioNot').value)||20000,banco:document.getElementById('cBanco').value.trim(),tipoCuenta:document.getElementById('cTipoCuenta').value,numCuenta:document.getElementById('cNumCuenta').value.trim(),titular:document.getElementById('cTitular').value.trim()};
+  load('Guardando...');
+  try{await setDoc(doc(db,"certificados_config","tarifas"),nc);cfg={...cfg,...nc};unload();toast('✅ Guardado','ok');syncPrices();}
+  catch(e){unload();toast('Error','err');}
+};
+
+window.switchTab=function(tabId){
+  ['taPend','taTodas','taCfg'].forEach((t,i)=>{document.getElementById(t).classList.toggle('on',t===tabId);document.querySelectorAll('.tab')[i].classList.toggle('on',t===tabId);});
+};
+
+function genCode(radicado){
+  const data=radicado+Date.now()+"LiceoModernoSuesca2026";let h=0;
+  for(let i=0;i<data.length;i++){const c=data.charCodeAt(i);h=((h<<5)-h)+c;h=h&h;}
+  return`LMS-${radicado.split('-').slice(1).join('-')}-${Math.abs(h).toString(16).toUpperCase().padStart(4,'0').slice(0,4)}`;
+}
+
+function calcGrades(data,courseId,studentIdx,periodFilter){
+  const results=[];if(!data?.subjects||!data?.teachers||!data?.grades)return results;
+  const periods=periodFilter==='all'?['1','2','3','4']:[periodFilter];
+  for(const[subjectId,subject]of Object.entries(data.subjects)){
+    let assigned=null;
+    for(const[tid,teacher]of Object.entries(data.teachers)){if(teacher.assignments?.find(a=>a.courseId===courseId&&a.subjectId===subjectId)){assigned=tid;break;}}
+    if(!assigned)continue;
+    const pGrades=[];
+    for(const p of periods){const key=`${courseId}_${subjectId}_${p}`;const gd=data.grades[key];if(gd?.students?.[studentIdx]!=null&&gd.students[studentIdx]!=='')pGrades.push(Number(gd.students[studentIdx]));}
+    if(pGrades.length){const avg=pGrades.reduce((a,b)=>a+b,0)/pGrades.length;const r=Math.round(avg*10)/10;results.push({subject:subject.name||subject,grade:r,val:valoracion(r)});}
+  }
+  return results;
+}
+function valoracion(g){if(g>=4.6)return'Superior';if(g>=4.0)return'Alto';if(g>=3.6)return'Básico';return'Bajo';}
+
+function loadScript(src){return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`)){res();return;}const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+/* ============================================================
+   PDF PREMIUM - CERTIFICADO BONITO TIPO CARTA
+   ============================================================ */
+async function generatePDF(d){
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+
+  const {jsPDF}=window.jspdf;
+  // Hoja carta: 215.9 x 279.4 mm
+  const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'letter'});
+  const PW=215.9,PH=279.4;
+  const now=new Date();
+  const si=appData?.schoolInfo||{};
+  const certCode=d.certificateHash||'';
+  const verUrl=`${VERIFY_BASE}?verify=${certCode}`;
+  const M=14; // margin
+  const CW=PW-M*2;
+
+  // COLORES INSTITUCIONALES
+  const AZUL_D=[13,18,87];   // azul oscuro
+  const AZUL=[26,35,126];    // azul principal
+  const ROJO=[192,57,43];    // rojo institucional
+  const ORO=[163,121,44];    // dorado/oro
+  const BLANCO=[255,255,255];
+  const GRIS_T=[55,55,75];
+  const GRIS_L=[120,125,145];
+
+  /* ── FONDO con gradiente sutil ── */
+  // Fondo general
+  pdf.setFillColor(248,249,253);
+  pdf.rect(0,0,PW,PH,'F');
+  // Banda decorativa izquierda
+  pdf.setFillColor(...AZUL_D);
+  pdf.rect(0,0,6,PH,'F');
+  // Banda derecha
+  pdf.setFillColor(...ROJO);
+  pdf.rect(PW-4,0,4,PH,'F');
+  // Franja dorada izquierda
+  pdf.setFillColor(...ORO);
+  pdf.rect(6,0,2,PH,'F');
+
+  /* ── MARCA DE AGUA ── */
+  pdf.saveGraphicsState();
+  pdf.setGState(new pdf.GState({opacity:.035}));
+  pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(...AZUL);
+  for(let y=15;y<PH+15;y+=19){
+    for(let x=-5;x<PW+15;x+=62){
+      pdf.saveGraphicsState();pdf.text('LICEO MODERNO SUESCA',x,y,{angle:40});pdf.restoreGraphicsState();
+    }
+  }
+  pdf.restoreGraphicsState();
+
+  /* ── BORDE INTERIOR ELEGANTE ── */
+  pdf.setDrawColor(...AZUL);pdf.setLineWidth(1.4);
+  pdf.rect(10,10,PW-20,PH-20);
+  pdf.setDrawColor(...ORO);pdf.setLineWidth(0.5);
+  pdf.rect(11.5,11.5,PW-23,PH-23);
+
+  // Ornamentos de esquina
+  const corners=[[10,10],[PW-10,10],[10,PH-10],[PW-10,PH-10]];
+  corners.forEach(([cx,cy])=>{
+    pdf.setFillColor(...ORO);pdf.circle(cx,cy,2.5,'F');
+    pdf.setDrawColor(...AZUL);pdf.setLineWidth(.3);pdf.circle(cx,cy,3.8,'S');
+  });
+
+  /* ── HEADER ── */
+  // Banda azul header
+  pdf.setFillColor(...AZUL_D);
+  pdf.rect(12,12,PW-24,34,'F');
+  // Franja roja bajo header
+  pdf.setFillColor(...ROJO);
+  pdf.rect(12,46,PW-24,3,'F');
+  // Franja dorada
+  pdf.setFillColor(...ORO);
+  pdf.rect(12,49,PW-24,0.8,'F');
+
+  let y=14;
+
+  // Logo (si existe en Firebase)
+  const logoB64=si.logoBase64||null;
+  if(logoB64){
+    try{pdf.addImage(logoB64,'JPEG',16,y+1,28,28);}catch(e){}
+  } else {
+    // Placeholder circular
+    pdf.setFillColor(255,255,255,0.1);
+    pdf.circle(30,y+15,14,'F');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(7);pdf.setTextColor(255,255,255);
+    pdf.text('IET LMS',30,y+13,{align:'center'});
+    pdf.text('SUESCA',30,y+17,{align:'center'});
+  }
+
+  // Textos header
+  pdf.setFont('helvetica','normal');pdf.setFontSize(7.5);pdf.setTextColor(180,190,255);
+  pdf.text('REPÚBLICA DE COLOMBIA  ·  CUNDINAMARCA  ·  SUESCA',PW/2,y+5,{align:'center'});
+  pdf.setFont('helvetica','bold');pdf.setFontSize(13);pdf.setTextColor(...BLANCO);
+  pdf.text('INSTITUCIÓN EDUCATIVA TÉCNICA',PW/2,y+13,{align:'center'});
+  pdf.setFontSize(17);
+  pdf.text('LICEO MODERNO SUESCA',PW/2,y+21,{align:'center'});
+  pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(180,190,255);
+  const infoLine=[si.nit?`NIT: ${si.nit}`:'',si.dane?`DANE: ${si.dane}`:'',si.resolution?`Res. ${si.resolution}`:''].filter(Boolean).join('   ·   ');
+  if(infoLine)pdf.text(infoLine,PW/2,y+28,{align:'center'});
+
+  y=55;
+
+  /* ── TÍTULO CERTIFICADO ── */
+  const titLabel=d.type==='estudio'?'CERTIFICADO DE ESTUDIO':'CERTIFICADO DE NOTAS';
+  pdf.setFont('helvetica','bold');pdf.setFontSize(15);pdf.setTextColor(...AZUL);
+  pdf.text(titLabel,PW/2,y,{align:'center'});
+  y+=5;
+  // Línea decorativa bajo título
+  const ll=52,lx=(PW-ll)/2;
+  pdf.setFillColor(...ORO);pdf.rect(lx,y,ll,0.8,'F');
+  pdf.setFillColor(...ROJO);pdf.rect(lx+ll*.35,y,ll*.3,0.8,'F');
+  y+=5;
+  pdf.setFont('courier','normal');pdf.setFontSize(8);pdf.setTextColor(...GRIS_L);
+  pdf.text(`Código: ${certCode}`,PW/2,y,{align:'center'});
+  y+=9;
+
+  /* ── CUERPO ── */
+  const rector=si.rectorName||'Rector(a)';
+  const year=si.year||now.getFullYear();
+
+  pdf.setFont('helvetica','normal');pdf.setFontSize(11);pdf.setTextColor(...GRIS_T);
+  const intro=`El suscrito Rector de la Institución Educativa Técnica Liceo Moderno del municipio de Suesca, Cundinamarca,`;
+  const iLines=pdf.splitTextToSize(intro,CW-10);
+  pdf.text(iLines,PW/2,y,{align:'center',maxWidth:CW-10});
+  y+=iLines.length*5.8+4;
+
+  // CERTIFICA en caja
+  pdf.setFillColor(...AZUL);
+  pdf.rect(M+2,y-3,CW-4,10,'F');
+  pdf.setFont('helvetica','bold');pdf.setFontSize(14);pdf.setTextColor(...BLANCO);
+  pdf.text('C   E   R   T   I   F   I   C   A   :',PW/2,y+4.5,{align:'center'});
+  y+=15;
+
+  pdf.setFont('helvetica','normal');pdf.setFontSize(11);pdf.setTextColor(...GRIS_T);
+  let body='';
+  if(d.type==='estudio'){
+    body=`Que ${d.studentName}, identificado(a) con documento No. ${d.studentDoc}, se encuentra debidamente matriculado(a) en el grado ${d.courseName.toUpperCase()} de educación básica y media, durante el año lectivo ${year}.`;
+  } else {
+    body=`Que ${d.studentName}, identificado(a) con documento No. ${d.studentDoc}, cursante del grado ${d.courseName.toUpperCase()}, obtuvo las siguientes calificaciones académicas durante ${periodoLabelLong(d.period)} del año lectivo ${year}:`;
+  }
+  const bLines=pdf.splitTextToSize(body,CW-6);
+  pdf.text(bLines,M+3,y);
+  y+=bLines.length*5.8+6;
+
+  /* ── TABLA NOTAS ── */
+  if(d.type==='notas'&&appData){
+    const grades=calcGrades(appData,d.courseId,d.studentIdx,d.period);
+    if(grades.length){
+      const TX=M+3,TW=CW-6,RH=7.2;
+      const cols=[TW*.52,TW*.18,TW*.30];
+      // Header tabla
+      pdf.setFillColor(...AZUL);pdf.rect(TX,y,TW,RH,'F');
+      pdf.setFont('helvetica','bold');pdf.setFontSize(8.5);pdf.setTextColor(...BLANCO);
+      pdf.text('ASIGNATURA',TX+3,y+5);
+      pdf.text('NOTA',TX+cols[0]+cols[1]/2,y+5,{align:'center'});
+      pdf.text('DESEMPEÑO',TX+cols[0]+cols[1]+3,y+5);
+      y+=RH;
+      let total=0;
+      grades.forEach((g,i)=>{
+        total+=g.grade;
+        const even=i%2===0;
+        pdf.setFillColor(even?244:252,even?245:252,even?255:255);
+        pdf.rect(TX,y,TW,RH,'F');
+        pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(...GRIS_T);
+        pdf.text(String(g.subject).substring(0,34),TX+3,y+5);
+        const gradeColor=g.grade>=4.0?[30,132,73]:g.grade>=3.6?[211,84,0]:[192,57,43];
+        pdf.setFont('helvetica','bold');pdf.setTextColor(...gradeColor);
+        pdf.text(g.grade.toFixed(1),TX+cols[0]+cols[1]/2,y+5,{align:'center'});
+        pdf.setFont('helvetica','normal');pdf.setTextColor(...GRIS_T);
+        pdf.text(g.val,TX+cols[0]+cols[1]+3,y+5);
+        pdf.setDrawColor(220,225,240);pdf.setLineWidth(.12);pdf.rect(TX,y,TW,RH);
+        y+=RH;
+      });
+      // Promedio
+      const avg=total/grades.length,avgR=Math.round(avg*10)/10;
+      pdf.setFillColor(230,235,255);pdf.rect(TX,y,TW,RH+1,'F');
+      pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...AZUL);
+      pdf.text('PROMEDIO GENERAL',TX+3,y+5.5);
+      const ac=avgR>=4.0?[30,132,73]:avgR>=3.6?[211,84,0]:[192,57,43];
+      pdf.setTextColor(...ac);pdf.text(avgR.toFixed(1),TX+cols[0]+cols[1]/2,y+5.5,{align:'center'});
+      pdf.setTextColor(...AZUL);pdf.text(valoracion(avgR),TX+cols[0]+cols[1]+3,y+5.5);
+      pdf.setDrawColor(...AZUL);pdf.setLineWidth(.5);pdf.rect(TX,y,TW,RH+1);
+      y+=RH+9;
+    } else {
+      pdf.setFont('helvetica','italic');pdf.setFontSize(9.5);pdf.setTextColor(...GRIS_L);
+      pdf.text('No se encontraron calificaciones para este período.',PW/2,y,{align:'center'});
+      y+=10;
+    }
+  } else y+=6;
+
+  /* ── CIERRE ── */
+  const d2=`${now.getDate()} días del mes de ${MONTHS[now.getMonth()]} del año ${now.getFullYear()}`;
+  const closing=`Se expide la presente certificación a solicitud del interesado, en el municipio de Suesca (Cundinamarca), a los ${d2}.`;
+  pdf.setFont('helvetica','normal');pdf.setFontSize(10.5);pdf.setTextColor(...GRIS_T);
+  const cLines=pdf.splitTextToSize(closing,CW-6);
+  pdf.text(cLines,M+3,y);
+  y+=cLines.length*5.8+16;
+
+  /* ── FIRMA ── */
+  pdf.setDrawColor(160,165,200);pdf.setLineWidth(.7);
+  pdf.line(PW/2-42,y,PW/2+42,y);
+  y+=5;
+  pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(...GRIS_T);
+  pdf.text(rector.toUpperCase(),PW/2,y,{align:'center'});
+  y+=4.5;
+  pdf.setFont('helvetica','normal');pdf.setFontSize(8.5);pdf.setTextColor(...GRIS_L);
+  pdf.text('Rector(a)  ·  I.E.T. Liceo Moderno Suesca',PW/2,y,{align:'center'});
+  y+=14;
+
+  /* ── BLOQUE VERIFICACIÓN QR ── */
+  const qrBoxH=38;
+  pdf.setFillColor(245,247,255);pdf.rect(M+2,y-2,CW-4,qrBoxH,'F');
+  pdf.setDrawColor(...AZUL);pdf.setLineWidth(.4);pdf.rect(M+2,y-2,CW-4,qrBoxH);
+  pdf.setFillColor(...ROJO);pdf.rect(M+2,y-2,3,qrBoxH,'F');
+
+  // QR code
+  try{
+    const qrWrap=document.createElement('div');qrWrap.style.cssText='position:fixed;left:-9999px;';document.body.appendChild(qrWrap);
+    await new Promise(r=>{new QRCode(qrWrap,{text:verUrl,width:110,height:110,colorDark:'#1a237e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});setTimeout(r,380);});
+    const qrCanvas=qrWrap.querySelector('canvas');
+    if(qrCanvas){const qrImg=qrCanvas.toDataURL('image/png');const QS=30;pdf.addImage(qrImg,'PNG',M+7,y+2,QS,QS);}
+    document.body.removeChild(qrWrap);
+  } catch(e){console.warn('QR:',e);}
+
+  // Texto verificación
+  const vx=M+40;
+  pdf.setFont('helvetica','bold');pdf.setFontSize(8.5);pdf.setTextColor(...AZUL);
+  pdf.text('VERIFICACIÓN DE AUTENTICIDAD',vx,y+5);
+  pdf.setFont('helvetica','normal');pdf.setFontSize(7.5);pdf.setTextColor(...GRIS_T);
+  const verMsg='La I.E.T. Liceo Moderno Suesca recomienda que a quien se le presente este certificado, verifique su autenticidad mediante el código QR adjunto, el cual es único e irrepetible para este documento.';
+  const vLines=pdf.splitTextToSize(verMsg,CW-46);
+  pdf.text(vLines,vx,y+11);
+  pdf.setFont('courier','bold');pdf.setFontSize(7);pdf.setTextColor(...AZUL);
+  pdf.text(`Código único: ${certCode}`,vx,y+32);
+
+  /* ── PIE DE PÁGINA ── */
+  const fY=PH-14;
+  pdf.setFillColor(...AZUL_D);pdf.rect(12,fY-2,PW-24,8,'F');
+  pdf.setFillColor(...ROJO);pdf.rect(12,fY+6,PW-24,1.5,'F');
+  pdf.setFont('courier','bold');pdf.setFontSize(7);pdf.setTextColor(...BLANCO);
+  pdf.text(`Código de seguridad: ${certCode}`,PW/2,fY+2,{align:'center'});
+  pdf.setFont('courier','normal');pdf.setFontSize(6);pdf.setTextColor(180,190,220);
+  pdf.text(`Generado el ${now.toLocaleString('es-CO')}  ·  Documento oficial  ·  No requiere firma manuscrita`,PW/2,fY+5.5,{align:'center'});
+
+  /* ── GUARDAR ── */
+  const fn=`${certCode}-${(d.studentName||'').replace(/\s+/g,'-')}.pdf`;
+  pdf.save(fn);
+}
+
+</script>
+</body>
+</html>
