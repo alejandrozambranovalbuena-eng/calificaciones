@@ -368,7 +368,7 @@ function sortCourses(){return[...(db.courses||[])].sort((a,b)=>(a.order||0)-(b.o
 function actSts(c){return(c.students||[]).filter(s=>s.status!=="retirado");}
 function sName(id){if(!id)return"–";const s=(db.subjects||[]).find(x=>x.id===id);return s?s.name:`(${id.slice(0,5)})`;}
 function cName(id){if(!id)return"–";const c=(db.courses||[]).find(x=>x.id===id);return c?c.name:`(${id.slice(0,5)})`;}
-function validAsgn(t){return(t.assignments||[]).filter(a=>(db.courses||[]).some(c=>c.id===a.courseId)&&(db.subjects||[]).some(s=>s.id===a.subjectId));}
+function validAsgn(t){if(!t)return[];return(t.assignments||[]).filter(a=>(db.courses||[]).some(c=>c.id===a.courseId)&&(db.subjects||[]).some(s=>s.id===a.subjectId));}
 function gColor(g){if(g===null||g===undefined)return"var(--text3)";const v=parseFloat(g);if(v>=3.6)return"var(--green)";if(v>=3.0)return"var(--yellow)";return"var(--red)";}
 function dLeft(){const i=db.schoolInfo||{};if(!i.deadline)return null;return Math.ceil((new Date(i.deadline+(i.deadlineTime?"T"+i.deadlineTime:""))-new Date())/864e5);}
 function perLocked(p){const i=db.schoolInfo||{};if(String(p)!==String(i.activePeriod||"1"))return true;if(i.deadline&&new Date()>new Date(i.deadline+(i.deadlineTime?"T"+i.deadlineTime:"")))return true;return false;}
@@ -389,6 +389,8 @@ function calcSG(cats,vals,si,total){
 // window.X assigned after all functions are defined
 function calcAll(gd,total){const{categories=[],gradeValues={}}=gd;return Array.from({length:total},(_,i)=>calcSG(categories,gradeValues,i,total));}
 async function saveDB(){
+  if(window._isSaving){return;}
+  window._isSaving=true;
   // 1. SIEMPRE guardar local primero — NUNCA fallar aquí
   try{
     db._savedAt=Date.now();
@@ -529,6 +531,7 @@ async function saveDB(){
     toast("⚠️ Sin internet — notas guardadas localmente. Se subirán al reconectarse.","");
   }
 }
+  window._isSaving=false;
 window.saveDB=saveDB; // expose to HTML onclick
 
 async function loadDB(){
@@ -640,6 +643,9 @@ function startApp(){
             return Object.assign({},lt,ft,{assignments:fbA>=ltA?(ft.assignments||[]):(lt.assignments||[])});
           });
           db.teachers=mergedT;
+          // Actualizar sess.t con los datos frescos de Firebase
+          const _me=mergedT.find(t=>t.id===sess.tId);
+          if(_me)sess.t=_me;
         }
         if(freshData.courses&&freshData.courses.length>0)db.courses=freshData.courses;
         localStorage.setItem("isc_v2",JSON.stringify(db));
@@ -845,6 +851,8 @@ window.toggleSC=function(id){
 function SC(id,icon,title,sub,body,open=false){return`<div class="sc"><div class="sc-hdr" onclick="toggleSC('${id}')"><span class="sc-icon">${icon}</span><div style="flex:1"><div class="sc-title">${title}</div>${sub?`<div class="sc-sub">${sub}</div>`:""}</div><span class="sc-chev${open?" open":""}" id="sc_${id}">▼</span></div><div class="sc-body${open?" open":""}" id="sb_${id}">${body}</div></div>`;}
 const ICONS=["📐","📖","🔬","🌍","🎨","📝","🎵","🏃","🔢","🧪","📏","💻","🌐","⚗️","📜","🖊️","🎭","⚙️","🗺️","💡"];
 function renderInicio(){
+  // Guard: si sess.t no está listo, reintentar en 500ms
+  if(!sess||!sess.t){setTimeout(renderInicio,500);return;}
   const el=$("inicioContent"),info=db.schoolInfo||{},period=info.activePeriod||"1",days=dLeft(),asgn=validAsgn(sess.t);
   const byCourse={};asgn.forEach(a=>{if(!byCourse[a.courseId])byCourse[a.courseId]=[];if(!byCourse[a.courseId].includes(a.subjectId))byCourse[a.courseId].push(a.subjectId);});
   const sorted=sortCourses().filter(c=>byCourse[c.id]);
@@ -1899,7 +1907,11 @@ function mergeWithFresh(fresh){
     absences:[...new Map([...(fresh.absences||[]),...(db.absences||[])].map(a=>[a.id,a])).values()],
   });
   const me=(db.teachers||[]).find(t=>t.id===sess.tId);
-  if(me)sess.t=me;
+  if(me){sess.t=me;}
+  else if(sess.tId&&(db.teachers||[]).length===0){
+    // Teachers vacíos — no actualizar sess.t para no perder la sesión
+    console.warn("mergeWithFresh: teachers vacíos, preservando sess.t");
+  }
   localStorage.setItem("docente_data",JSON.stringify(db));
   localStorage.setItem("isc_v2",JSON.stringify(db));
 }
