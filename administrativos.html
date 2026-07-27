@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Panel Administrativo — I.E.T. Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo:#c0392b; --rojo-dark:#96281d; --rojo-light:#fdecea;
+    --azul:#1a237e; --azul-light:#283593; --azul-pale:#e8eaf6;
+    --bg:#f3f4f8; --card:#ffffff; --border:#e4e6ee;
+    --text:#1e2233; --text-soft:#666c80; --text-faint:#96a0b3;
+    --success:#16a34a; --success-bg:#dcfce7;
+    --warning:#d97706; --warning-bg:#fef3c7;
+    --danger:#dc2626; --danger-bg:#fee2e2;
+    --info:#2563eb; --info-bg:#dbeafe;
+    --radius:14px;
+    --shadow:0 2px 10px rgba(26,35,126,.06);
+    --shadow-lg:0 12px 32px rgba(26,35,126,.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+  button{font-family:inherit; cursor:pointer;}
+  input, select, textarea{font-family:inherit;}
+  a{color:inherit;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#c7cbe0; border-radius:8px;}
+
+  /* ---------- LOGIN ---------- */
+  #loginScreen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--azul) 0%,var(--azul-light) 45%,var(--rojo) 130%);
+    padding:24px;
+  }
+  .login-card{
+    background:var(--card); width:100%; max-width:400px; border-radius:20px;
+    box-shadow:var(--shadow-lg); padding:40px 36px 32px; text-align:center;
+    animation:riseIn .5s ease;
+  }
+  @keyframes riseIn{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+  .login-logo{
+    width:84px; height:84px; margin:0 auto 16px; border-radius:50%;
+    background:linear-gradient(135deg,var(--azul),var(--rojo));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(192,57,43,.25);
+  }
+  .login-logo svg{width:48px; height:48px;}
+  .login-card h1{font-size:17px; font-weight:800; margin:4px 0 2px; color:var(--azul); letter-spacing:.2px;}
+  .login-card .subtitle{font-size:12.5px; color:var(--text-soft); margin:0 0 26px; font-weight:600; text-transform:uppercase; letter-spacing:.6px;}
+  .field{text-align:left; margin-bottom:16px;}
+  .field label{display:block; font-size:12.5px; font-weight:700; color:var(--text-soft); margin-bottom:6px;}
+  .field input{
+    width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--border);
+    font-size:14.5px; outline:none; transition:.15s; background:#fafbfe;
+  }
+  .field input:focus{border-color:var(--azul); background:#fff; box-shadow:0 0 0 3px var(--azul-pale);}
+  .btn-login{
+    width:100%; padding:13px; border:none; border-radius:10px; background:var(--rojo);
+    color:#fff; font-size:15px; font-weight:700; margin-top:6px; transition:.15s;
+    box-shadow:0 6px 16px rgba(192,57,43,.28);
+  }
+  .btn-login:hover{background:var(--rojo-dark);}
+  .btn-login:disabled{background:#c8ccd8; box-shadow:none; cursor:not-allowed;}
+  .login-error{
+    background:var(--danger-bg); color:var(--danger); font-size:13px; font-weight:600;
+    padding:10px 12px; border-radius:8px; margin-bottom:14px; display:none;
+  }
+  .login-footer{margin-top:22px; font-size:12px; color:var(--text-faint); font-weight:600;}
+  .login-version{margin-top:6px; font-size:10.5px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- APP SHELL ---------- */
+  #appScreen{display:none; min-height:100vh; flex-direction:column;}
+  header.topbar{
+    height:64px; background:var(--azul); color:#fff; display:flex; align-items:center;
+    padding:0 20px; gap:14px; box-shadow:0 2px 10px rgba(0,0,0,.12); position:sticky; top:0; z-index:50;
+  }
+  .brand{display:flex; align-items:center; gap:12px; flex:1; min-width:0;}
+  .brand-logo{
+    width:38px; height:38px; border-radius:9px; background:var(--rojo); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .brand-logo svg{width:22px; height:22px;}
+  .brand-text{line-height:1.15; min-width:0;}
+  .brand-text b{font-size:14px; display:block; white-space:nowrap;}
+  .brand-text span{font-size:11px; opacity:.75; font-weight:500;}
+  #menuToggle{
+    display:none; background:rgba(255,255,255,.12); border:none; color:#fff; width:36px; height:36px;
+    border-radius:8px; font-size:18px; align-items:center; justify-content:center;
+  }
+  .user-box{display:flex; align-items:center; gap:12px;}
+  .user-info{text-align:right; line-height:1.2;}
+  .user-info b{font-size:13.5px; display:block;}
+  .user-info span{font-size:11px; opacity:.75; font-weight:600; text-transform:uppercase; letter-spacing:.4px;}
+  .btn-logout{
+    background:var(--rojo); color:#fff; border:none; padding:9px 16px; border-radius:8px;
+    font-size:13px; font-weight:700; white-space:nowrap;
+  }
+  .btn-logout:hover{background:var(--rojo-dark);}
+
+  .app-body{display:flex; flex:1; min-height:0;}
+  aside.sidebar{
+    width:250px; flex-shrink:0; background:#fff; border-right:1px solid var(--border);
+    padding:16px 10px; overflow-y:auto;
+  }
+  .side-item{
+    display:flex; align-items:center; gap:11px; width:100%; padding:11px 13px; border:none;
+    background:none; border-radius:10px; font-size:13.5px; font-weight:600; color:var(--text-soft);
+    text-align:left; margin-bottom:3px; transition:.12s;
+  }
+  .side-item .ic{font-size:17px; width:20px; text-align:center; flex-shrink:0;}
+  .side-item:hover{background:var(--azul-pale); color:var(--azul);}
+  .side-item.active{background:var(--azul); color:#fff;}
+  main.content{flex:1; min-width:0; overflow-y:auto; padding:26px 30px; background:var(--bg);}
+
+  .sidebar-overlay{display:none;}
+
+  /* ---------- SHARED UI ---------- */
+  .page-title{font-size:20px; font-weight:800; color:var(--azul); margin:0 0 4px;}
+  .page-sub{font-size:13px; color:var(--text-soft); margin:0 0 22px;}
+  .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px; margin-bottom:20px; border:1px solid var(--border);}
+  .toolbar{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:18px;}
+  .toolbar label{font-size:12.5px; font-weight:700; color:var(--text-soft); margin-right:6px;}
+  select, .toolbar input[type=date]{
+    padding:9px 12px; border-radius:8px; border:1.5px solid var(--border); font-size:13.5px; background:#fafbfe;
+  }
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{background:var(--azul-pale); color:var(--azul); text-align:left; padding:10px 12px; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px; font-weight:800;}
+  td{padding:10px 12px; border-bottom:1px solid var(--border);}
+  tr:hover td{background:#fafbfe;}
+  .badge{display:inline-block; padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:700; white-space:nowrap;}
+  .badge.ok{background:var(--success-bg); color:var(--success);}
+  .badge.warn{background:var(--warning-bg); color:var(--warning);}
+  .badge.bad{background:var(--danger-bg); color:var(--danger);}
+  .badge.info{background:var(--info-bg); color:var(--info);}
+  .badge.mid{background:var(--warning-bg); color:var(--warning);}
+  .empty-state{text-align:center; padding:50px 20px; color:var(--text-faint);}
+  .empty-state .icn{font-size:42px; margin-bottom:10px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:9px; border:none;
+    font-weight:700; font-size:13.5px; transition:.15s;
+  }
+  .btn-primary{background:var(--rojo); color:#fff;}
+  .btn-primary:hover{background:var(--rojo-dark);}
+  .btn-navy{background:var(--azul); color:#fff;}
+  .btn-navy:hover{background:var(--azul-light);}
+  .btn-outline{background:#fff; border:1.5px solid var(--border); color:var(--text-soft);}
+  .btn-outline:hover{border-color:var(--azul); color:var(--azul);}
+  .btn-sm{padding:7px 12px; font-size:12px; border-radius:7px;}
+  .grid{display:grid; gap:16px;}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .stat-card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; border:1px solid var(--border);}
+  .stat-card .n{font-size:26px; font-weight:800; color:var(--azul);}
+  .stat-card .l{font-size:12px; color:var(--text-soft); font-weight:600; margin-top:2px;}
+  .alert-row{
+    display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border-radius:10px; margin-bottom:10px;
+    border-left:4px solid var(--border); background:#fafbfe;
+  }
+  .alert-row.r{border-color:var(--danger); background:var(--danger-bg);}
+  .alert-row.y{border-color:var(--warning); background:var(--warning-bg);}
+  .alert-row.g{border-color:var(--success); background:var(--success-bg);}
+  .alert-row .ic{font-size:20px;}
+  .alert-row .txt b{display:block; font-size:13.5px;}
+  .alert-row .txt span{font-size:12px; color:var(--text-soft);}
+  .semaforo-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px;}
+  .sem-tile{
+    border-radius:12px; padding:18px 14px; text-align:center; color:#fff; box-shadow:var(--shadow);
+  }
+  .sem-tile.green{background:linear-gradient(135deg,#16a34a,#22c55e);}
+  .sem-tile.yellow{background:linear-gradient(135deg,#d97706,#f59e0b);}
+  .sem-tile.red{background:linear-gradient(135deg,#dc2626,#ef4444);}
+  .sem-tile.gray{background:linear-gradient(135deg,#94a3b8,#cbd5e1);}
+  .sem-tile .name{font-size:13.5px; font-weight:800;}
+  .sem-tile .avg{font-size:22px; font-weight:800; margin-top:4px;}
+  .sem-tile .lbl{font-size:10.5px; opacity:.9; font-weight:700; text-transform:uppercase; margin-top:2px;}
+  textarea{width:100%; padding:11px 13px; border-radius:9px; border:1.5px solid var(--border); font-size:13.5px; resize:vertical; min-height:70px; background:#fafbfe;}
+  .form-row{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+  .form-row > div{flex:1; min-width:150px;}
+  .form-row label{display:block; font-size:12px; font-weight:700; color:var(--text-soft); margin-bottom:5px;}
+  .announce-item{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px 16px;
+    border:1px solid var(--border); border-radius:10px; margin-bottom:10px;
+  }
+  .announce-item.inactive{opacity:.55;}
+  .ann-type{font-size:11px; font-weight:800; padding:3px 9px; border-radius:20px; display:inline-block; margin-bottom:6px;}
+  .ann-type.normal{background:var(--info-bg); color:var(--info);}
+  .ann-type.reminder{background:var(--warning-bg); color:var(--warning);}
+  .ann-type.urgent{background:var(--danger-bg); color:var(--danger);}
+  .loader{text-align:center; padding:60px 20px; color:var(--text-faint); font-size:13.5px; font-weight:600;}
+  .redirect-card{text-align:center; padding:50px 30px;}
+  .redirect-card .icn{font-size:48px; margin-bottom:14px;}
+  .redirect-card h3{margin:0 0 8px; color:var(--azul); font-size:18px;}
+  .redirect-card p{color:var(--text-soft); font-size:13.5px; margin:0 0 22px;}
+  .rank-row{display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);}
+  .rank-row:last-child{border-bottom:none;}
+  .rank-num{width:26px; height:26px; border-radius:50%; background:var(--azul-pale); color:var(--azul); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .rank-bar-wrap{flex:1; background:#eef0f7; border-radius:6px; height:8px; overflow:hidden;}
+  .rank-bar{height:100%; background:linear-gradient(90deg,var(--azul),var(--rojo)); border-radius:6px;}
+  .risk-item{padding:10px 14px; border-radius:9px; background:var(--danger-bg); margin-bottom:8px; font-size:13px;}
+  .risk-item b{color:var(--danger);}
+  .rec-item{display:flex; gap:10px; padding:12px 14px; background:var(--azul-pale); border-radius:9px; margin-bottom:8px; font-size:13px; color:var(--azul); font-weight:600;}
+
+  @media(max-width:860px){
+    #menuToggle{display:flex;}
+    aside.sidebar{
+      position:fixed; left:-270px; top:64px; bottom:0; z-index:60; transition:.25s;
+      box-shadow:var(--shadow-lg); width:250px;
+    }
+    aside.sidebar.open{left:0;}
+    .sidebar-overlay{display:none; position:fixed; inset:64px 0 0 0; background:rgba(0,0,0,.35); z-index:55;}
+    .sidebar-overlay.show{display:block;}
+    main.content{padding:18px;}
+    .user-info{display:none;}
+    .brand-text b{font-size:12.5px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo" id="loginLogoBox">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="#fff"/><path d="M5 10.18v4.02c0 .35.16.68.44.89C6.65 16.05 9.14 17.5 12 17.5s5.35-1.45 6.56-2.41c.28-.21.44-.54.44-.89v-4.02L12 13.5 5 10.18z" fill="#fff" opacity=".85"/></svg>
+    </div>
+    <h1>I.E.T. LICEO MODERNO SUESCA</h1>
+    <p class="subtitle">Panel Administrativo</p>
+
+    <div class="login-error" id="loginError"></div>
+
+    <div class="field">
+      <label>ID de Usuario</label>
+      <input type="text" id="userIdInput" autocomplete="username" placeholder="Ej: COORD01">
+    </div>
+    <div class="field">
+      <label>Clave</label>
+      <input type="password" id="passInput" autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <button class="btn-login" id="btnLogin">Ingresar →</button>
+
+    <div class="login-footer">Coordinadores y Rectoría</div>
+    <div class="login-version">administrativos.html · <span id="verTag"></span></div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="appScreen">
+  <header class="topbar">
+    <button id="menuToggle">☰</button>
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="#fff"/><path d="M5 10.18v4.02c0 .35.16.68.44.89C6.65 16.05 9.14 17.5 12 17.5s5.35-1.45 6.56-2.41c.28-.21.44-.54.44-.89v-4.02L12 13.5 5 10.18z" fill="#fff" opacity=".85"/></svg>
+      </div>
+      <div class="brand-text">
+        <b>Liceo Moderno Suesca</b>
+        <span>Panel Administrativo</span>
+      </div>
+    </div>
+    <div class="user-box">
+      <div class="user-info">
+        <b id="userName">—</b>
+        <span id="userRole">—</span>
+      </div>
+      <button class="btn-logout" id="btnLogout">Salir</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="content" id="moduleContent">
+      <div class="loader">Cargando…</div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const APP_VERSION = "v1.0";
+document.getElementById("verTag").textContent = APP_VERSION;
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+const app = initializeApp(firebaseConfig);
+const fireDb = getFirestore(app);
+
+/* ===================== ESTADO GLOBAL ===================== */
+let systemData = null;   // system/data
+let allGrades = {};      // consolidado de grades/*
+let allAttendance = {};  // consolidado de attendance/* (cada docente escribe su propio doc)
+let session = null;      // { role, coordId, coordName, permissions }
+let currentModuleId = null;
+let selectedPeriod = "1";
+
+const ESCALA = [
+  {level:"superior", label:"Superior", min:4.6, max:5.0, color:"#16a34a", bg:"#dcfce7"},
+  {level:"alto",     label:"Alto",     min:4.0, max:4.5, color:"#2563eb", bg:"#dbeafe"},
+  {level:"basico",   label:"Básico",   min:3.6, max:3.9, color:"#d97706", bg:"#fef3c7"},
+  {level:"bajo",     label:"Bajo",     min:1.0, max:3.5, color:"#dc2626", bg:"#fee2e2"}
+];
+
+const MODULES = [
+  {id:"consolidado",    icon:"📊", name:"Consolidado y Boletines"},
+  {id:"estadoDocentes", icon:"👨‍🏫", name:"Estado de Docentes"},
+  {id:"alertas",        icon:"⚠️", name:"Alertas Académicas"},
+  {id:"asistencia",     icon:"📋", name:"Asistencia"},
+  {id:"permisos",       icon:"📝", name:"Permisos de Docentes"},
+  {id:"anuncios",       icon:"📢", name:"Anuncios para Docentes"},
+  {id:"pagos",          icon:"💰", name:"Pagos"},
+  {id:"certificados",   icon:"📄", name:"Certificados"},
+  {id:"prematriculas",  icon:"📥", name:"Pre-matrículas"},
+  {id:"matriculas",     icon:"📋", name:"Matrículas"},
+  {id:"semaforo",       icon:"🚦", name:"Semáforo Institucional"},
+  {id:"dashboardIA",    icon:"🧠", name:"Análisis / Dashboard IA"},
+  {id:"horarios",       icon:"📅", name:"Horarios"},
+];
+
+const ROLE_LABELS = {
+  academico:"Coord. Académica", administrativo:"Coord. Administrativo",
+  disciplina:"Coord. Disciplina", rectoria:"Rectoría"
+};
+
+/* ===================== HELPERS DE DATOS ===================== */
+function getCourses(){ return (systemData?.courses||[]).slice().sort((a,b)=>(a.order??0)-(b.order??0)); }
+function getTeachers(){ return systemData?.teachers||[]; }
+function getSubjects(){ return systemData?.subjects||[]; }
+function getCourseById(id){ return (systemData?.courses||[]).find(c=>c.id===id); }
+function getSubjectById(id){ return (systemData?.subjects||[]).find(s=>s.id===id); }
+function getTeacherById(id){ return (systemData?.teachers||[]).find(t=>t.id===id); }
+function courseName(id){ return getCourseById(id)?.name || id || "—"; }
+function subjectName(id){ return getSubjectById(id)?.name || id || "—"; }
+function activeStudents(course){ return (course?.students||[]).filter(s=>(s.status||"").toLowerCase()!=="retirado"); }
+
+function calcStudentGrade(allGrades, teachers, courseId, subjectId, studentIdx, period, totalStudents){
+  const teacher = teachers.find(t=>(t.assignments||[]).some(a=>a.subjectId===subjectId && a.courseId===courseId));
+  if(!teacher) return null;
+  const gradeKey = `${teacher.id}_${subjectId}__${courseId}_${period}`;
+  const gd = allGrades[gradeKey];
+  if(!gd) return null;
+  const cats = gd.categories||[];
+  const vals = gd.gradeValues||{};
+  const totalPct = cats.reduce((s,c)=>s+(parseFloat(c.pct)||0),0);
+  if(Math.abs(totalPct-100)>0.5) return null;
+  let fg=0, hasAny=false;
+  cats.forEach(cat=>{
+    if(!cat.activities||cat.activities.length===0) return;
+    if(cat.type==="puntos"){
+      const act=cat.activities[0];
+      let maxPts=0;
+      for(let si=0;si<totalStudents;si++){
+        const v=vals[`${si}_${cat.id}_${act.id}`];
+        if(v!==undefined&&v!==null&&v!==""){const pv=parseFloat(v);if(pv>maxPts)maxPts=pv;}
+      }
+      const myPts=parseFloat(vals[`${studentIdx}_${cat.id}_${act.id}`]||0);
+      if(vals[`${studentIdx}_${cat.id}_${act.id}`]!==undefined){
+        hasAny=true;
+        const nota=maxPts>0&&myPts>0?Math.min((myPts/maxPts)*4+1,5):1.0;
+        fg+=nota*(parseFloat(cat.pct)/100);
+      }
+    } else {
+      let cs=0,cc=0;
+      (cat.activities||[]).forEach(act=>{
+        const v=vals[`${studentIdx}_${cat.id}_${act.id}`];
+        if(v!==undefined&&v!==null&&v!==""){cs+=parseFloat(v);cc++;hasAny=true;}
+      });
+      if(cc>0) fg+=(cs/cc)*(parseFloat(cat.pct)/100);
+    }
+  });
+  return hasAny?Math.round(fg*100)/100:null;
+}
+
+function escalaFor(nota){
+  if(nota==null) return null;
+  return ESCALA.find(e=>nota>=e.min && nota<=e.max) || ESCALA[ESCALA.length-1];
+}
+
+function escapeHtml(str){
+  return String(str??"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+/* ===================== LOGIN ===================== */
+const loginScreen = document.getElementById("loginScreen");
+const appScreen = document.getElementById("appScreen");
+const loginError = document.getElementById("loginError");
+const btnLogin = document.getElementById("btnLogin");
+const userIdInput = document.getElementById("userIdInput");
+const passInput = document.getElementById("passInput");
+
+const LOCK_KEY = "adm_lock_state";
+function getLockState(){
+  try{ return JSON.parse(sessionStorage.getItem(LOCK_KEY) || "{}"); }catch(e){ return {}; }
+}
+function setLockState(st){ sessionStorage.setItem(LOCK_KEY, JSON.stringify(st)); }
+
+function showLoginError(msg){
+  loginError.textContent = msg;
+  loginError.style.display = "block";
+}
+function hideLoginError(){ loginError.style.display = "none"; }
+
+function checkLock(){
+  const st = getLockState();
+  if(st.lockUntil && Date.now() < st.lockUntil){
+    const secs = Math.ceil((st.lockUntil - Date.now())/1000);
+    btnLogin.disabled = true;
+    showLoginError(`🔒 Demasiados intentos. Espera ${Math.ceil(secs/60)} min ${secs%60}s.`);
+    setTimeout(checkLock, 1000);
+    return true;
+  }
+  btnLogin.disabled = false;
+  return false;
+}
+
+async function doLogin(uidRaw, passRaw){
+  if(checkLock()) return;
+  hideLoginError();
+  const userId = (uidRaw||"").replace(/\s+/g,'').toUpperCase();
+  const password = passRaw || "";
+  if(!userId || !password){ showLoginError("Ingresa usuario y clave."); return; }
+
+  btnLogin.disabled = true;
+  btnLogin.textContent = "Verificando…";
+  try{
+    const snap = await getDoc(doc(fireDb, "system", "data"));
+    if(!snap.exists()){ showLoginError("No se pudo cargar la información del sistema."); return; }
+    const data = snap.data();
+
+    const coord = (data.coordinators||[]).find(c =>
+      (c.userId || "").replace(/\s+/g,'').toUpperCase() === userId &&
+      c.key === password
+    );
+
+    if(!coord){
+      const teacher = (data.teachers||[]).find(t =>
+        (t.userId || "").replace(/\s+/g,'').toUpperCase() === userId &&
+        t.key === password
+      );
+      const st = getLockState();
+      const attempts = (st.attempts||0) + 1;
+      if(teacher){
+        showLoginError("👨‍🏫 Los docentes ingresan por Portal Docentes");
+        setLockState({...st, attempts});
+      } else if(attempts>=3){
+        setLockState({attempts:0, lockUntil: Date.now() + 5*60*1000});
+        checkLock();
+      } else {
+        setLockState({...st, attempts});
+        showLoginError("Credenciales incorrectas");
+      }
+      return;
+    }
+
+    setLockState({});
+    systemData = data;
+    session = { role: coord.type, coordId: coord.id, coordName: coord.name, permissions: coord.permissions || {} };
+    sessionStorage.setItem("adm_session", JSON.stringify(session));
+    await enterApp();
+  } catch(err){
+    console.error(err);
+    showLoginError("Error de conexión. Intenta de nuevo.");
+  } finally {
+    btnLogin.disabled = false;
+    btnLogin.textContent = "Ingresar →";
+  }
+}
+
+btnLogin.addEventListener("click", ()=>doLogin(userIdInput.value, passInput.value));
+[userIdInput, passInput].forEach(el=>el.addEventListener("keydown", e=>{ if(e.key==="Enter") doLogin(userIdInput.value, passInput.value); }));
+
+document.getElementById("btnLogout").addEventListener("click", ()=>{
+  sessionStorage.removeItem("adm_session");
+  session = null;
+  appScreen.style.display = "none";
+  loginScreen.style.display = "flex";
+  userIdInput.value = ""; passInput.value = "";
+});
+
+/* ===================== ENTRAR A LA APP ===================== */
+async function loadSystemDataOnly(){
+  const snap = await getDoc(doc(fireDb, "system", "data"));
+  systemData = snap.exists() ? snap.data() : {};
+}
+
+async function loadAllGrades(){
+  const gradesCol = collection(fireDb, "grades");
+  const snapshot = await getDocs(gradesCol);
+  const grades = {};
+  snapshot.forEach(docSnap=>{
+    const tData = docSnap.data();
+    const teacherGrades = tData.grades || {};
+    Object.keys(teacherGrades).forEach(key=>{ grades[key] = teacherGrades[key]; });
+  });
+  return grades;
+}
+
+// La asistencia NO vive en system/data — cada docente escribe su propio doc en
+// attendance/{teacherId} = { teacherId, teacherName, updatedAt, attendance: { "courseId_YYYY-MM-DD": { "0": {status,note}, ... } } }
+async function loadAllAttendance(){
+  const snap = await getDocs(collection(fireDb, "attendance"));
+  const merged = {};
+  snap.forEach(docSnap=>{
+    const data = docSnap.data();
+    Object.assign(merged, data.attendance || {});
+  });
+  return merged;
+}
+
+// Los permisos/licencias tampoco viven en system/data — cada docente escribe
+// absences_data/{teacherId} = { teacherId, updatedAt, absences: [{id, teacherId, date, timeFrom, timeTo, reason, status}] }
+async function loadAllAbsences(){
+  const snap = await getDocs(collection(fireDb, "absences_data"));
+  const list = [];
+  snap.forEach(docSnap=>{
+    const data = docSnap.data();
+    (data.absences || []).forEach(a=> list.push({ ...a, _teacherDocId: docSnap.id }));
+  });
+  return list;
+}
+
+async function updateAbsenceStatus(teacherDocId, absenceId, newStatus){
+  const ref = doc(fireDb, "absences_data", teacherDocId);
+  const snap = await getDoc(ref);
+  if(!snap.exists()) return;
+  const data = snap.data();
+  const absences = (data.absences || []).map(a =>
+    a.id === absenceId ? { ...a, status: newStatus, decidedBy: session.coordName, decidedAt: Date.now() } : a
+  );
+  await updateDoc(ref, { absences, updatedAt: Date.now() });
+}
+
+async function enterApp(){
+  loginScreen.style.display = "none";
+  appScreen.style.display = "flex";
+  document.getElementById("userName").textContent = session.coordName || "—";
+  document.getElementById("userRole").textContent = ROLE_LABELS[session.role] || session.role || "—";
+
+  if(!systemData || !systemData.courses) await loadSystemDataOnly();
+  if(systemData?.schoolInfo?.activePeriod) selectedPeriod = String(systemData.schoolInfo.activePeriod);
+  [allGrades, allAttendance] = await Promise.all([loadAllGrades(), loadAllAttendance()]);
+
+  renderSidebar();
+  const first = getVisibleModules()[0];
+  if(first) selectModule(first.id);
+  else document.getElementById("moduleContent").innerHTML = `<div class="empty-state"><div class="icn">🔒</div>No tienes módulos habilitados. Contacta al administrador.</div>`;
+}
+
+function getVisibleModules(){
+  const perms = session?.permissions || {};
+  const hasAny = Object.keys(perms).length > 0;
+  return MODULES.filter(m => !hasAny || perms[m.id] === true);
+}
+
+function renderSidebar(){
+  const sidebar = document.getElementById("sidebar");
+  const visible = getVisibleModules();
+  sidebar.innerHTML = visible.map(m=>`
+    <button class="side-item${m.id===currentModuleId?' active':''}" data-mod="${m.id}">
+      <span class="ic">${m.icon}</span><span>${escapeHtml(m.name)}</span>
+    </button>
+  `).join("");
+  sidebar.querySelectorAll(".side-item").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      selectModule(btn.dataset.mod);
+      sidebar.classList.remove("open");
+      document.getElementById("sidebarOverlay").classList.remove("show");
+    });
+  });
+}
+
+function selectModule(id){
+  currentModuleId = id;
+  renderSidebar();
+  const renderer = MODULE_RENDERERS[id];
+  const container = document.getElementById("moduleContent");
+  container.innerHTML = `<div class="loader">Cargando…</div>`;
+  if(renderer) renderer(container);
+  else container.innerHTML = `<div class="empty-state">Módulo no disponible.</div>`;
+}
+
+document.getElementById("menuToggle").addEventListener("click", ()=>{
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("sidebarOverlay").classList.toggle("show");
+});
+document.getElementById("sidebarOverlay").addEventListener("click", ()=>{
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebarOverlay").classList.remove("show");
+});
+
+/* ===================== PERIODO SELECTOR (compartido) ===================== */
+function periodSelectorHtml(){
+  return `
+    <div class="toolbar">
+      <label>Periodo:</label>
+      <select id="periodSelect">
+        ${[1,2,3,4].map(p=>`<option value="${p}" ${String(p)===selectedPeriod?'selected':''}>Periodo ${p}</option>`).join("")}
+      </select>
+    </div>`;
+}
+function bindPeriodSelector(container, onChange){
+  const sel = container.querySelector("#periodSelect");
+  if(sel) sel.addEventListener("change", ()=>{ selectedPeriod = sel.value; onChange(); });
+}
+
+/* ===================== MÓDULO: CONSOLIDADO ===================== */
+function renderConsolidado(container){
+  container.innerHTML = `
+    <h2 class="page-title">📊 Consolidado y Boletines</h2>
+    <p class="page-sub">Genera boletines y consolidados de calificaciones por curso.</p>
+    <div class="card redirect-card">
+      <div class="icn">📊</div>
+      <h3>Consolidado de Calificaciones</h3>
+      <p>Este módulo se abre en una pestaña nueva.</p>
+      <button class="btn btn-primary" id="btnOpenConsolidado">Abrir Consolidado →</button>
+    </div>`;
+  container.querySelector("#btnOpenConsolidado").addEventListener("click", ()=>{
+    window.open("consolidado.html", "_blank");
+  });
+}
+
+/* ===================== MÓDULO: ESTADO DE DOCENTES ===================== */
+function computeDocenteRows(period){
+  const teachers = getTeachers();
+  const rows = [];
+  teachers.forEach(teacher=>{
+    (teacher.assignments||[]).forEach(a=>{
+      const course = getCourseById(a.courseId);
+      if(!course) return;
+      const totalStudents = (course.students||[]).length;
+      const active = activeStudents(course);
+      const gradeKey = `${teacher.id}_${a.subjectId}__${a.courseId}_${period}`;
+      const gd = allGrades[gradeKey];
+      let catsPct = null, catsOk = false;
+      if(gd){
+        catsPct = (gd.categories||[]).reduce((s,c)=>s+(parseFloat(c.pct)||0),0);
+        catsOk = Math.abs(catsPct-100) <= 0.5;
+      }
+      let notasCount = 0;
+      if(gd && catsOk){
+        active.forEach(st=>{
+          const idx = (course.students||[]).indexOf(st);
+          const nota = calcStudentGrade(allGrades, teachers, a.courseId, a.subjectId, idx, period, totalStudents);
+          if(nota!=null) notasCount++;
+        });
+      }
+      let estado;
+      if(!gd) estado = {label:"❌ VACÍO", cls:"bad"};
+      else if(!catsOk) estado = {label:"⚠️ % MAL", cls:"warn"};
+      else if(notasCount===0) estado = {label:"❌ VACÍO", cls:"bad"};
+      else if(notasCount<active.length) estado = {label:"🟡 PARCIAL", cls:"mid"};
+      else estado = {label:"✅ LISTO", cls:"ok"};
+
+      rows.push({
+        teacher: teacher.name, subject: subjectName(a.subjectId), course: course.name,
+        catsPct, notasCount, total: active.length, estado
+      });
+    });
+  });
+  return rows;
+}
+
+function renderEstadoDocentes(container){
+  const draw = ()=>{
+    const rows = computeDocenteRows(selectedPeriod);
+    container.innerHTML = `
+      <h2 class="page-title">👨‍🏫 Estado de Docentes</h2>
+      <p class="page-sub">Avance de cargue de calificaciones por docente y curso.</p>
+      ${periodSelectorHtml()}
+      <div class="card" style="padding:0; overflow-x:auto;">
+        ${rows.length? `
+        <table>
+          <thead><tr><th>Docente</th><th>Materia</th><th>Curso</th><th>Cats. %</th><th>Notas</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${rows.map(r=>`
+              <tr>
+                <td>${escapeHtml(r.teacher)}</td>
+                <td>${escapeHtml(r.subject)}</td>
+                <td>${escapeHtml(r.course)}</td>
+                <td>${r.catsPct==null?'—':r.catsPct+'%'}</td>
+                <td>${r.notasCount}/${r.total}</td>
+                <td><span class="badge ${r.estado.cls}">${r.estado.label}</span></td>
+              </tr>`).join("")}
+          </tbody>
+        </table>` : `<div class="empty-state"><div class="icn">📭</div>Sin asignaciones registradas.</div>`}
+      </div>`;
+    bindPeriodSelector(container, draw);
+  };
+  draw();
+}
+
+/* ===================== MÓDULO: ALERTAS ===================== */
+function renderAlertas(container){
+  const draw = ()=>{
+    const rows = computeDocenteRows(selectedPeriod);
+    const teachersNoAssign = getTeachers().filter(t=>!t.assignments || t.assignments.length===0);
+    const alerts = [];
+    rows.forEach(r=>{
+      if(r.catsPct!=null && Math.abs(r.catsPct-100)>0.5){
+        alerts.push({sev:"r", icon:"🔴", title:`Porcentajes mal configurados`, sub:`${r.teacher} — ${r.subject} (${r.course}): suman ${r.catsPct}%`});
+      }
+      if(!r.catsPct){
+        alerts.push({sev:"y", icon:"🟡", title:`Sin notas cargadas`, sub:`${r.teacher} — ${r.subject} (${r.course})`});
+      }
+    });
+    teachersNoAssign.forEach(t=>{
+      alerts.push({sev:"y", icon:"🟡", title:`Docente sin asignaciones`, sub:t.name});
+    });
+
+    container.innerHTML = `
+      <h2 class="page-title">⚠️ Alertas Académicas</h2>
+      <p class="page-sub">Problemas detectados automáticamente en el periodo seleccionado.</p>
+      ${periodSelectorHtml()}
+      <div class="card">
+        ${alerts.length? alerts.map(a=>`
+          <div class="alert-row ${a.sev}">
+            <span class="ic">${a.icon}</span>
+            <div class="txt"><b>${escapeHtml(a.title)}</b><span>${escapeHtml(a.sub)}</span></div>
+          </div>`).join("") : `
+          <div class="alert-row g"><span class="ic">🟢</span><div class="txt"><b>Todo OK</b><span>No se detectaron alertas en este periodo.</span></div></div>`}
+      </div>`;
+    bindPeriodSelector(container, draw);
+  };
+  draw();
+}
+
+/* ===================== MÓDULO: ASISTENCIA ===================== */
+function renderAsistencia(container){
+  const courses = getCourses();
+  const today = new Date().toISOString().slice(0,10);
+  const draw = ()=>{
+    const courseId = container.querySelector("#attCourse")?.value || (courses[0]?.id || "");
+    const date = container.querySelector("#attDate")?.value || today;
+    const course = getCourseById(courseId);
+    const key = `${courseId}_${date}`;
+    const record = (allAttendance||{})[key]; // { "0": {status,note}, "1": {...}, ... }
+
+    const STATUS_MAP = {presente:{lbl:"✅ Presente",cls:"ok"}, ausente:{lbl:"❌ Ausente",cls:"bad"}, tardanza:{lbl:"⏰ Tardanza",cls:"warn"}, excusa:{lbl:"📄 Excusa",cls:"info"}};
+    let rowsHtml = "";
+    if(course){
+      const students = activeStudents(course);
+      rowsHtml = students.map((st,i)=>{
+        const origIdx = (course.students||[]).indexOf(st);
+        const entry = record ? record[String(origIdx)] : null;
+        const status = entry?.status || null;
+        const meta = status ? (STATUS_MAP[status] || {lbl:status, cls:""}) : null;
+        return `<tr><td>${i+1}</td><td>${escapeHtml(st.name||('Estudiante '+(i+1)))}</td><td>${meta?`<span class="badge ${meta.cls}">${escapeHtml(meta.lbl)}</span>`:'<span style="color:var(--text-faint);">—</span>'}</td><td>${escapeHtml(entry?.note||'')}</td></tr>`;
+      }).join("");
+    }
+
+    container.innerHTML = `
+      <h2 class="page-title">📋 Asistencia</h2>
+      <p class="page-sub">Consulta la asistencia registrada por curso y fecha.</p>
+      <div class="toolbar">
+        <label>Curso:</label>
+        <select id="attCourse">
+          ${courses.map(c=>`<option value="${c.id}" ${c.id===courseId?'selected':''}>${escapeHtml(c.name)}</option>`).join("")}
+        </select>
+        <label>Fecha:</label>
+        <input type="date" id="attDate" value="${date}">
+      </div>
+      <div class="card" style="padding:0; overflow-x:auto;">
+        ${course && record ? `
+          <table><thead><tr><th>#</th><th>Estudiante</th><th>Estado</th><th>Nota</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+        ` : `<div class="empty-state"><div class="icn">📭</div>No hay registro de asistencia para esta fecha.</div>`}
+      </div>`;
+    container.querySelector("#attCourse").addEventListener("change", draw);
+    container.querySelector("#attDate").addEventListener("change", draw);
+  };
+  draw();
+}
+
+/* ===================== MÓDULO: ANUNCIOS (lectura + escritura) ===================== */
+async function renderAnuncios(container){
+  container.innerHTML = `<div class="loader">Cargando anuncios…</div>`;
+  async function loadAndDraw(){
+    const snap = await getDocs(collection(fireDb, "announcements"));
+    const list = [];
+    snap.forEach(d=>list.push({id:d.id, ...d.data()}));
+    list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+
+    container.innerHTML = `
+      <h2 class="page-title">📢 Anuncios para Docentes</h2>
+      <p class="page-sub">Crea y administra los mensajes visibles para los docentes.</p>
+
+      <div class="card">
+        <div class="form-row">
+          <div style="flex:2;">
+            <label>Mensaje</label>
+            <textarea id="annText" placeholder="Escribe el anuncio…"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>Tipo</label>
+            <select id="annType">
+              <option value="normal">📢 Comunicado</option>
+              <option value="reminder">⏰ Recordatorio</option>
+              <option value="urgent">🚨 Urgente</option>
+            </select>
+          </div>
+          <div>
+            <label>Vence (fecha)</label>
+            <input type="date" id="annDate">
+          </div>
+          <div>
+            <label>Vence (hora)</label>
+            <input type="time" id="annTime" value="23:59">
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btnAddAnn">+ Publicar Anuncio</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0; color:var(--azul); font-size:15px;">Anuncios existentes</h3>
+        <div id="annList">
+          ${list.length? list.map(a=>`
+            <div class="announce-item ${a.active?'':'inactive'}">
+              <div>
+                <span class="ann-type ${a.type||'normal'}">${a.type==='urgent'?'🚨 Urgente':a.type==='reminder'?'⏰ Recordatorio':'📢 Comunicado'}</span>
+                <div>${escapeHtml(a.text)}</div>
+                <div style="font-size:11px; color:var(--text-faint); margin-top:4px;">
+                  Por ${escapeHtml(a.author||'—')} · Vence ${escapeHtml(a.expiresDate||'—')} ${escapeHtml(a.expiresTime||'')}
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <button class="btn btn-outline btn-sm" data-toggle="${a.id}">${a.active?'Desactivar':'Activar'}</button>
+                <button class="btn btn-outline btn-sm" data-del="${a.id}" style="color:var(--danger); border-color:var(--danger-bg);">Eliminar</button>
+              </div>
+            </div>`).join("") : `<div class="empty-state"><div class="icn">📭</div>No hay anuncios publicados.</div>`}
+        </div>
+      </div>`;
+
+    container.querySelector("#btnAddAnn").addEventListener("click", async ()=>{
+      const text = container.querySelector("#annText").value.trim();
+      const type = container.querySelector("#annType").value;
+      const expiresDate = container.querySelector("#annDate").value;
+      const expiresTime = container.querySelector("#annTime").value || "23:59";
+      if(!text){ alert("Escribe un mensaje."); return; }
+      let expiresAt = null;
+      if(expiresDate) expiresAt = new Date(`${expiresDate}T${expiresTime}:00`).getTime();
+      await addDoc(collection(fireDb, "announcements"), {
+        text, author: session.coordName, type, active: true,
+        createdAt: Date.now(), expiresAt, expiresDate: expiresDate||null, expiresTime
+      });
+      loadAndDraw();
+    });
+
+    container.querySelectorAll("[data-toggle]").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        const id = btn.dataset.toggle;
+        const item = list.find(a=>a.id===id);
+        await updateDoc(doc(fireDb, "announcements", id), { active: !item.active });
+        loadAndDraw();
+      });
+    });
+    container.querySelectorAll("[data-del]").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        if(!confirm("¿Eliminar este anuncio?")) return;
+        await deleteDoc(doc(fireDb, "announcements", btn.dataset.del));
+        loadAndDraw();
+      });
+    });
+  }
+  await loadAndDraw();
+}
+
+/* ===================== MÓDULO: PERMISOS DE DOCENTES ===================== */
+async function renderPermisos(container){
+  container.innerHTML = `<div class="loader">Cargando solicitudes…</div>`;
+  let filterEstado = "pendiente";
+  let filterDocente = "";
+
+  async function loadAndDraw(){
+    const list = await loadAllAbsences();
+    const teachersOpts = getTeachers();
+
+    const pend = list.filter(a=>(a.status||"pendiente")==="pendiente").length;
+    const apro = list.filter(a=>a.status==="aprobado").length;
+    const rech = list.filter(a=>a.status==="rechazado").length;
+
+    let filtered = list.slice();
+    if(filterEstado) filtered = filtered.filter(a=>(a.status||"pendiente")===filterEstado);
+    if(filterDocente) filtered = filtered.filter(a=>a.teacherId===filterDocente);
+    filtered.sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+
+    const STATUS_BADGE = {pendiente:{lbl:"⏳ Pendiente", cls:"warn"}, aprobado:{lbl:"✅ Aprobado", cls:"ok"}, rechazado:{lbl:"❌ Rechazado", cls:"bad"}};
+
+    // Seguimiento: resumen acumulado por docente (histórico completo, sin filtrar)
+    const byTeacher = {};
+    list.forEach(a=>{
+      const tId = a.teacherId || a._teacherDocId;
+      if(!byTeacher[tId]) byTeacher[tId] = {total:0, pendiente:0, aprobado:0, rechazado:0, ultima:null};
+      const bucket = byTeacher[tId];
+      bucket.total++;
+      bucket[a.status||"pendiente"] = (bucket[a.status||"pendiente"]||0) + 1;
+      if(!bucket.ultima || (a.date||"") > bucket.ultima) bucket.ultima = a.date||bucket.ultima;
+    });
+    const seguimientoRows = Object.entries(byTeacher)
+      .map(([tId,b])=>({teacher: getTeacherById(tId)?.name || tId, ...b}))
+      .sort((a,b)=>b.total-a.total);
+
+    container.innerHTML = `
+      <h2 class="page-title">📝 Permisos de Docentes</h2>
+      <p class="page-sub">Aquí llegan las solicitudes que cada docente envía desde su Portal Docentes (pestaña "Permisos" de su perfil). Apruébalas o recházalas abajo; el docente ve la decisión reflejada de inmediato en su portal.</p>
+
+      <div class="grid grid-3" style="margin-bottom:18px;">
+        <div class="stat-card"><div class="n">${pend}</div><div class="l">Pendientes por revisar</div></div>
+        <div class="stat-card"><div class="n">${apro}</div><div class="l">Aprobados (histórico)</div></div>
+        <div class="stat-card"><div class="n">${rech}</div><div class="l">Rechazados (histórico)</div></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0; color:var(--azul); font-size:15px;">📊 Seguimiento por Docente</h3>
+        ${seguimientoRows.length? `
+        <table>
+          <thead><tr><th>Docente</th><th>Total solicitudes</th><th>Pendientes</th><th>Aprobados</th><th>Rechazados</th><th>Última solicitud</th></tr></thead>
+          <tbody>
+            ${seguimientoRows.map(r=>`
+              <tr>
+                <td>${escapeHtml(r.teacher)}</td>
+                <td>${r.total}</td>
+                <td>${r.pendiente? `<span class="badge warn">${r.pendiente}</span>` : '0'}</td>
+                <td>${r.aprobado||0}</td>
+                <td>${r.rechazado||0}</td>
+                <td>${escapeHtml(r.ultima||'—')}</td>
+              </tr>`).join("")}
+          </tbody>
+        </table>` : `<div class="empty-state"><div class="icn">📭</div>Ningún docente ha enviado solicitudes todavía.</div>`}
+      </div>
+
+      <h3 style="color:var(--azul); font-size:15px; margin:22px 0 10px;">📋 Detalle de solicitudes</h3>
+      <div class="toolbar">
+        <label>Estado:</label>
+        <select id="permEstado">
+          <option value="pendiente" ${filterEstado==='pendiente'?'selected':''}>⏳ Pendientes</option>
+          <option value="aprobado" ${filterEstado==='aprobado'?'selected':''}>✅ Aprobados</option>
+          <option value="rechazado" ${filterEstado==='rechazado'?'selected':''}>❌ Rechazados</option>
+          <option value="" ${filterEstado===''?'selected':''}>Todos</option>
+        </select>
+        <label>Docente:</label>
+        <select id="permDocente">
+          <option value="">Todos</option>
+          ${teachersOpts.map(t=>`<option value="${t.id}" ${t.id===filterDocente?'selected':''}>${escapeHtml(t.name)}</option>`).join("")}
+        </select>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        ${filtered.length? `
+        <table>
+          <thead><tr><th>Docente</th><th>Fecha</th><th>Horario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody>
+            ${filtered.map(a=>{
+              const teacher = getTeacherById(a.teacherId);
+              const st = STATUS_BADGE[a.status||"pendiente"];
+              const isPend = (a.status||"pendiente")==="pendiente";
+              return `<tr>
+                <td>${escapeHtml(teacher?.name || a.teacherId || '—')}</td>
+                <td>${escapeHtml(a.date||'—')}</td>
+                <td>${escapeHtml(a.timeFrom||'')} – ${escapeHtml(a.timeTo||'')}</td>
+                <td>${escapeHtml(a.reason||'—')}</td>
+                <td><span class="badge ${st.cls}">${st.lbl}</span></td>
+                <td>${isPend? `
+                  <button class="btn btn-outline btn-sm" data-approve="${a._teacherDocId}|${a.id}" style="color:var(--success); border-color:var(--success-bg); margin-right:6px;">Aprobar</button>
+                  <button class="btn btn-outline btn-sm" data-reject="${a._teacherDocId}|${a.id}" style="color:var(--danger); border-color:var(--danger-bg);">Rechazar</button>
+                ` : (a.decidedBy? `<span style="font-size:11px; color:var(--text-faint);">Por ${escapeHtml(a.decidedBy)}</span>` : '—')}</td>
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>` : `<div class="empty-state"><div class="icn">📭</div>No hay solicitudes con ese filtro.</div>`}
+      </div>`;
+
+    container.querySelector("#permEstado").addEventListener("change", e=>{ filterEstado = e.target.value; loadAndDraw(); });
+    container.querySelector("#permDocente").addEventListener("change", e=>{ filterDocente = e.target.value; loadAndDraw(); });
+    container.querySelectorAll("[data-approve]").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        const [teacherDocId, absenceId] = btn.dataset.approve.split("|");
+        btn.disabled = true;
+        await updateAbsenceStatus(teacherDocId, absenceId, "aprobado");
+        loadAndDraw();
+      });
+    });
+    container.querySelectorAll("[data-reject]").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        const [teacherDocId, absenceId] = btn.dataset.reject.split("|");
+        btn.disabled = true;
+        await updateAbsenceStatus(teacherDocId, absenceId, "rechazado");
+        loadAndDraw();
+      });
+    });
+  }
+  await loadAndDraw();
+}
+
+/* ===================== MÓDULOS DE REDIRECCIÓN ===================== */
+function renderRedirect(container, {icon, title, desc, file}){
+  container.innerHTML = `
+    <h2 class="page-title">${icon} ${escapeHtml(title)}</h2>
+    <div class="card redirect-card">
+      <div class="icn">${icon}</div>
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(desc)}</p>
+      <button class="btn btn-primary" id="btnOpenRedirect">Abrir ${escapeHtml(title)} →</button>
+    </div>`;
+  container.querySelector("#btnOpenRedirect").addEventListener("click", ()=>window.open(file, "_blank"));
+}
+
+/* ===================== MÓDULOS DE SOLO LECTURA (colecciones externas) ===================== */
+async function renderCollectionReadonly(container, {icon, title, colName, fields}){
+  container.innerHTML = `<div class="loader">Cargando…</div>`;
+  const snap = await getDocs(collection(fireDb, colName));
+  const list = [];
+  snap.forEach(d=>list.push({id:d.id, ...d.data()}));
+  list.sort((a,b)=>(b.createdAt||b.fecha||0) > (a.createdAt||a.fecha||0) ? 1 : -1);
+
+  container.innerHTML = `
+    <h2 class="page-title">${icon} ${escapeHtml(title)}</h2>
+    <p class="page-sub">Solo lectura. Las aprobaciones se gestionan desde el panel del administrador.</p>
+    <div class="card" style="padding:0; overflow-x:auto;">
+      ${list.length? `
+      <table>
+        <thead><tr>${fields.map(f=>`<th>${escapeHtml(f.label)}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${list.map(item=>`
+            <tr>${fields.map(f=>`<td>${escapeHtml(f.get? f.get(item) : (item[f.key] ?? '—'))}</td>`).join("")}</tr>
+          `).join("")}
+        </tbody>
+      </table>` : `<div class="empty-state"><div class="icn">📭</div>No hay registros por el momento.</div>`}
+    </div>`;
+}
+
+/* ===================== MÓDULO: SEMÁFORO ===================== */
+function courseAverage(course, period){
+  const teachers = getTeachers();
+  const totalStudents = (course.students||[]).length;
+  const active = activeStudents(course);
+  const subjectIds = [...new Set(teachers.flatMap(t=>(t.assignments||[]).filter(a=>a.courseId===course.id).map(a=>a.subjectId)))];
+  let sum=0, count=0;
+  subjectIds.forEach(subId=>{
+    active.forEach(st=>{
+      const idx = (course.students||[]).indexOf(st);
+      const nota = calcStudentGrade(allGrades, teachers, course.id, subId, idx, period, totalStudents);
+      if(nota!=null){ sum+=nota; count++; }
+    });
+  });
+  return count>0 ? Math.round((sum/count)*100)/100 : null;
+}
+
+function renderSemaforo(container){
+  const draw = ()=>{
+    const courses = getCourses();
+    const tiles = courses.map(c=>{
+      const avg = courseAverage(c, selectedPeriod);
+      let cls="gray", lbl="Sin datos";
+      if(avg!=null){
+        if(avg>=3.6){cls="green"; lbl="Bien";}
+        else if(avg>=3.0){cls="yellow"; lbl="Atención";}
+        else {cls="red"; lbl="Crítico";}
+      }
+      return `<div class="sem-tile ${cls}"><div class="name">${escapeHtml(c.name)}</div><div class="avg">${avg??'—'}</div><div class="lbl">${lbl}</div></div>`;
+    }).join("");
+    container.innerHTML = `
+      <h2 class="page-title">🚦 Semáforo Institucional</h2>
+      <p class="page-sub">Promedio general por curso en el periodo seleccionado.</p>
+      ${periodSelectorHtml()}
+      <div class="card">
+        ${courses.length? `<div class="semaforo-grid">${tiles}</div>` : `<div class="empty-state"><div class="icn">📭</div>No hay cursos registrados.</div>`}
+      </div>`;
+    bindPeriodSelector(container, draw);
+  };
+  draw();
+}
+
+/* ===================== MÓDULO: DASHBOARD IA ===================== */
+function renderDashboardIA(container){
+  const draw = ()=>{
+    const courses = getCourses();
+    const teachers = getTeachers();
+    const ranking = courses.map(c=>({name:c.name, avg:courseAverage(c, selectedPeriod)}))
+      .filter(c=>c.avg!=null).sort((a,b)=>b.avg-a.avg);
+    const maxAvg = ranking.length? ranking[0].avg : 5;
+
+    // estudiantes en riesgo
+    const risk = [];
+    courses.forEach(c=>{
+      const totalStudents = (c.students||[]).length;
+      const subjectIds = [...new Set(teachers.flatMap(t=>(t.assignments||[]).filter(a=>a.courseId===c.id).map(a=>a.subjectId)))];
+      activeStudents(c).forEach(st=>{
+        const idx = (c.students||[]).indexOf(st);
+        subjectIds.forEach(subId=>{
+          const nota = calcStudentGrade(allGrades, teachers, c.id, subId, idx, selectedPeriod, totalStudents);
+          if(nota!=null && nota<3.0){
+            risk.push({student: st.name, course: c.name, subject: subjectName(subId), nota});
+          }
+        });
+      });
+    });
+
+    // materia mejor / peor
+    const subjectAvgs = {};
+    courses.forEach(c=>{
+      const totalStudents = (c.students||[]).length;
+      const active = activeStudents(c);
+      teachers.forEach(t=>{
+        (t.assignments||[]).filter(a=>a.courseId===c.id).forEach(a=>{
+          let sum=0, count=0;
+          active.forEach(st=>{
+            const idx=(c.students||[]).indexOf(st);
+            const nota = calcStudentGrade(allGrades, teachers, c.id, a.subjectId, idx, selectedPeriod, totalStudents);
+            if(nota!=null){ sum+=nota; count++; }
+          });
+          if(count>0){
+            const key = subjectName(a.subjectId);
+            if(!subjectAvgs[key]) subjectAvgs[key] = {sum:0,count:0};
+            subjectAvgs[key].sum += sum; subjectAvgs[key].count += count;
+          }
+        });
+      });
+    });
+    const subjRanking = Object.entries(subjectAvgs).map(([name,v])=>({name, avg:Math.round((v.sum/v.count)*100)/100})).sort((a,b)=>b.avg-a.avg);
+
+    const recs = [];
+    ranking.filter(r=>r.avg<3.0).forEach(r=>recs.push(`Programar plan de refuerzo académico para ${r.name} (promedio ${r.avg}).`));
+    if(risk.length>5) recs.push(`Citar acudientes de los ${risk.length} casos en riesgo académico detectados.`);
+    if(subjRanking.length && subjRanking[subjRanking.length-1].avg<3.3) recs.push(`Revisar metodología de ${subjRanking[subjRanking.length-1].name}, presenta el promedio más bajo.`);
+    if(recs.length===0) recs.push("No se detectan riesgos críticos en este periodo. Continuar seguimiento habitual.");
+
+    container.innerHTML = `
+      <h2 class="page-title">🧠 Dashboard IA / Análisis</h2>
+      <p class="page-sub">Informe ejecutivo generado automáticamente para el periodo seleccionado.</p>
+      ${periodSelectorHtml()}
+
+      <div class="grid grid-3" style="margin-bottom:18px;">
+        <div class="stat-card"><div class="n">${courses.length}</div><div class="l">Cursos activos</div></div>
+        <div class="stat-card"><div class="n">${risk.length}</div><div class="l">Casos en riesgo</div></div>
+        <div class="stat-card"><div class="n">${ranking.length? ranking[0].name : '—'}</div><div class="l">Mejor curso</div></div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top:0; color:var(--azul); font-size:15px;">🏆 Ranking de Cursos</h3>
+          ${ranking.length? ranking.map((r,i)=>`
+            <div class="rank-row">
+              <div class="rank-num">${i+1}</div>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:700; margin-bottom:4px;">${escapeHtml(r.name)} <span style="float:right; color:var(--azul);">${r.avg}</span></div>
+                <div class="rank-bar-wrap"><div class="rank-bar" style="width:${(r.avg/maxAvg*100).toFixed(0)}%"></div></div>
+              </div>
+            </div>`).join("") : `<div class="empty-state">Sin datos suficientes.</div>`}
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0; color:var(--azul); font-size:15px;">📚 Materias — Mejor / Peor</h3>
+          ${subjRanking.length? subjRanking.map(s=>`
+            <div class="rank-row"><div style="flex:1; font-size:13px; font-weight:600;">${escapeHtml(s.name)}</div><b style="color:var(--azul);">${s.avg}</b></div>
+          `).join("") : `<div class="empty-state">Sin datos suficientes.</div>`}
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0; color:var(--azul); font-size:15px;">⚠️ Estudiantes en Riesgo (nota &lt; 3.0)</h3>
+        ${risk.length? risk.slice(0,25).map(r=>`
+          <div class="risk-item"><b>${escapeHtml(r.student)}</b> — ${escapeHtml(r.subject)} (${escapeHtml(r.course)}): nota ${r.nota}</div>
+        `).join("") + (risk.length>25? `<div style="font-size:12px; color:var(--text-faint); margin-top:6px;">…y ${risk.length-25} más.</div>`:'') : `<div class="empty-state">No hay estudiantes en riesgo en este periodo.</div>`}
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0; color:var(--azul); font-size:15px;">💡 Recomendaciones</h3>
+        ${recs.map(r=>`<div class="rec-item">💡 ${escapeHtml(r)}</div>`).join("")}
+      </div>`;
+    bindPeriodSelector(container, draw);
+  };
+  draw();
+}
+
+/* ===================== MÓDULO: HORARIOS ===================== */
+async function renderHorarios(container){
+  container.innerHTML = `<div class="loader">Cargando horarios…</div>`;
+  const horariosSnap = await getDocs(collection(fireDb, "horarios_files"));
+  const horarios = {};
+  horariosSnap.forEach(d=>{
+    const data = d.data();
+    if(data.url) horarios[data.teacherId || d.id] = data.url;
+  });
+  const teachers = getTeachers();
+  container.innerHTML = `
+    <h2 class="page-title">📅 Horarios</h2>
+    <p class="page-sub">Consulta de horarios por docente. Solo lectura.</p>
+    <div class="card" style="padding:0; overflow-x:auto;">
+      ${teachers.length? `
+      <table>
+        <thead><tr><th>Docente</th><th>Horario</th></tr></thead>
+        <tbody>
+          ${teachers.map(t=>`
+            <tr>
+              <td>${escapeHtml(t.name)}</td>
+              <td>${horarios[t.id]? `<a href="${horarios[t.id]}" target="_blank" class="btn btn-outline btn-sm">Ver horario 📄</a>` : `<span style="color:var(--text-faint);">Sin horario cargado</span>`}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>` : `<div class="empty-state"><div class="icn">📭</div>No hay docentes registrados.</div>`}
+    </div>`;
+}
+
+/* ===================== ROUTER DE MÓDULOS ===================== */
+const MODULE_RENDERERS = {
+  consolidado: renderConsolidado,
+  estadoDocentes: renderEstadoDocentes,
+  alertas: renderAlertas,
+  asistencia: renderAsistencia,
+  permisos: renderPermisos,
+  anuncios: renderAnuncios,
+  pagos: (c)=>renderRedirect(c, {icon:"💰", title:"Pagos", desc:"Gestión de pagos y pensiones.", file:"pagos.html"}),
+  certificados: (c)=>renderRedirect(c, {icon:"📄", title:"Certificados", desc:"Generación de certificados y constancias.", file:"certificados.html"}),
+  prematriculas: (c)=>renderCollectionReadonly(c, {icon:"📥", title:"Pre-matrículas", colName:"prematriculas", fields:[
+    {label:"Estudiante", key:"nombre"}, {label:"Documento", key:"documento"}, {label:"Curso", key:"curso"},
+    {label:"Acudiente", key:"acudiente"}, {label:"Teléfono", key:"telefono"}, {label:"Fecha", key:"fecha"}, {label:"Estado", key:"estado"}
+  ]}),
+  matriculas: (c)=>renderCollectionReadonly(c, {icon:"📋", title:"Matrículas", colName:"matriculas", fields:[
+    {label:"Estudiante", key:"nombre"}, {label:"Documento", key:"documento"}, {label:"Curso", key:"curso"},
+    {label:"Acudiente", key:"acudiente"}, {label:"Teléfono", key:"telefono"}, {label:"Fecha", key:"fecha"}, {label:"Estado", key:"estado"}
+  ]}),
+  semaforo: renderSemaforo,
+  dashboardIA: renderDashboardIA,
+  horarios: renderHorarios,
+};
+
+/* ===================== ARRANQUE ===================== */
+(async function init(){
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid");
+  const k = params.get("k");
+  if(uid && k){
+    userIdInput.value = uid;
+    passInput.value = k;
+    await doLogin(uid, k);
+    return;
+  }
+  const saved = sessionStorage.getItem("adm_session");
+  if(saved){
+    try{
+      session = JSON.parse(saved);
+      await loadSystemDataOnly();
+      await enterApp();
+      return;
+    }catch(e){ sessionStorage.removeItem("adm_session"); }
+  }
+  checkLock();
+})();
+</script>
+</body>
+</html>
