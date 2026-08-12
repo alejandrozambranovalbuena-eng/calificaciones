@@ -608,28 +608,36 @@ function periodoLabelLong(v){return{'1':'el Período 1','2':'el Período 2','3':
 window.goHome=function(){showScreen('sHome');resetSolicitar();};
 window.initSolicitar=function(){resetSolicitar();showScreen('sSolicitar');irPaso(1);};
 // ── Email helper ──
-function sendEmail(toEmail, toName, subject, message){
-  // Non-blocking - fire and forget
-  setTimeout(async ()=>{
-    try{
-      let waited=0;
-      while(typeof emailjs==='undefined'||!window._ejsReady){
-        await new Promise(r=>setTimeout(r,200));
-        waited+=200;
-        if(waited>8000){console.error('EmailJS timeout');return;}
-      }
-      const response = await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
-        to_email: toEmail,
-        name: toName,
-        subject: subject,
-        message: message,
-        email: toEmail
-      });
-      console.log('Email sent OK to:', toEmail, 'status:', response.status);
-    } catch(e){
-      console.error('EmailJS send error:', JSON.stringify(e));
+async function sendEmail(toEmail, toName, subject, message){
+  // Wait for EmailJS ready - max 10 seconds
+  let waited=0;
+  while(typeof emailjs==='undefined'||!window._ejsReady){
+    await new Promise(r=>setTimeout(r,300));
+    waited+=300;
+    if(waited>10000){
+      console.error('EmailJS no cargo - correo no enviado a:',toEmail);
+      return false;
     }
-  }, 100);
+  }
+  // Retry up to 3 times
+  for(let attempt=1;attempt<=3;attempt++){
+    try{
+      const response=await emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{
+        to_email:toEmail,
+        name:toName,
+        subject:subject,
+        message:message,
+        email:toEmail
+      });
+      console.log('Email enviado OK a:',toEmail,'intento:',attempt,'status:',response.status);
+      return true;
+    }catch(e){
+      console.error('Email intento '+attempt+' fallido:',JSON.stringify(e));
+      if(attempt<3) await new Promise(r=>setTimeout(r,2000));
+    }
+  }
+  console.error('Email fallido despues de 3 intentos a:',toEmail);
+  return false;
 }
 
 window.selModalidad=function(mod,el){
@@ -795,7 +803,7 @@ window.enviarSolicitud=async function(){
     const nEstudiantes=selStudents.map(s=>(s.name||s.fullName||'').toUpperCase()).join(', ');
     const tipoNotif=selTipos.map(t=>t==='estudio'?'Certificado de Estudio':'Certificado de Notas').join(' y ');
     const modNotif=selModalidad_val==='digital'?'Digital (Correo)':selModalidad_val==='fisico'?'Fisico':'Fisico y Digital';
-    sendEmail(
+    await sendEmail(
       EMAIL_COORD,
       'Coordinacion Liceo Moderno',
       'Nueva solicitud: '+tipoNotif+' - '+nEstudiantes,
