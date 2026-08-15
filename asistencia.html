@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asistencia Institucional · Liceo Moderno Suesca</title>
+<style>
+:root{
+  --bg:#f5f7fb;--bg2:#fff;--navy:#1a237e;--text:#212121;--text2:#616161;
+  --border:#e0e0e0;--green:#2e7d32;--red:#c62828;--orange:#f57c00;--blue:#1565c0;
+  --p-bg:#e8f5e9;--a-bg:#ffebee;--t-bg:#fff3e0;--e-bg:#e3f2fd;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
+header{background:var(--navy);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.1);}
+.hdr-title{font-weight:900;font-size:16px;}
+.hdr-sub{font-size:11px;opacity:.85;font-weight:400;}
+.hdr-right{display:flex;align-items:center;gap:12px;font-size:12px;}
+.hdr-user{background:rgba(255,255,255,.15);padding:6px 12px;border-radius:20px;font-weight:600;}
+main{padding:16px;max-width:1400px;margin:0 auto;}
+nav{display:flex;gap:4px;margin-bottom:16px;background:var(--bg2);padding:4px;border-radius:10px;overflow-x:auto;}
+.nav-btn{flex:1;min-width:120px;padding:10px 12px;border:none;background:transparent;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;color:var(--text2);transition:.15s;white-space:nowrap;}
+.nav-btn.active{background:var(--navy);color:#fff;}
+.nav-btn:hover:not(.active){background:var(--bg);}
+.card{background:var(--bg2);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.card-title{font-weight:900;font-size:15px;margin-bottom:12px;color:var(--navy);display:flex;align-items:center;gap:6px;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+.stat-card{background:var(--bg2);border-left:4px solid;border-radius:8px;padding:12px 14px;}
+.stat-card.green{border-color:var(--green);}
+.stat-card.red{border-color:var(--red);}
+.stat-card.orange{border-color:var(--orange);}
+.stat-card.blue{border-color:var(--blue);}
+.stat-num{font-size:22px;font-weight:900;line-height:1;}
+.stat-lbl{font-size:11px;color:var(--text2);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.chip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;margin:2px;}
+.chip-ok{background:var(--p-bg);color:var(--green);}
+.chip-warn{background:var(--t-bg);color:var(--orange);}
+.chip-bad{background:var(--a-bg);color:var(--red);}
+.chip-neutral{background:#f5f5f5;color:var(--text2);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+table th{background:#f5f7fb;padding:8px 10px;text-align:left;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);border-bottom:2px solid var(--border);}
+table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+table tr:hover{background:#fafbfe;}
+.inp{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;}
+.btn{padding:8px 14px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;transition:.15s;font-family:inherit;}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover{background:#0d1a5e;}
+.btn-secondary{background:#e0e0e0;color:var(--text);}
+.btn-secondary:hover{background:#bdbdbd;}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.att-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;}
+.att-p{background:var(--p-bg);color:var(--green);}
+.att-a{background:var(--a-bg);color:var(--red);}
+.att-t{background:var(--t-bg);color:var(--orange);}
+.att-e{background:var(--e-bg);color:var(--blue);}
+.att-none{background:#eee;color:#999;}
+.grid-cursos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.curso-card{background:var(--bg2);border-radius:10px;padding:12px;cursor:pointer;border:2px solid var(--border);transition:.15s;}
+.curso-card:hover{border-color:var(--navy);transform:translateY(-2px);}
+.curso-nombre{font-weight:900;font-size:14px;color:var(--navy);}
+.curso-info{font-size:11px;color:var(--text2);margin-top:4px;}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+.select{padding:8px 32px 8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff;cursor:pointer;font-family:inherit;}
+.loading{text-align:center;padding:40px;color:var(--text2);font-size:14px;}
+.empty{text-align:center;padding:40px;color:var(--text2);}
+.empty-icon{font-size:48px;margin-bottom:8px;opacity:.4;}
+.docente-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;}
+.docente-info{flex:1;}
+.docente-nombre{font-weight:700;font-size:14px;}
+.docente-detalle{font-size:11px;color:var(--text2);margin-top:2px;}
+#loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,#1a237e,#3949ab);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.login-card{background:#fff;border-radius:16px;padding:32px 24px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-title{font-weight:900;font-size:20px;color:var(--navy);text-align:center;margin-bottom:6px;}
+.login-sub{text-align:center;color:var(--text2);font-size:13px;margin-bottom:20px;}
+.login-inp{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:12px;font-family:inherit;}
+.login-btn{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer;}
+.alert{padding:12px 14px;border-radius:8px;margin-bottom:12px;font-size:13px;}
+.alert-error{background:#ffebee;color:var(--red);border-left:4px solid var(--red);}
+.alert-success{background:#e8f5e9;color:var(--green);border-left:4px solid var(--green);}
+.alert-warning{background:#fff3e0;color:var(--orange);border-left:4px solid var(--orange);}
+.alert-info{background:#e3f2fd;color:var(--blue);border-left:4px solid var(--blue);}
+.progress-bar{width:100%;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;margin-top:4px;}
+.progress-fill{height:100%;transition:width .3s;}
+.dow-hdr{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:2px;font-size:10px;font-weight:700;color:var(--text2);text-align:center;}
+.dow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;}
+.dow-cell{padding:8px 4px;border-radius:6px;text-align:center;font-size:11px;font-weight:700;}
+.dow-ok{background:var(--p-bg);color:var(--green);}
+.dow-partial{background:var(--t-bg);color:var(--orange);}
+.dow-none{background:var(--a-bg);color:var(--red);}
+.dow-nolab{background:#eee;color:#999;}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 20px;background:var(--navy);color:#fff;border-radius:10px;font-weight:700;font-size:13px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.2);display:none;}
+#toast.error{background:var(--red);}
+#toast.success{background:var(--green);}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-content{background:#fff;border-radius:14px;padding:20px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;}
+.modal-title{font-weight:900;font-size:16px;color:var(--navy);margin-bottom:14px;}
+@media (max-width:600px){
+  main{padding:10px;}
+  header{padding:10px 14px;}
+  .hdr-title{font-size:14px;}
+  .nav-btn{min-width:100px;font-size:12px;padding:8px 10px;}
+  .stat-num{font-size:18px;}
+  table{font-size:12px;}
+  table th,table td{padding:6px 8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-title">📋 Asistencia Institucional</div>
+    <div class="login-sub">Acceso solo Rectoría y Coordinación</div>
+    <div id="loginAlert"></div>
+    <input class="login-inp" id="loginUser" placeholder="Usuario (ej: RECTOR, COORD_DISC)" autocomplete="username">
+    <input class="login-inp" id="loginPass" type="password" placeholder="Clave" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--text2)">v1.0.0 · Liceo Moderno Suesca</div>
+  </div>
+</div>
+
+<!-- APP PRINCIPAL -->
+<div id="app" style="display:none">
+  <header>
+    <div>
+      <div class="hdr-title">📋 Asistencia Institucional</div>
+      <div class="hdr-sub">Liceo Moderno Suesca</div>
+    </div>
+    <div class="hdr-right">
+      <span class="hdr-user" id="hdrUser">—</span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <nav>
+      <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Panel</button>
+      <button class="nav-btn" data-tab="diario" onclick="switchTab('diario')">📅 Diario</button>
+      <button class="nav-btn" data-tab="cumplimiento" onclick="switchTab('cumplimiento')">✅ Cumplimiento</button>
+      <button class="nav-btn" data-tab="estudiantes" onclick="switchTab('estudiantes')">👥 Estudiantes</button>
+      <button class="nav-btn" data-tab="cursos" onclick="switchTab('cursos')">🏫 Cursos</button>
+      <button class="nav-btn" data-tab="editar" onclick="switchTab('editar')">✏️ Editar</button>
+    </nav>
+
+    <div id="tabContent">
+      <div class="loading">Cargando...</div>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+  <div id="modalHost"></div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getFirestore,doc,getDoc,setDoc,updateDoc,collection,getDocs,query,where}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const APP_VERSION="v1.0.0";
+const fbCfg={apiKey:"AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",authDomain:"liceo-suesca-notas.firebaseapp.com",projectId:"liceo-suesca-notas",storageBucket:"liceo-suesca-notas.firebasestorage.app",messagingSenderId:"1043795829473",appId:"1:1043795829473:web:0e1e1c1a1234567890"};
+
+let fApp,fDb,fbOk=false;
+try{fApp=initializeApp(fbCfg);fDb=getFirestore(fApp);fbOk=true;}catch(e){console.error("Firebase init error",e);}
+
+const $=id=>document.getElementById(id);
+const state={
+  user:null,
+  systemData:null,
+  attendanceByTeacher:{},
+  currentTab:"dashboard",
+  filterCourse:"",
+  filterMonth:new Date().toISOString().slice(0,7),
+  filterDate:new Date().toISOString().slice(0,10)
+};
+
+// ══ TOAST ══════════════════════════════════════════════════
+function toast(msg,type=""){
+  const t=$("toast");t.textContent=msg;t.className=type;t.style.display="block";
+  clearTimeout(window._tt);window._tt=setTimeout(()=>t.style.display="none",3000);
+}
+
+// ══ LOGIN ══════════════════════════════════════════════════
+window.doLogin=async function(){
+  const user=$("loginUser").value.trim().toUpperCase();
+  const pass=$("loginPass").value.trim();
+  const alertBox=$("loginAlert");
+  alertBox.innerHTML="";
+  if(!user||!pass){
+    alertBox.innerHTML='<div class="alert alert-error">Ingresa usuario y clave</div>';
+    return;
+  }
+  if(!fbOk){
+    alertBox.innerHTML='<div class="alert alert-error">Sin conexión a Firebase</div>';
+    return;
+  }
+  // Chequear sesión pre-cargada de index.html primero
+  const preAuth=sessionStorage.getItem("adminAuth");
+  if(preAuth){
+    try{
+      const auth=JSON.parse(preAuth);
+      if(Date.now()-auth.timestamp<3600000){ // 1 hora
+        state.user=auth;
+        return await loadApp();
+      }
+    }catch(e){}
+  }
+  try{
+    const snap=await getDoc(doc(fDb,"system","data"));
+    if(!snap.exists()){
+      alertBox.innerHTML='<div class="alert alert-error">No se pudo cargar la base de datos</div>';
+      return;
+    }
+    const data=snap.data();
+    // Buscar en coordinators
+    const coords=data.coordinators||[];
+    const match=coords.find(c=>
+      (c.userId||"").toUpperCase()===user && c.key===pass
+    );
+    if(!match){
+      alertBox.innerHTML='<div class="alert alert-error">Credenciales inválidas o sin permisos</div>';
+      return;
+    }
+    // Solo rector o coordinadores pueden entrar
+    const rolesPermitidos=["rector","coordinador_academico","coordinador_disciplina","coordinador_administrativo"];
+    if(!rolesPermitidos.includes(match.role)){
+      alertBox.innerHTML='<div class="alert alert-error">Tu usuario no tiene permisos para este módulo</div>';
+      return;
+    }
+    state.user={
+      role:match.role,
+      userId:match.userId,
+      name:match.name,
+      id:match.id,
+      permisos:match.permisos||[]
+    };
+    state.systemData=data;
+    sessionStorage.setItem("adminAuth",JSON.stringify({...state.user,timestamp:Date.now()}));
+    await loadApp();
+  }catch(e){
+    console.error(e);
+    alertBox.innerHTML='<div class="alert alert-error">Error de conexión: '+e.message+'</div>';
+  }
+};
+
+window.logout=function(){
+  sessionStorage.removeItem("adminAuth");
+  location.reload();
+};
+
+// ══ CARGA APP ══════════════════════════════════════════════
+async function loadApp(){
+  $("loginScreen").style.display="none";
+  $("app").style.display="block";
+  $("hdrUser").textContent=state.user.name;
+  // Cargar system/data si no está
+  if(!state.systemData){
+    try{
+      const snap=await getDoc(doc(fDb,"system","data"));
+      if(snap.exists()) state.systemData=snap.data();
+    }catch(e){toast("Error cargando datos","error");return;}
+  }
+  await loadAllAttendance();
+  renderTab("dashboard");
+}
+
+// ══ CARGA ASISTENCIA DE TODOS LOS DOCENTES ═══════════════
+async function loadAllAttendance(){
+  $("tabContent").innerHTML='<div class="loading">Cargando asistencia de todos los docentes...</div>';
+  state.attendanceByTeacher={};
+  try{
+    const snap=await getDocs(collection(fDb,"attendance"));
+    snap.forEach(d=>{
+      state.attendanceByTeacher[d.id]=d.data();
+    });
+    console.log(`Cargados ${Object.keys(state.attendanceByTeacher).length} docentes con asistencia`);
+  }catch(e){
+    console.error("Error cargando attendance:",e);
+    toast("Error cargando datos de asistencia","error");
+  }
+}
+
+// ══ NAVEGACIÓN ═════════════════════════════════════════════
+window.switchTab=function(tab){
+  state.currentTab=tab;
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    b.classList.toggle("active",b.dataset.tab===tab);
+  });
+  renderTab(tab);
+};
+
+function renderTab(tab){
+  if(tab==="dashboard") return renderDashboard();
+  if(tab==="diario") return renderDiario();
+  if(tab==="cumplimiento") return renderCumplimiento();
+  if(tab==="estudiantes") return renderEstudiantesAlertas();
+  if(tab==="cursos") return renderCursos();
+  if(tab==="editar") return renderEditar();
+}
+
+// ══ HELPERS ════════════════════════════════════════════════
+function getCourses(){return state.systemData?.courses||[];}
+function getTeachers(){return state.systemData?.teachers||[];}
+function getCourseName(id){return getCourses().find(c=>c.id===id)?.name||"?";}
+function getTeacherName(id){return getTeachers().find(t=>t.id===id)?.name||"?";}
+function getStudentsOfCourse(courseId){
+  const c=getCourses().find(x=>x.id===courseId);
+  if(!c||!c.students)return[];
+  return c.students.filter(s=>s.status!=="retirado");
+}
+function getDirectorOfCourse(courseId){
+  return getCourses().find(c=>c.id===courseId)?.directorId;
+}
+function isSchoolDay(dateStr){
+  const d=new Date(dateStr+"T00:00:00");
+  const dow=d.getDay();
+  return dow>=1 && dow<=5; // Lun-Vie
+}
+function fmtDate(str){
+  if(!str) return "";
+  const [y,m,d]=str.split("-");
+  return `${d}/${m}/${y}`;
+}
+function getDaysInMonth(yearMonth){
+  const [y,m]=yearMonth.split("-").map(Number);
+  const days=[];
+  const daysInMonth=new Date(y,m,0).getDate();
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    days.push(dateStr);
+  }
+  return days;
+}
+
+// ══ 1. DASHBOARD ═══════════════════════════════════════════
+function renderDashboard(){
+  const el=$("tabContent");
+  const teachers=getTeachers();
+  const courses=getCourses();
+  const today=new Date().toISOString().slice(0,10);
+
+  // Cuántos docentes reportaron HOY
+  let reportedToday=0, notReported=[];
+  teachers.forEach(t=>{
+    const myCourses=courses.filter(c=>c.directorId===t.id);
+    if(myCourses.length===0) return; // Solo directores
+    const att=state.attendanceByTeacher[t.id]?.attendance||{};
+    const hasToday=myCourses.some(c=>att[`${c.id}_${today}`]);
+    if(hasToday) reportedToday++;
+    else notReported.push({name:t.name,courses:myCourses.map(c=>c.name).join(", ")});
+  });
+  const totalDirectors=teachers.filter(t=>courses.some(c=>c.directorId===t.id)).length;
+  const pctReported=totalDirectors>0?Math.round(reportedToday/totalDirectors*100):0;
+
+  // Estadísticas del mes actual
+  const monthPrefix=today.slice(0,7);
+  let totalRegistros=0, totalPresente=0, totalAusente=0, totalTarde=0, totalExcusa=0;
+  Object.values(state.attendanceByTeacher).forEach(td=>{
+    const att=td.attendance||{};
+    Object.keys(att).forEach(key=>{
+      const date=key.split("_").slice(-1)[0];
+      if(!date.startsWith(monthPrefix)) return;
+      const dayData=att[key]||{};
+      Object.values(dayData).forEach(v=>{
+        totalRegistros++;
+        if(v.status==="presente")totalPresente++;
+        else if(v.status==="ausente")totalAusente++;
+        else if(v.status==="tarde")totalTarde++;
+        else if(v.status==="excusa")totalExcusa++;
+      });
+    });
+  });
+
+  const monthName=new Date(today+"T00:00:00").toLocaleString("es-CO",{month:"long",year:"numeric"});
+
+  let html=`
+    <div class="card">
+      <div class="card-title">📊 Panel General — ${monthName.charAt(0).toUpperCase()+monthName.slice(1)}</div>
+      <div class="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-num">${reportedToday}/${totalDirectors}</div>
+          <div class="stat-lbl">Directores reportaron hoy</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pctReported}%;background:${pctReported>=80?'var(--green)':pctReported>=50?'var(--orange)':'var(--red)'}"></div></div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-num">${totalPresente}</div>
+          <div class="stat-lbl">Presentes mes</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-num">${totalAusente}</div>
+          <div class="stat-lbl">Ausentes mes</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-num">${totalTarde}</div>
+          <div class="stat-lbl">Tardanzas mes</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-num">${totalExcusa}</div>
+          <div class="stat-lbl">Excusas mes</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Docentes que NO reportaron hoy
+  if(isSchoolDay(today)&&notReported.length>0){
+    html+=`
+      <div class="card">
+        <div class="card-title">⚠️ Directores sin reportar hoy (${notReported.length})</div>
+        ${notReported.map(t=>`
+          <div class="docente-row" style="border-left:4px solid var(--red)">
+            <div class="docente-info">
+              <div class="docente-nombre">${t.name}</div>
+              <div class="docente-detalle">Cursos: ${t.courses}</div>
+            </div>
+            <span class="chip chip-bad">Sin reportar</span>
+          </div>
+        `).join("")}
+      </div>`;
+  }else if(!isSchoolDay(today)){
+    html+=`
+      <div class="card">
+        <div class="alert alert-info">
+          📅 Hoy es fin de semana — no se requiere reporte de asistencia
+        </div>
+      </div>`;
+  }else{
+    html+=`
+      <div class="card">
+        <div class="alert alert-success">
+          ✅ Todos los directores de curso han reportado asistencia hoy
+        </div>
+      </div>`;
+  }
+
+  el.innerHTML=html;
+}
+
+// ══ 2. REPORTE DIARIO ══════════════════════════════════════
+function renderDiario(){
+  const el=$("tabContent");
+  const teachers=getTeachers();
+  const courses=getCourses();
+  const date=state.filterDate;
+
+  let html=`
+    <div class="card">
+      <div class="card-title">📅 Reporte Diario — ${fmtDate(date)}</div>
+      <div class="filter-bar">
+        <label style="font-weight:700">Fecha:</label>
+        <input type="date" class="inp" value="${date}" onchange="window._setDate(this.value)">
+        <button class="btn btn-secondary btn-sm" onclick="window._setDate('${new Date().toISOString().slice(0,10)}')">Hoy</button>
+      </div>
+    </div>`;
+
+  if(!isSchoolDay(date)){
+    html+='<div class="card"><div class="alert alert-warning">📅 Este día no es laboral escolar (sábado o domingo)</div></div>';
+    el.innerHTML=html;
+    return;
+  }
+
+  // Analizar cada curso
+  const rows=courses.map(c=>{
+    const director=teachers.find(t=>t.id===c.directorId);
+    const att=state.attendanceByTeacher[c.directorId]?.attendance||{};
+    const dayData=att[`${c.id}_${date}`];
+    const students=getStudentsOfCourse(c.id);
+    let stats={p:0,a:0,t:0,e:0,none:students.length};
+    if(dayData){
+      stats.none=0;
+      students.forEach((_,si)=>{
+        const st=dayData[String(si)]?.status;
+        if(st==="presente")stats.p++;
+        else if(st==="ausente")stats.a++;
+        else if(st==="tarde")stats.t++;
+        else if(st==="excusa")stats.e++;
+        else stats.none++;
+      });
+    }
+    return {
+      courseId:c.id,
+      courseName:c.name,
+      directorId:c.directorId,
+      directorName:director?.name||"Sin director asignado",
+      totalStudents:students.length,
+      stats,
+      reported:!!dayData
+    };
+  });
+
+  html+=`<div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Director</th>
+          <th>Est.</th>
+          <th>Presente</th>
+          <th>Ausente</th>
+          <th>Tarde</th>
+          <th>Excusa</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map(r=>`
+          <tr>
+            <td><strong>${r.courseName}</strong></td>
+            <td>${r.directorName}</td>
+            <td>${r.totalStudents}</td>
+            <td><span class="att-badge att-p">✓ ${r.stats.p}</span></td>
+            <td><span class="att-badge att-a">✕ ${r.stats.a}</span></td>
+            <td><span class="att-badge att-t">⏰ ${r.stats.t}</span></td>
+            <td><span class="att-badge att-e">📋 ${r.stats.e}</span></td>
+            <td>${r.reported?'<span class="chip chip-ok">Reportado</span>':'<span class="chip chip-bad">Sin reportar</span>'}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  </div>`;
+
+  const reportados=rows.filter(r=>r.reported).length;
+  html+=`<div class="card">
+    <div class="stats-grid">
+      <div class="stat-card ${reportados===rows.length?'green':'orange'}">
+        <div class="stat-num">${reportados}/${rows.length}</div>
+        <div class="stat-lbl">Cursos con reporte</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num">${rows.reduce((s,r)=>s+r.stats.p,0)}</div>
+        <div class="stat-lbl">Total presentes</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-num">${rows.reduce((s,r)=>s+r.stats.a,0)}</div>
+        <div class="stat-lbl">Total ausentes</div>
+      </div>
+    </div>
+  </div>`;
+
+  el.innerHTML=html;
+}
+
+window._setDate=function(d){state.filterDate=d;renderDiario();};
+
+// ══ 3. CUMPLIMIENTO DOCENTE (semanal/mensual) ═════════════
+function renderCumplimiento(){
+  const el=$("tabContent");
+  const teachers=getTeachers();
+  const courses=getCourses();
+  const days=getDaysInMonth(state.filterMonth).filter(isSchoolDay);
+  const [y,m]=state.filterMonth.split("-");
+
+  const rows=teachers
+    .filter(t=>courses.some(c=>c.directorId===t.id))
+    .map(t=>{
+      const myCourses=courses.filter(c=>c.directorId===t.id);
+      const att=state.attendanceByTeacher[t.id]?.attendance||{};
+      let reportedDays=0;
+      days.forEach(day=>{
+        const anyReport=myCourses.some(c=>att[`${c.id}_${day}`]);
+        if(anyReport)reportedDays++;
+      });
+      const pct=days.length>0?Math.round(reportedDays/days.length*100):0;
+      return {
+        teacherId:t.id,
+        teacherName:t.name,
+        courses:myCourses.map(c=>c.name).join(", "),
+        totalDays:days.length,
+        reportedDays,
+        pct
+      };
+    })
+    .sort((a,b)=>b.pct-a.pct);
+
+  const monthName=new Date(state.filterMonth+"-01").toLocaleString("es-CO",{month:"long",year:"numeric"});
+
+  let html=`
+    <div class="card">
+      <div class="card-title">✅ Cumplimiento por Docente</div>
+      <div class="filter-bar">
+        <label style="font-weight:700">Mes:</label>
+        <input type="month" class="inp" value="${state.filterMonth}" onchange="window._setMonth(this.value)">
+        <span style="color:var(--text2)">${days.length} días laborales en ${monthName}</span>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Director</th>
+            <th>Cursos</th>
+            <th>Días reportados</th>
+            <th>Cumplimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r=>`
+            <tr>
+              <td><strong>${r.teacherName}</strong></td>
+              <td style="font-size:11px;color:var(--text2)">${r.courses}</td>
+              <td>${r.reportedDays}/${r.totalDays}</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:${r.pct}%;background:${r.pct>=80?'var(--green)':r.pct>=50?'var(--orange)':'var(--red)'}"></div></div>
+                  <span style="font-weight:900;min-width:40px;text-align:right;color:${r.pct>=80?'var(--green)':r.pct>=50?'var(--orange)':'var(--red)'}">${r.pct}%</span>
+                </div>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>`;
+  el.innerHTML=html;
+}
+
+window._setMonth=function(m){state.filterMonth=m;renderCumplimiento();};
+
+// ══ 4. ESTUDIANTES CON ALERTAS ═════════════════════════════
+function renderEstudiantesAlertas(){
+  const el=$("tabContent");
+  const teachers=getTeachers();
+  const courses=getCourses();
+  const monthPrefix=state.filterMonth;
+
+  // Recopilar todos los estudiantes con sus faltas
+  const alerts=[];
+  courses.forEach(c=>{
+    const students=getStudentsOfCourse(c.id);
+    const att=state.attendanceByTeacher[c.directorId]?.attendance||{};
+    students.forEach((st,si)=>{
+      let fallas=0, tardanzas=0, excusas=0, totalDays=0;
+      Object.keys(att).forEach(key=>{
+        if(!key.startsWith(c.id+"_")) return;
+        const date=key.split("_").slice(-1)[0];
+        if(!date.startsWith(monthPrefix)) return;
+        totalDays++;
+        const status=att[key]?.[String(si)]?.status;
+        if(status==="ausente")fallas++;
+        else if(status==="tarde")tardanzas++;
+        else if(status==="excusa")excusas++;
+      });
+      if(fallas>=3 || tardanzas>=5){
+        alerts.push({
+          courseName:c.name,
+          studentName:st.name||"?",
+          fallas,tardanzas,excusas,
+          totalDays,
+          nivel:fallas>=5?"critico":fallas>=3?"alto":"medio"
+        });
+      }
+    });
+  });
+
+  alerts.sort((a,b)=>b.fallas-a.fallas);
+
+  const monthName=new Date(state.filterMonth+"-01").toLocaleString("es-CO",{month:"long",year:"numeric"});
+
+  let html=`
+    <div class="card">
+      <div class="card-title">👥 Estudiantes con Alertas de Asistencia</div>
+      <div class="filter-bar">
+        <label style="font-weight:700">Mes:</label>
+        <input type="month" class="inp" value="${state.filterMonth}" onchange="window._setMonth2(this.value)">
+        <span style="color:var(--text2)">Umbral: ≥3 fallas o ≥5 tardanzas</span>
+      </div>
+    </div>`;
+
+  if(alerts.length===0){
+    html+=`<div class="card"><div class="alert alert-success">✅ No hay estudiantes con alertas en ${monthName}</div></div>`;
+  }else{
+    html+=`<div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Curso</th>
+            <th>Estudiante</th>
+            <th>Fallas</th>
+            <th>Tardanzas</th>
+            <th>Excusas</th>
+            <th>Nivel</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${alerts.map(a=>`
+            <tr>
+              <td>${a.courseName}</td>
+              <td><strong>${a.studentName}</strong></td>
+              <td><span class="att-badge att-a">${a.fallas}</span></td>
+              <td><span class="att-badge att-t">${a.tardanzas}</span></td>
+              <td><span class="att-badge att-e">${a.excusas}</span></td>
+              <td>${a.nivel==="critico"?'<span class="chip chip-bad">🚨 CRÍTICO</span>':a.nivel==="alto"?'<span class="chip chip-warn">⚠️ Alto</span>':'<span class="chip chip-neutral">Medio</span>'}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>`;
+  }
+
+  el.innerHTML=html;
+}
+
+window._setMonth2=function(m){state.filterMonth=m;renderEstudiantesAlertas();};
+
+// ══ 5. CURSOS ═══════════════════════════════════════════════
+function renderCursos(){
+  const el=$("tabContent");
+  const courses=getCourses();
+
+  const cards=courses.map(c=>{
+    const director=getTeacherName(c.directorId);
+    const students=getStudentsOfCourse(c.id);
+    const att=state.attendanceByTeacher[c.directorId]?.attendance||{};
+    const days=Object.keys(att).filter(k=>k.startsWith(c.id+"_")).length;
+    return `
+      <div class="curso-card" onclick="window._verCurso('${c.id}')">
+        <div class="curso-nombre">${c.name}</div>
+        <div class="curso-info">
+          👨‍🏫 ${director}<br>
+          👥 ${students.length} estudiantes<br>
+          📅 ${days} días con registro
+        </div>
+      </div>`;
+  }).join("");
+
+  el.innerHTML=`
+    <div class="card">
+      <div class="card-title">🏫 Cursos</div>
+      <div class="grid-cursos">${cards}</div>
+    </div>`;
+}
+
+window._verCurso=function(courseId){
+  const c=getCourses().find(x=>x.id===courseId);
+  if(!c) return;
+  state.filterCourse=courseId;
+  switchTab("editar");
+};
+
+// ══ 6. EDITAR ASISTENCIA ═══════════════════════════════════
+function renderEditar(){
+  const el=$("tabContent");
+  const courses=getCourses();
+  if(!state.filterCourse) state.filterCourse=courses[0]?.id||"";
+  const cId=state.filterCourse;
+  const course=courses.find(c=>c.id===cId);
+  if(!course){el.innerHTML='<div class="card"><div class="empty">Selecciona un curso</div></div>';return;}
+  const date=state.filterDate;
+  const students=getStudentsOfCourse(cId);
+  const att=state.attendanceByTeacher[course.directorId]?.attendance||{};
+  const dayData=att[`${cId}_${date}`]||{};
+
+  let html=`
+    <div class="card">
+      <div class="card-title">✏️ Editar Asistencia</div>
+      <div class="filter-bar">
+        <label style="font-weight:700">Curso:</label>
+        <select class="select" onchange="window._setCurso(this.value)">
+          ${courses.map(c=>`<option value="${c.id}" ${c.id===cId?'selected':''}>${c.name}</option>`).join("")}
+        </select>
+        <label style="font-weight:700">Fecha:</label>
+        <input type="date" class="inp" value="${date}" onchange="window._setDate2(this.value)">
+        <button class="btn btn-secondary btn-sm" onclick="window._markAll('presente')">✅ Todos presentes</button>
+        <button class="btn btn-primary btn-sm" onclick="window._saveEditAtt()">💾 Guardar</button>
+      </div>
+    </div>`;
+
+  if(!isSchoolDay(date)){
+    html+='<div class="card"><div class="alert alert-warning">⚠️ Este día no es laboral escolar</div></div>';
+  }
+
+  html+=`
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:8px">${course.name} · ${fmtDate(date)} · ${students.length} estudiantes</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Estudiante</th>
+            <th>Estado</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${students.map((st,si)=>{
+            const current=dayData[String(si)]?.status||"none";
+            const note=dayData[String(si)]?.note||"";
+            return `
+              <tr>
+                <td>${si+1}</td>
+                <td><strong>${st.name||"?"}</strong></td>
+                <td>
+                  <select class="select" id="att_${si}" onchange="window._pendingSave=true">
+                    <option value="none" ${current==="none"?"selected":""}>—</option>
+                    <option value="presente" ${current==="presente"?"selected":""}>✓ Presente</option>
+                    <option value="ausente" ${current==="ausente"?"selected":""}>✕ Ausente</option>
+                    <option value="tarde" ${current==="tarde"?"selected":""}>⏰ Tarde</option>
+                    <option value="excusa" ${current==="excusa"?"selected":""}>📋 Excusa</option>
+                  </select>
+                </td>
+                <td><input class="inp" id="note_${si}" value="${note}" placeholder="Opcional" style="width:100%"></td>
+              </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    </div>`;
+
+  el.innerHTML=html;
+}
+
+window._setCurso=function(v){state.filterCourse=v;renderEditar();};
+window._setDate2=function(v){state.filterDate=v;renderEditar();};
+
+window._markAll=function(status){
+  document.querySelectorAll('select[id^="att_"]').forEach(sel=>{sel.value=status;});
+  window._pendingSave=true;
+  toast("Marcados como "+status+" — recuerda guardar","");
+};
+
+window._saveEditAtt=async function(){
+  const course=getCourses().find(c=>c.id===state.filterCourse);
+  if(!course){toast("Curso inválido","error");return;}
+  const directorId=course.directorId;
+  if(!directorId){toast("Este curso no tiene director asignado","error");return;}
+  const students=getStudentsOfCourse(course.id);
+  const attKey=`${course.id}_${state.filterDate}`;
+
+  // Leer datos FRESCOS de Firebase antes de escribir
+  try{
+    const snap=await getDoc(doc(fDb,"attendance",directorId));
+    let fullData=snap.exists()?snap.data():{teacherId:directorId,teacherName:getTeacherName(directorId),attendance:{}};
+    if(!fullData.attendance) fullData.attendance={};
+    // Construir asistencia del día
+    const dayData={};
+    students.forEach((st,si)=>{
+      const sel=document.getElementById(`att_${si}`);
+      const note=document.getElementById(`note_${si}`)?.value||"";
+      const status=sel?.value||"none";
+      if(status!=="none"){
+        dayData[String(si)]={status,note};
+      }
+    });
+    if(Object.keys(dayData).length===0){
+      // Si vacío y ya había, eliminar la entrada
+      delete fullData.attendance[attKey];
+    }else{
+      fullData.attendance[attKey]=dayData;
+    }
+    fullData.updatedAt=Date.now();
+    fullData._lastEditedBy=state.user.name;
+    await setDoc(doc(fDb,"attendance",directorId),fullData);
+    // Actualizar caché local
+    state.attendanceByTeacher[directorId]=fullData;
+    toast("✅ Asistencia guardada","success");
+    window._pendingSave=false;
+  }catch(e){
+    console.error(e);
+    toast("Error guardando: "+e.message,"error");
+  }
+};
+
+// ══ INIT ═══════════════════════════════════════════════════
+window.addEventListener("load",()=>{
+  // Auto-login si viene de index
+  const preAuth=sessionStorage.getItem("adminAuth");
+  if(preAuth){
+    try{
+      const auth=JSON.parse(preAuth);
+      if(Date.now()-auth.timestamp<3600000){
+        state.user=auth;
+        loadApp();
+        return;
+      }
+    }catch(e){}
+  }
+});
+
+window.addEventListener("beforeunload",e=>{
+  if(window._pendingSave){
+    e.preventDefault();
+    e.returnValue="Tienes cambios sin guardar";
+    return e.returnValue;
+  }
+});
+</script>
+</body>
+</html>
