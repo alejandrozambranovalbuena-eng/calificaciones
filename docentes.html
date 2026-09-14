@@ -458,7 +458,7 @@ html,body{overscroll-behavior-y:none;} /* FASE 4 v3.9.28: previene pull-to-refre
 <script type="module">
 import{initializeApp,getApp,getApps}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getFirestore,doc,collection,getDoc,getDocs,setDoc,updateDoc,deleteDoc,query,where,orderBy,limit}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-const APP_VERSION="v3.9.46";
+const APP_VERSION="v3.9.48";
 
 // ═══════════════════════════════════════════════════════════════════
 // FASE 10 v3.9.39 — BLINDAJE TOTAL DE ESCRITURA (CAPA 1)
@@ -779,6 +779,8 @@ function _alertarLogrosPendientes(){
     const asgn = validAsgn(sess.t);
     const period = db.schoolInfo?.activePeriod || "3";
     if(!asgn.length)return;
+    // v3.9.47: IDs de materias que NO requieren logros (Disciplina y Conducta)
+    const SIDS_SIN_LOGROS = ['mohp330hwcvu','mohp3853e4xr']; // DISCIPLINA, CONDUCTA
     // Contar cuántas materias tienen logros escritos y cuántas están pendientes
     const _hasContent=(v)=>{
       if(Array.isArray(v))return v.some(x=>x&&(x.edicionManual||x.text));
@@ -786,8 +788,12 @@ function _alertarLogrosPendientes(){
       return false;
     };
     let escritas = 0;
+    let total = 0;
     let pendientes = [];
     asgn.forEach(a=>{
+      // v3.9.47: saltar Disciplina y Conducta (no requieren logros)
+      if(SIDS_SIN_LOGROS.includes(a.subjectId))return;
+      total++;
       const key = gk(sess.tId, a.subjectId, a.courseId, period);
       const entry = (db.logros||{})[key];
       if(_hasContent(entry)){
@@ -805,7 +811,6 @@ function _alertarLogrosPendientes(){
     const banner = document.createElement('div');
     banner.id = bannerId;
     banner.style.cssText = 'background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-left:5px solid #f57c00;padding:14px 18px;margin:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);font-family:system-ui,sans-serif;position:relative';
-    const total = asgn.length;
     banner.innerHTML = `
       <button onclick="this.parentElement.remove()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:#666">×</button>
       <div style="font-weight:800;color:#e65100;font-size:14px;margin-bottom:8px">📋 LOGROS PENDIENTES DE ESCRIBIR — Período ${period}</div>
@@ -1141,9 +1146,9 @@ function getStudentConsolidated(studentIdx,subjectId,courseId){
   const notas=[result.p1,result.p2,result.p3,result.p4].filter(x=>x!==null);
   if(notas.length>0){
     result.promAcum=+(notas.reduce((s,n)=>s+n,0)/notas.length).toFixed(2);
-    // Estado según promedio
-    if(result.promAcum<3.0)result.estado="reprobado";
-    else if(result.promAcum<3.6)result.estado="alerta";
+    // Estado según promedio — Decreto 1290 (escala colombiana oficial):
+    // BAJO: 1.0-3.5 (REPROBADO) | BÁSICO: 3.6-3.9 | ALTO: 4.0-4.5 | SUPERIOR: 4.6-5.0
+    if(result.promAcum<3.6)result.estado="reprobado";  // v3.9.47: BAJO = REPROBADO
     else if(result.promAcum<4.0)result.estado="basico";
     else if(result.promAcum<4.6)result.estado="alto";
     else result.estado="superior";
@@ -1160,8 +1165,8 @@ function getStudentConsolidated(studentIdx,subjectId,courseId){
 }
 function consolChipStyle(estado){
   const map={
-    "reprobado":{bg:"#c62828",color:"#fff",icon:"🚨",label:"PIERDE"},
-    "alerta":{bg:"#f57c00",color:"#fff",icon:"⚠️",label:"ALERTA"},
+    // Decreto 1290: BAJO = REPROBADO (< 3.6)
+    "reprobado":{bg:"#c62828",color:"#fff",icon:"🚨",label:"BAJO"},
     "basico":{bg:"#fbc02d",color:"#1a1a1a",icon:"📊",label:"BÁSICO"},
     "alto":{bg:"#43a047",color:"#fff",icon:"✅",label:"ALTO"},
     "superior":{bg:"#1976d2",color:"#fff",icon:"🌟",label:"SUP"},
@@ -2822,7 +2827,7 @@ window._showConsolModal=function(si){
           <span style="font-size:14px;font-weight:800;color:${tendColor}">${tendIcon} ${cons.tendencia}</span>
         </div>
       </div>
-      ${cons.estado==="reprobado"?`<div style="background:#ffebee;border-left:4px solid #c62828;border-radius:10px;padding:12px 14px;font-size:13px;color:#c62828;font-weight:700">🚨 <strong>El estudiante está reprobando</strong> con un promedio inferior a 3.0. Considera reforzar con actividades adicionales o citar al acudiente.</div>`:cons.estado==="alerta"?`<div style="background:#fff3e0;border-left:4px solid #f57c00;border-radius:10px;padding:12px 14px;font-size:13px;color:#e65100;font-weight:700">⚠️ <strong>El estudiante está en alerta</strong> con un promedio bajo. Podría reprobar si no mejora en los próximos períodos.</div>`:""}
+      ${cons.estado==="reprobado"?`<div style="background:#ffebee;border-left:4px solid #c62828;border-radius:10px;padding:12px 14px;font-size:13px;color:#c62828;font-weight:700">🚨 <strong>El estudiante está reprobando</strong> con un promedio inferior a 3.6 (nivel BAJO — Decreto 1290). Debe presentar plan de recuperación. Considera reforzar con actividades adicionales y citar al acudiente.</div>`:""}
     </div>
   </div>`;
   document.body.appendChild(modal);
@@ -3201,15 +3206,19 @@ function renderLogros(){
   // v3.9.44 FIX 1: Siempre usar el período activo (no memoria vieja)
   lState.per=period;
   
+  // v3.9.47: excluir DISCIPLINA y CONDUCTA del módulo de logros
+  const SIDS_SIN_LOGROS = ['mohp330hwcvu','mohp3853e4xr']; // DISCIPLINA, CONDUCTA
+  const asgnConLogros = asgn.filter(a=>!SIDS_SIN_LOGROS.includes(a.subjectId));
+  
   // v3.9.44 FIX 2: Si no hay asignaciones, mostrar mensaje claro
-  if(!asgn.length){
-    el.innerHTML=`<div class="empty"><div class="empty-icon">⚠️</div><p>No tienes materias asignadas. Contacta al administrador.</p></div>`;
+  if(!asgnConLogros.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">⚠️</div><p>No tienes materias que requieran logros. (Disciplina y Conducta no requieren logros descriptivos.)</p></div>`;
     return;
   }
   
   // Construir byCourse ANTES de validar lState
   const byCourse={};
-  asgn.forEach(a=>{if(!byCourse[a.courseId])byCourse[a.courseId]=[];if(!byCourse[a.courseId].includes(a.subjectId))byCourse[a.courseId].push(a.subjectId);});
+  asgnConLogros.forEach(a=>{if(!byCourse[a.courseId])byCourse[a.courseId]=[];if(!byCourse[a.courseId].includes(a.subjectId))byCourse[a.courseId].push(a.subjectId);});
   const myCourses=sortCourses().filter(c=>byCourse[c.id]);
   
   // v3.9.44 FIX 3: Validar SIEMPRE que lState.cId esté en myCourses (y refrescar si no)
@@ -4641,9 +4650,11 @@ window.renderPerfil=renderPerfil;
 window.renderInicio=renderInicio;
 window.renderLogros=renderLogros;
 // v3.9.44 FIX CRÍTICO: handlers robustos de cambio de curso/materia en logros
+// v3.9.47: excluir DISCIPLINA/CONDUCTA de las opciones de logros
 window.onLCourse=function(cId){
+  const SIDS_SIN_LOGROS = ['mohp330hwcvu','mohp3853e4xr'];
   // Validar que el curso pertenece al docente
-  const asgn=validAsgn(sess.t);
+  const asgn=validAsgn(sess.t).filter(a=>!SIDS_SIN_LOGROS.includes(a.subjectId));
   const materiasDeCurso=asgn.filter(a=>a.courseId===cId).map(a=>a.subjectId);
   if(materiasDeCurso.length===0){
     console.warn('Curso no válido para este docente:',cId);
@@ -4657,8 +4668,13 @@ window.onLCourse=function(cId){
   renderLogros();
 };
 window.onLSubj=function(sId){
+  const SIDS_SIN_LOGROS = ['mohp330hwcvu','mohp3853e4xr'];
+  if(SIDS_SIN_LOGROS.includes(sId)){
+    console.warn('Materia no requiere logros:',sId);
+    return;
+  }
   // Validar que la materia pertenece al curso actual
-  const asgn=validAsgn(sess.t);
+  const asgn=validAsgn(sess.t).filter(a=>!SIDS_SIN_LOGROS.includes(a.subjectId));
   const materiasDeCurso=asgn.filter(a=>a.courseId===lState.cId).map(a=>a.subjectId);
   if(!materiasDeCurso.includes(sId)){
     console.warn('Materia no válida para el curso actual:',sId);
