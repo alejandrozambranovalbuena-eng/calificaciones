@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#1a237e">
+<meta name="robots" content="noindex">
+<title>Cartilla de Pensión · Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#c0392b; --navy:#1a237e; --navy-d:#0f1552; --orange:#ff5a00; --green:#27ae60;
+  --ink-red:#b3261e; --ink-blue:#1f4fb8; --ink-green:#1e7d46;
+  --paper:#fbf7ec; --rule:#dccfae; --ink:#2a2414; --muted:#6b7290; --text:#151a33;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--text);background:#eef0f7;min-height:100vh;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.45}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.mono{font-family:var(--mono)}
+
+/* encabezado */
+.top{background:linear-gradient(120deg,var(--navy-d),var(--navy) 55%,#5b1f5e);color:#fff;padding:18px 20px 70px;position:relative;overflow:hidden}
+.top::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 0%,rgba(255,90,0,.35),transparent 45%),radial-gradient(circle at 0% 100%,rgba(192,57,43,.35),transparent 40%)}
+.brand{position:relative;z-index:1;display:flex;align-items:center;gap:12px;max-width:980px;margin:0 auto}
+.crest{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--orange),var(--red));display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand b{display:block;font-size:15px}.brand small{opacity:.7;font-size:12px}
+.wrap{max-width:980px;margin:-50px auto 0;padding:0 16px 40px;position:relative;z-index:2}
+
+/* acceso */
+.access-card{background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(16,24,64,.14);padding:30px 26px;max-width:460px;margin:0 auto}
+.illus{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
+.illus span{width:46px;height:54px;border-radius:9px;border:1.5px solid var(--rule);background:var(--paper);display:grid;place-items:center;font-size:9px;font-weight:800;color:var(--navy);letter-spacing:.05em;position:relative}
+.illus span.p::after{content:"✓";position:absolute;inset:auto 6px 6px auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink-red);color:var(--ink-red);display:grid;place-items:center;font-size:12px;transform:rotate(-12deg)}
+.access-card h1{font-size:22px;font-weight:800;letter-spacing:-.02em;text-align:center}
+.access-card .lead{color:var(--muted);text-align:center;margin:6px 0 22px;font-size:14px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.input{width:100%;height:52px;border:1.5px solid #e2e5ef;border-radius:14px;padding:0 16px;background:#fff;outline:none;font-size:17px;transition:border .15s,box-shadow .15s}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(26,35,126,.1)}
+.input.code{font-family:var(--mono);font-size:26px;letter-spacing:.6em;text-align:center;padding-left:calc(16px + .3em)}
+.remember{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);margin:2px 0 14px;cursor:pointer}
+.remember input{width:18px;height:18px;accent-color:var(--navy)}
+.err{color:var(--red);font-size:13.5px;font-weight:600;min-height:20px;margin-bottom:8px;text-align:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 22px;border-radius:14px;font-weight:700;font-size:15px;transition:transform .05s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.5}
+.btn-primary{background:var(--navy);color:#fff;width:100%}.btn-primary:hover:not(:disabled){background:var(--navy-d)}
+.btn-ghost{background:#fff;border:1.5px solid #e2e5ef;color:var(--text);height:46px;font-size:14px}
+.help{text-align:center;color:var(--muted);font-size:12.5px;margin-top:16px}
+.saved{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.saved-t{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kid{display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid #e2e5ef;border-radius:14px;text-align:left;width:100%;background:#fafbff}
+.kid:hover{border-color:var(--navy)}
+.kid .av{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--red));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.kid b{display:block;font-size:14px}.kid small{color:var(--muted);font-size:12px}
+.kid .go{margin-left:auto;color:var(--navy);font-weight:800}
+.kid .x{margin-left:6px;width:28px;height:28px;border-radius:8px;color:var(--muted)}
+.kid .x:hover{background:#eef0f7}
+
+/* =========== EL CARTÓN =========== */
+.paper{position:relative;background-color:var(--paper);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .22  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  border-radius:20px;box-shadow:0 1px 0 #fff inset,0 24px 60px rgba(16,24,64,.18),0 2px 6px rgba(16,24,64,.08);padding:26px 26px 22px 46px;color:var(--ink);overflow:hidden}
+.paper::before{content:"";position:absolute;left:14px;top:22px;bottom:22px;width:12px;background:radial-gradient(circle,#e3e6f0 4.4px,rgba(0,0,0,.08) 5px,transparent 5.6px) center top/12px 30px repeat-y}
+.paper::after{content:"";position:absolute;left:34px;top:0;bottom:0;border-left:1.5px solid rgba(192,57,43,.25)}
+.p-hd{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:2px solid var(--navy);margin-bottom:16px}
+.p-hd .crest{width:52px;height:52px;border-radius:14px;font-size:17px;background:linear-gradient(135deg,var(--navy),var(--red));box-shadow:none}
+.p-hd small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7d7356;font-weight:700}
+.p-hd b{display:block;font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.01em;line-height:1.15}
+.p-hd span{font-size:12.5px;color:#7d7356}
+.serial{margin-left:auto;text-align:right;font-family:var(--mono);font-size:11px;color:#7d7356}
+.serial b{font-size:15px;color:var(--red);font-family:var(--mono)}
+.who{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.who>div{border-bottom:1.5px dotted var(--rule);padding:4px 2px 6px}
+.who small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8d8366;font-weight:700}
+.who b{font-size:15px;font-weight:700;color:var(--text)}
+.status{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;margin-bottom:14px}
+.status .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:21px;flex-shrink:0;background:#fff}
+.status b{display:block;font-size:16px}.status small{font-size:13px}
+.status.ok{background:#e4f5ea;color:#155f35;border:1px solid #bfe3cc}
+.status.warn{background:#fff3e2;color:#7a4300;border:1px solid #f6d7a8}
+.status.bad{background:#fdeaea;color:#8c2016;border:1px solid #f3c2bc}
+.prog{margin-bottom:18px}
+.prog .bar{height:12px;border-radius:999px;background:rgba(0,0,0,.07);overflow:hidden}
+.prog .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--navy),var(--green))}
+.prog .meta{display:flex;justify-content:space-between;font-size:12.5px;color:#6d6550;margin-top:6px;gap:10px;flex-wrap:wrap}
+.prog .meta b{font-family:var(--mono);color:var(--text)}
+.sec-t{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8d8366;font-weight:800;margin:4px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:720px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.box{position:relative;border:1.5px solid var(--rule);background:rgba(255,255,255,.42);border-radius:12px;min-height:146px;padding:9px 10px 10px;display:flex;flex-direction:column;text-align:left;width:100%;min-width:0;transition:transform .1s,box-shadow .1s}
+.box:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(80,60,20,.12)}
+.box.mat{min-height:118px;flex-direction:row;align-items:center;gap:14px;margin-bottom:10px}
+.box.mat .b-bd{flex:1;max-width:220px}
+.b-hd{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:2px 6px;border-bottom:1px dashed var(--rule);padding-bottom:5px}
+.box.mat .b-hd{flex-direction:column;border:0;align-items:flex-start;min-width:130px}
+.b-name{font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy)}
+.box.mat .b-name{font-size:15px}
+.b-amt{font-family:var(--mono);font-size:11px;color:#7d7356}
+.b-bd{flex:1;display:grid;place-items:center;padding-top:6px}
+.b-disc{font-size:10px;font-weight:700;color:var(--ink-green);margin-top:3px}
+.box.st-vencido{background:rgba(253,234,234,.55);border-color:#e9b8b1}
+.box.st-del_mes{background:rgba(255,243,226,.6);border-color:#efcd99}
+.box.st-proximo,.box.st-sin_tarifa{border-style:dashed}
+.stamp{width:100%;max-width:150px;height:auto;mix-blend-mode:multiply;opacity:.93}
+.pend{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;padding:7px 10px;border-radius:10px}
+.pend b{font-size:11px;letter-spacing:.14em}.pend span{font-size:10.5px;font-weight:600}
+.pend.red{color:#a8281c;border:2px dashed #e3a197}
+.pend.orange{color:#a65300;border:2px dashed #eebd80}
+.pend.gray{color:#9a9176}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:#6d6550;margin-top:14px;font-weight:600}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.p-ft{margin-top:16px;padding-top:12px;border-top:1.5px dotted var(--rule);font-size:11.5px;color:#7d7356;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.actions .btn{width:auto}
+@media(max-width:560px){
+  .paper{padding:18px 14px 16px 34px;border-radius:16px}
+  .paper::before{left:8px}.paper::after{left:24px}
+  .who{grid-template-columns:1fr 1fr}.who>div:first-child{grid-column:1/-1}
+  .serial{display:none}
+  .box.mat{flex-direction:column;align-items:stretch}.box.mat .b-hd{flex-direction:row;align-items:baseline;border-bottom:1px dashed var(--rule)}
+  .box.mat .b-bd{max-width:none}
+}
+
+/* detalle */
+.sheet-back{position:fixed;inset:0;background:rgba(10,14,40,.5);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.sheet{background:#fff;width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:20px 20px 26px;animation:up .2s ease;max-height:88vh;overflow:auto}
+@media(min-width:620px){.sheet-back{align-items:center}.sheet{border-radius:22px}}
+.sheet h3{font-size:18px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.sheet h3 button{width:34px;height:34px;border-radius:10px;background:#f2f3f8}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.kv div{background:#f6f7fb;border-radius:12px;padding:10px 12px}
+.kv small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kv b{font-family:var(--mono)}
+.pay{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #eef0f6}
+.pay:last-child{border:0}
+.pay .ic{width:36px;height:36px;border-radius:10px;background:#e6f6ec;display:grid;place-items:center;flex-shrink:0}
+.pay .ic.ab{background:#e8eefc}
+.pay b{display:block;font-size:14px}.pay small{color:var(--muted);font-size:12px}
+.pay .amt{margin-left:auto;font-family:var(--mono);font-weight:700}
+@keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(30px);opacity:0}}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:10px 16px 30px;max-width:620px;margin:0 auto}
+.spinner{width:22px;height:22px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media print{
+  body{background:#fff}.top,.actions,.foot{display:none!important}
+  .wrap{margin:0;padding:0;max-width:none}
+  .paper{box-shadow:none;border:1px solid #ccc;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .box:hover{transform:none;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="inkFx" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="4" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="w"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="1" seed="11" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.3 0 0 0 1.5" result="mask"/>
+      <feComposite in="w" in2="mask" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="brand"><div class="crest">LM</div><div><b>I.E.T. Liceo Moderno Suesca</b><small>Cartilla digital de pensión</small></div></div>
+</header>
+
+<main class="wrap">
+  <!-- Acceso -->
+  <section id="access">
+    <form class="access-card" id="accessForm" autocomplete="off">
+      <div class="illus" aria-hidden="true"><span class="p">FEB</span><span class="p">MAR</span><span class="p">ABR</span><span>MAY</span></div>
+      <h1>Consulte la pensión de su hijo(a)</h1>
+      <p class="lead">Como el cartón de pagos de siempre, ahora en su celular. Cada pago aparece con su sello.</p>
+      <div class="saved" id="saved"></div>
+      <div class="field"><label for="fDoc">Documento del estudiante</label><input class="input" id="fDoc" inputmode="numeric" placeholder="Número de documento" required></div>
+      <div class="field"><label for="fCode">Código de acceso</label><input class="input code" id="fCode" inputmode="numeric" maxlength="4" placeholder="····" required></div>
+      <label class="remember"><input type="checkbox" id="fRemember" checked> Recordar en este celular</label>
+      <div class="err" id="err"></div>
+      <button class="btn btn-primary" id="btnGo" type="submit">Ver la cartilla</button>
+      <p class="help">El código de 4 dígitos está en su recibo de pago o en la tarjeta que le entregó coordinación.</p>
+    </form>
+  </section>
+
+  <!-- Cartilla -->
+  <section id="card" hidden></section>
+</main>
+
+<p class="foot">Consulta informativa. Su soporte oficial de pago es el recibo entregado por el colegio. Si pagó y no aparece, acérquese a coordinación con su recibo.</p>
+<div id="sheet"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+
+const MESES = ["Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre"];
+const CARTILLA_SALT = 'LMS-CARTILLA';         // igual que en pagos.html
+const KIDS_KEY = 'lms_cartilla_hijos';
+const LOCK_KEY = 'lms_cartilla_lock';
+const LOCK = { attempts: 5, minutes: 3 };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const COP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+const fmt$ = n => COP.format(Math.round(Number(n) || 0));
+const docKeyOf = d => String(d ?? '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+const parseISO = s => { const [y, m, d] = String(s || '').split('-').map(Number); return new Date(y || 1970, (m || 1) - 1, d || 1); };
+const shortDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+const longDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const stampDate = s => shortDate(s).replace(/\./g, '').toUpperCase();
+const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+async function sha256hex(s) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+const cartillaId = (docKey, code) => sha256hex(`${CARTILLA_SALT}|${docKey}|${code}`);
+
+/* ---------- Hijos guardados y bloqueo ---------- */
+const readJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || 'null') ?? d; } catch { return d; } };
+const writeJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } };
+const kids = () => readJSON(KIDS_KEY, []);
+function rememberKid(k) { const list = kids().filter(x => x.docKey !== k.docKey); list.unshift(k); writeJSON(KIDS_KEY, list.slice(0, 6)); }
+function forgetKid(docKey) { writeJSON(KIDS_KEY, kids().filter(x => x.docKey !== docKey)); renderSaved(); }
+function renderSaved() {
+  const list = kids();
+  $('#saved').innerHTML = list.length ? `<div class="saved-t">Consultas guardadas</div>` + list.map(k => `<div class="kid" role="button" tabindex="0" data-open="${esc(k.docKey)}"><span class="av">${esc(initials(k.name))}</span><span><b>${esc(k.name)}</b><small>${esc(k.course)}</small></span><span class="go">Ver →</span><button type="button" class="x" data-forget="${esc(k.docKey)}" aria-label="Olvidar">✕</button></div>`).join('') + `<div class="saved-t" style="margin-top:6px">O consulte otro estudiante</div>` : '';
+}
+const lockLeft = () => { const l = readJSON(LOCK_KEY, {}); return l.until && l.until > Date.now() ? l.until - Date.now() : 0; };
+
+/* ---------- Estado vivo (se recalcula con la fecha de hoy) ---------- */
+function curIdx(year) {
+  const now = new Date(), y = now.getFullYear();
+  if (y > year) return MESES.length;
+  if (y < year) return -1;
+  return Math.max(0, Math.min(MESES.length - 1, now.getMonth() - 1));
+}
+function liveItem(it, cur) {
+  const idx = it.id === 'MAT' ? -1 : MESES.indexOf(it.id);
+  const overdue = idx < cur;
+  let status = it.status;
+  if (!['pagado', 'exento', 'sin_tarifa'].includes(status)) {
+    if (it.paid > 0 && it.balance > 0) status = 'abonado';
+    else status = overdue ? 'vencido' : (idx === cur ? 'del_mes' : 'proximo');
+  }
+  return { ...it, idx, overdue, status, inMora: it.balance > 0 && overdue && status !== 'sin_tarifa' };
+}
+
+/* ---------- Sello ---------- */
+function stampSVG(kind, line1, line2, seed = 0) {
+  const rot = ((seed * 37) % 11) - 6;
+  const color = { paid: '#b3261e', partial: '#1f4fb8', exempt: '#1e7d46' }[kind];
+  const title = { paid: 'CANCELADO', partial: 'ABONO', exempt: 'EXENTO' }[kind];
+  const tl = { paid: 128, partial: 86, exempt: 100 }[kind];
+  return `<svg class="stamp" viewBox="0 0 170 100" role="img" aria-label="${title} ${esc(line1)}">
+    <g filter="url(#inkFx)" transform="rotate(${rot} 85 50)">
+      <rect x="6" y="8" width="158" height="84" rx="12" fill="none" stroke="${color}" stroke-width="4"/>
+      <rect x="13" y="15" width="144" height="70" rx="8" fill="none" stroke="${color}" stroke-width="1.3"/>
+      <text x="85" y="48" text-anchor="middle" font-family="Plus Jakarta Sans,Arial,sans-serif" font-weight="800" font-size="24" fill="${color}" textLength="${tl}" lengthAdjust="spacingAndGlyphs">${title}</text>
+      <line x1="28" y1="56" x2="142" y2="56" stroke="${color}" stroke-width="1.2"/>
+      <text x="85" y="70" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="700" font-size="10.5" fill="${color}">${esc(line1)}</text>
+      <text x="85" y="81" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="600" font-size="8.6" fill="${color}">${esc(line2)}</text>
+    </g></svg>`;
+}
+function boxBody(it, seed) {
+  const last = it.stamps?.[it.stamps.length - 1];
+  switch (it.status) {
+    case 'pagado': return stampSVG('paid', stampDate(last?.date), last?.receipt || 'LICEO MODERNO', seed);
+    case 'exento': return stampSVG('exempt', (it.reason || 'Descuento').slice(0, 22), 'DESCUENTO 100%', seed);
+    case 'abonado': return stampSVG('partial', 'Pagó ' + fmt$(it.paid), 'Saldo ' + fmt$(it.balance), seed);
+    case 'vencido': return `<div class="pend red"><b>PENDIENTE</b><span>Vencido</span></div>`;
+    case 'del_mes': return `<div class="pend orange"><b>POR PAGAR</b><span>Mes actual</span></div>`;
+    case 'sin_tarifa': return `<div class="pend gray"><span>—</span></div>`;
+    default: return `<div class="pend gray"><span>Próximo</span></div>`;
+  }
+}
+function boxHTML(it, i, extra = '') {
+  return `<button class="box st-${it.status} ${extra}" data-item="${esc(it.id)}">
+    <div class="b-hd"><span class="b-name">${esc(it.label)}</span><span class="b-amt">${it.status === 'sin_tarifa' ? '' : fmt$(it.due)}</span></div>
+    <div class="b-bd">${boxBody(it, i + 1)}</div>
+    ${it.discount > 0 && it.reason ? `<div class="b-disc">🏷 Descuento ${fmt$(it.discount)}</div>` : ''}
+  </button>`;
+}
+
+/* ---------- Cartilla ---------- */
+let CURRENT = null;
+function renderCard(d) {
+  const cur = curIdx(d.year);
+  const items = d.items.map(it => liveItem(it, cur));
+  CURRENT = { ...d, items };
+  const mat = items[0], months = items.slice(1);
+  const mora = items.filter(i => i.inMora), moraTotal = mora.reduce((a, i) => a + i.balance, 0);
+  const due = items.reduce((a, i) => a + (i.due || 0), 0), paid = items.reduce((a, i) => a + (i.paid || 0), 0);
+  const pct = due ? Math.min(100, Math.round(paid / due * 100)) : 0;
+  const curItem = cur >= 0 && cur < MESES.length ? items[cur + 1] : null;
+  const curPending = curItem && !['pagado', 'exento', 'sin_tarifa'].includes(curItem.status);
+  const allPaid = items.every(i => ['pagado', 'exento', 'sin_tarifa'].includes(i.status)) && items.some(i => ['pagado', 'exento'].includes(i.status));
+  const lastPaid = [...months].reverse().find(i => ['pagado', 'exento'].includes(i.status));
+  let st;
+  if (mora.length) st = { c: 'bad', ic: '⚠️', t: `Tiene ${mora.length} pago${mora.length > 1 ? 's' : ''} vencido${mora.length > 1 ? 's' : ''} por ${fmt$(moraTotal)}`, s: mora.map(i => i.label + (i.status === 'abonado' ? ' (saldo)' : '')).join(', ') + '. Acérquese a coordinación para ponerse al día.' };
+  else if (allPaid) st = { c: 'ok', ic: '🎉', t: '¡Año completamente pagado!', s: 'Gracias por su compromiso con el colegio.' };
+  else if (curPending) st = { c: 'warn', ic: '🗓️', t: `Va al día · Recuerde pagar ${curItem.label}`, s: `Valor del mes: ${fmt$(curItem.balance)}.` };
+  else st = { c: 'ok', ic: '✅', t: '¡Va al día con la pensión!', s: lastPaid ? `Pagado hasta ${lastPaid.label}. Gracias por su puntualidad.` : 'Gracias por su puntualidad.' };
+  $('#card').innerHTML = `
+  <div class="paper">
+    <div class="p-hd"><div class="crest">LM</div><div><small>Institución Educativa Técnica</small><b>Liceo Moderno Suesca</b><span>Cartón de pensión · Año lectivo ${esc(d.year)}</span></div><div class="serial">Documento<br><b>${esc(d.docMasked)}</b></div></div>
+    <div class="who"><div><small>Estudiante</small><b>${esc(d.studentName)}</b></div><div><small>Curso</small><b>${esc(d.courseName)}</b></div><div><small>Pagado</small><b class="mono">${pct}%</b></div></div>
+    <div class="status ${st.c}"><span class="ic">${st.ic}</span><div><b>${esc(st.t)}</b><small>${esc(st.s)}</small></div></div>
+    <div class="prog"><div class="bar"><i style="width:${pct}%"></i></div><div class="meta"><span>Ha pagado <b>${fmt$(paid)}</b></span><span>de <b>${fmt$(due)}</b> del año</span></div></div>
+    <div class="sec-t">Matrícula</div>
+    ${boxHTML(mat, 0, 'mat')}
+    <div class="sec-t" style="margin-top:6px">Mensualidades</div>
+    <div class="grid">${months.map((m, i) => boxHTML(m, i + 1)).join('')}</div>
+    <div class="legend"><span><i style="background:#b3261e"></i>Cancelado</span><span><i style="background:#1f4fb8"></i>Abono</span><span><i style="background:#e3a197"></i>Vencido</span><span><i style="background:#eebd80"></i>Mes actual</span><span><i style="background:#dccfae"></i>Próximo</span></div>
+    <div class="p-ft"><span>Toque cualquier mes para ver el detalle.</span><span>Actualizado: ${new Date(d.updatedAt || Date.now()).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' })}</span></div>
+  </div>
+  <div class="actions">
+    <button class="btn btn-ghost" data-a="print">🖨 Imprimir / guardar PDF</button>
+    <button class="btn btn-ghost" data-a="other">👦 Consultar otro estudiante</button>
+  </div>`;
+  $('#access').hidden = true; $('#card').hidden = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function openDetail(id) {
+  const it = CURRENT?.items.find(i => i.id === id); if (!it) return;
+  const label = { pagado: 'Cancelado', exento: 'Exento', abonado: 'Abonado', vencido: 'Vencido', del_mes: 'Por pagar (mes actual)', proximo: 'Próximo', sin_tarifa: '—' }[it.status];
+  $('#sheet').innerHTML = `<div class="sheet-back" data-close><div class="sheet" role="dialog" aria-modal="true">
+    <h3>${esc(it.label)} ${esc(CURRENT.year)}<button data-close aria-label="Cerrar">✕</button></h3>
+    <div class="kv"><div><small>Estado</small><b style="font-family:var(--font)">${label}</b></div><div><small>Valor</small><b>${fmt$(it.due)}</b></div>
+      <div><small>Pagado</small><b>${fmt$(it.paid)}</b></div><div><small>Saldo</small><b>${fmt$(it.balance)}</b></div></div>
+    ${it.discount > 0 && it.reason ? `<p style="font-size:13px;color:#1b7a43;margin-bottom:12px">🏷 Descuento de ${fmt$(it.discount)} sobre ${fmt$(it.gross)} · ${esc(it.reason)}</p>` : ''}
+    ${it.stamps?.length ? it.stamps.slice().reverse().map(s => `<div class="pay"><span class="ic ${s.type === 'abono' ? 'ab' : ''}">${s.type === 'abono' ? '◐' : '✓'}</span><span><b>${s.type === 'abono' ? 'Abono' : s.type === 'saldo' ? 'Pago del saldo' : 'Pago'}</b><small>${esc(longDate(s.date))}${s.receipt ? ' · Recibo ' + esc(s.receipt) : ''}</small></span><span class="amt">${fmt$(s.amount)}</span></div>`).join('') : `<p style="color:var(--muted);font-size:14px">Aún no hay pagos registrados para este concepto.</p>`}
+  </div></div>`;
+}
+function closeDetail() { $('#sheet').innerHTML = ''; }
+
+/* ---------- Consulta ---------- */
+async function lookup(docRaw, code, remember) {
+  const err = $('#err'), btn = $('#btnGo');
+  err.textContent = '';
+  const left = lockLeft();
+  if (left) { err.textContent = `Demasiados intentos. Intente de nuevo en ${Math.ceil(left / 60000)} min.`; return false; }
+  const docKey = docKeyOf(docRaw); code = String(code || '').replace(/\D/g, '');
+  if (docKey.length < 4) { err.textContent = 'Escriba el número de documento completo.'; return false; }
+  if (code.length !== 4) { err.textContent = 'El código tiene 4 dígitos.'; return false; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Buscando…';
+  try {
+    const snap = await getDoc(doc(db, 'cartilla_publica', await cartillaId(docKey, code)));
+    if (!snap.exists()) {
+      const l = readJSON(LOCK_KEY, {}); const fails = (l.fails || 0) + 1;
+      if (fails >= LOCK.attempts) { writeJSON(LOCK_KEY, { fails: 0, until: Date.now() + LOCK.minutes * 60000 }); err.textContent = `Datos incorrectos. Por seguridad, espere ${LOCK.minutes} minutos.`; }
+      else { writeJSON(LOCK_KEY, { fails }); err.textContent = 'No encontramos una cartilla con ese documento y código. Revise los datos de su recibo.'; }
+      return false;
+    }
+    writeJSON(LOCK_KEY, {});
+    const d = snap.data();
+    if (remember) rememberKid({ docKey, code, name: d.studentName, course: d.courseName });
+    renderCard(d);
+    return true;
+  } catch (e) {
+    console.error(e);
+    err.textContent = 'No hay conexión en este momento. Intente de nuevo.';
+    return false;
+  } finally { btn.disabled = false; btn.textContent = 'Ver la cartilla'; }
+}
+
+/* ---------- Eventos ---------- */
+$('#accessForm').addEventListener('submit', e => { e.preventDefault(); lookup($('#fDoc').value, $('#fCode').value, $('#fRemember').checked); });
+$('#fCode').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+document.addEventListener('click', e => {
+  const f = e.target.closest('[data-forget]');
+  if (f) { e.stopPropagation(); return forgetKid(f.dataset.forget); }
+  const o = e.target.closest('[data-open]');
+  if (o) { const k = kids().find(x => x.docKey === o.dataset.open); if (k) lookup(k.docKey, k.code, true); return; }
+  const it = e.target.closest('[data-item]'); if (it) return openDetail(it.dataset.item);
+  if (e.target.closest('[data-close]') && (e.target.hasAttribute('data-close') || e.target.closest('button[data-close]'))) return closeDetail();
+  const a = e.target.closest('[data-a]');
+  if (a?.dataset.a === 'print') window.print();
+  if (a?.dataset.a === 'other') { $('#card').hidden = true; $('#access').hidden = false; $('#fDoc').value = ''; $('#fCode').value = ''; renderSaved(); window.scrollTo({ top: 0 }); $('#fDoc').focus(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+  if (e.key === 'Enter' && e.target.matches?.('[data-open]')) e.target.click();
+});
+
+/* ---------- Arranque ---------- */
+renderSaved();
+const qDoc = new URLSearchParams(location.search).get('doc');
+if (qDoc) { $('#fDoc').value = qDoc; $('#fCode').focus(); }
+</script>
+</body>
+</html>
