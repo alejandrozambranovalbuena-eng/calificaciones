@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#1a237e">
+<title>Caja · Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --navy:#1a237e; --navy-d:#0e1450; --navy-50:#eef0fb; --navy-100:#dfe3f7;
+  --red:#c0392b; --red-50:#fdf0ee; --red-100:#f6d3cd;
+  --green:#27ae60; --green-d:#1d8a4b; --green-50:#ecf8f1; --green-100:#c9ebd6;
+  --orange:#ff5a00; --orange-50:#fff3eb; --orange-100:#ffd9c2;
+  --yellow:#f39c12;
+  --blue:#2f5bd3; --blue-50:#eef2fd; --blue-100:#d3defa;
+  --bg:#f3f4f8; --surface:#fff; --line:#e6e8f0; --line-2:#f0f1f6;
+  --text:#121633; --muted:#687090; --faint:#9aa0b8;
+  --r-sm:10px; --r:14px; --r-lg:20px; --r-xl:26px;
+  --sh-1:0 1px 2px rgba(18,22,51,.05);
+  --sh-2:0 1px 2px rgba(18,22,51,.04),0 6px 18px -6px rgba(18,22,51,.10);
+  --sh-3:0 2px 6px rgba(18,22,51,.06),0 24px 60px -18px rgba(18,22,51,.30);
+  --sb:240px; --hd:64px;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body.locked{overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;text-align:inherit}
+button:disabled{cursor:not-allowed}
+input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2.5px solid var(--navy);outline-offset:2px;border-radius:8px}
+.ic{flex-shrink:0;display:block}
+.num{font-family:var(--mono);font-feature-settings:"tnum";letter-spacing:-.01em}
+.muted{color:var(--muted)}
+.red{color:var(--red)} .green{color:var(--green-d)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+.lbl{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.field{margin-bottom:14px}
+.input{width:100%;height:46px;border:1.5px solid var(--line);border-radius:12px;padding:0 14px;background:#fff;outline:none;transition:border .15s,box-shadow .15s;font-size:14.5px}
+textarea.input{height:auto;min-height:64px;padding:11px 14px;resize:vertical}
+select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23687090' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(26,35,126,.10)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;font-weight:700;font-size:14px;white-space:nowrap;text-decoration:none;transition:background .15s,box-shadow .15s,transform .06s,opacity .15s}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{opacity:.4}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover:not(:disabled){background:var(--navy-d)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 8px 20px -8px rgba(39,174,96,.7)}.btn-green:hover:not(:disabled){background:var(--green-d)}
+.btn-soft{background:#fff;border:1.5px solid var(--line);color:var(--text)}.btn-soft:hover:not(:disabled){border-color:#cdd1e1;background:#fafbfe}
+.btn-quiet{color:var(--muted);height:36px;padding:0 10px}.btn-quiet:hover{color:var(--text);background:var(--line-2)}
+.btn-danger{color:var(--red)}
+.btn-sm{height:34px;padding:0 12px;font-size:13px;border-radius:10px}
+.btn-lg{height:54px;padding:0 24px;font-size:16px;border-radius:15px}
+.btn-block{width:100%}
+.icon-btn{width:38px;height:38px;border-radius:11px;display:inline-grid;place-items:center;color:var(--muted);transition:background .15s,color .15s;flex-shrink:0}
+.icon-btn:hover{background:var(--line-2);color:var(--text)}
+.icon-btn.bordered{border:1.5px solid var(--line);background:#fff}
+.seg{display:inline-flex;background:var(--line-2);border-radius:12px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{padding:7px 14px;border-radius:9px;font-weight:700;font-size:13px;color:var(--muted);transition:background .15s,color .15s}
+.seg button:hover:not(:disabled){color:var(--text)}
+.seg button.on{background:#fff;color:var(--navy);box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.45}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;line-height:1.4}
+.pill-ok{background:var(--green-50);color:var(--green-d)}
+.pill-bad{background:var(--red-50);color:var(--red)}
+.pill-warn{background:var(--orange-50);color:#c24500}
+.pill-info{background:var(--blue-50);color:var(--blue)}
+.pill-gray{background:var(--line-2);color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;transition:all .15s}
+.chip:hover{border-color:#cdd1e1;color:var(--text)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip .n{font-family:var(--mono);font-size:11.5px;opacity:.65}
+.hscroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.hscroll::-webkit-scrollbar{display:none}
+.hscroll>*{flex-shrink:0}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+.login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr;background:#fff}
+.login-art{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 0% 0%,#2b35a8 0%,var(--navy) 38%,var(--navy-d) 70%,#3a0f2e 100%);color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:space-between}
+.login-art::after{content:"";position:absolute;right:-120px;bottom:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,0,.55),transparent 65%);filter:blur(10px)}
+.login-art h2{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.05;max-width:12ch;position:relative;z-index:1}
+.login-art p{opacity:.75;max-width:38ch;margin-top:14px;font-size:15px;position:relative;z-index:1}
+.login-ticket{position:relative;z-index:1;width:280px;background:#fff;color:var(--text);border-radius:16px 16px 0 0;padding:18px 18px 22px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform:rotate(-4deg);
+  -webkit-mask:radial-gradient(circle 7px at 50% 100%,transparent 6.5px,#000 7px) bottom/18px 14px repeat-x,linear-gradient(#000,#000) top/100% calc(100% - 7px) no-repeat;
+  mask:radial-gradient(circle 7px at 50% 100%,transparent 6.5px,#000 7px) bottom/18px 14px repeat-x,linear-gradient(#000,#000) top/100% calc(100% - 7px) no-repeat}
+.login-ticket .row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.login-ticket .tot{display:flex;justify-content:space-between;font-weight:800;padding-top:10px;font-size:15px}
+.login-ticket small{color:var(--muted);font-size:11.5px}
+.login-side{display:grid;place-items:center;padding:32px}
+.login-card{width:100%;max-width:380px}
+.brandmark{display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.crest{width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,var(--navy) 0%,#5a2a7a 60%,var(--red) 100%);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;letter-spacing:-.02em;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.brandmark b{display:block;font-size:15px;line-height:1.2}.brandmark small{color:var(--muted);font-size:12.5px}
+.login-card h1{font-size:28px;font-weight:800;letter-spacing:-.025em}
+.login-card .sub{color:var(--muted);margin:6px 0 28px}
+.login-err{color:var(--red);font-size:13.5px;font-weight:600;min-height:20px;margin:4px 0 10px}
+@media (max-width:900px){.login{grid-template-columns:1fr}.login-art{display:none}}
+
+/* ============================================================
+   ESTRUCTURA
+   ============================================================ */
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sb);background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:40;transition:transform .28s var(--ease)}
+.sb-brand{height:var(--hd);display:flex;align-items:center;gap:11px;padding:0 18px}
+.sb-brand .crest{width:36px;height:36px;border-radius:11px;font-size:12.5px}
+.sb-brand b{display:block;font-size:14px;line-height:1.15}.sb-brand small{color:var(--muted);font-size:11.5px}
+.sb-cta{margin:6px 14px 10px}
+.sb-cta .btn{width:100%;justify-content:flex-start;height:46px;border-radius:13px}
+.sb-cta kbd{margin-left:auto;font-family:var(--mono);font-size:11px;opacity:.7;background:rgba(255,255,255,.18);border-radius:6px;padding:2px 6px}
+.nav{flex:1;padding:6px 12px;display:flex;flex-direction:column;gap:2px;overflow:auto}
+.nav-group{font-size:12px;color:var(--faint);font-weight:700;padding:16px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;color:var(--muted);font-weight:600;font-size:14px;width:100%;transition:background .15s,color .15s}
+.nav-item:hover{background:var(--line-2);color:var(--text)}
+.nav-item.active{background:var(--navy-50);color:var(--navy)}
+.nav-item .badge{margin-left:auto;font-family:var(--mono);font-size:11px;background:var(--red);color:#fff;border-radius:999px;padding:1px 7px}
+.sb-user{margin:10px;padding:10px;border-radius:14px;background:var(--bg);display:flex;align-items:center;gap:10px}
+.sb-user .who{flex:1;min-width:0}.sb-user .who b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sb-user .who small{color:var(--muted);font-size:11.5px}
+.avatar{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;background:linear-gradient(140deg,var(--orange),var(--red))}
+.avatar.lv-preescolar{background:linear-gradient(140deg,#ffb054,var(--orange))}
+.avatar.lv-primaria{background:linear-gradient(140deg,#4b5bd6,var(--navy))}
+.avatar.lv-secundaria{background:linear-gradient(140deg,#e2604c,var(--red))}
+.avatar.lv-tecnica{background:linear-gradient(140deg,#2fbf74,#16794a)}
+.main{margin-left:var(--sb);min-width:0;min-height:100vh;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;height:var(--hd);background:rgba(243,244,248,.86);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar h2{font-size:19px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.tb-search{flex:1;max-width:520px;margin-left:auto;display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);color:var(--faint);font-weight:500;transition:border .15s,box-shadow .15s}
+.tb-search:hover{border-color:#cdd1e1;box-shadow:var(--sh-1)}
+.tb-search span{flex:1;text-align:left}
+.tb-search kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted)}
+.tb-meta{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap}
+.tb-meta b{color:var(--text)}
+.burger{display:none}
+.view{padding:24px 28px 60px;max-width:1360px;width:100%;margin:0 auto;flex:1}
+.scrim{display:none}
+@media (max-width:980px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:none;box-shadow:var(--sh-3)}
+  .main{margin-left:0}.burger{display:inline-grid}
+  .scrim.show{display:block;position:fixed;inset:0;background:rgba(14,20,80,.35);z-index:35}
+  .view{padding:16px 16px 60px}.topbar{padding:0 12px}
+  .tb-search{margin-left:0}.tb-search span,.tb-search kbd,.tb-meta{display:none}.tb-search{flex:0 0 42px;width:42px;height:42px;padding:0;justify-content:center}
+  .topbar h2{flex:1;font-size:17px}
+}
+
+/* ============================================================
+   PIEZAS GENERALES
+   ============================================================ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-1)}
+.card-pad{padding:20px 22px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px 0;flex-wrap:wrap}
+.card-hd h3{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.card-hd p{color:var(--muted);font-size:13px;width:100%;margin-top:-6px}
+.page-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.page-hd h1{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.page-hd p{color:var(--muted);margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;box-shadow:var(--sh-1)}
+.kpi .k-label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:600}
+.kpi .k-dot{width:8px;height:8px;border-radius:50%;background:var(--navy)}
+.kpi .k-val{font-family:var(--mono);font-size:25px;font-weight:700;letter-spacing:-.03em;margin-top:8px;line-height:1.1}
+.kpi .k-sub{color:var(--muted);font-size:12.5px;margin-top:4px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-main{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:1100px){.grid-main{grid-template-columns:1fr}}
+@media(max-width:760px){.grid-2{grid-template-columns:1fr}}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.toolbar .input{height:40px;width:auto;min-width:180px}
+.grow{flex:1}
+.search{position:relative;display:flex;align-items:center}
+.search .ic{position:absolute;left:14px;color:var(--faint);pointer-events:none}
+.search .input{padding-left:42px}
+.tbl-wrap{overflow:auto;max-height:68vh}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{position:sticky;top:0;z-index:1;background:#fafbfd;text-align:left;font-size:12px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.tbl tbody tr{transition:background .12s}
+.tbl tbody tr:hover td{background:#fafbff}
+.tbl tbody tr.click{cursor:pointer}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl .r{text-align:right;font-family:var(--mono);white-space:nowrap}
+.tbl th.r{font-family:var(--font)}
+.tbl tfoot td{position:sticky;bottom:0;font-weight:800;background:#fafbfd;border-top:1px solid var(--line);padding:12px 14px}
+.tbl .acts{display:flex;gap:4px;justify-content:flex-end}
+.who-cell{display:flex;align-items:center;gap:10px}.who-cell .avatar{width:32px;height:32px;border-radius:10px;font-size:11.5px}
+.who-cell b{display:block;font-size:13.5px}.who-cell small{color:var(--muted);font-size:12px}
+.mtag{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:7px;background:var(--red-50);color:var(--red);margin:2px 4px 2px 0}
+.mtag.ab{background:var(--blue-50);color:var(--blue)}
+.pct{display:inline-block;min-width:54px;text-align:center;padding:4px 8px;border-radius:8px;font-family:var(--mono);font-weight:700;font-size:12px}
+.pct.g{background:var(--green-50);color:var(--green-d)}.pct.o{background:var(--orange-50);color:#c24500}.pct.r{background:var(--red-50);color:var(--red)}
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty .e-ic{width:56px;height:56px;border-radius:18px;background:var(--line-2);display:grid;place-items:center;margin:0 auto 14px;color:var(--faint)}
+.empty b{display:block;color:var(--text);font-size:16px;margin-bottom:4px}
+.skel{background:linear-gradient(90deg,#eceef4 25%,#f6f7fa 50%,#eceef4 75%);background-size:200% 100%;animation:skel 1.2s infinite;border-radius:var(--r-lg)}
+@keyframes skel{to{background-position:-200% 0}}
+.banner{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--r);margin-bottom:16px;background:var(--orange-50);border:1px solid var(--orange-100);color:#8a3300}
+.banner .ic{color:var(--orange)}
+.banner b{display:block}
+.hint{font-size:13px;color:var(--muted)}
+
+/* gráfica de barras */
+.chart{padding:8px 22px 20px}
+.chart-plot{display:flex;align-items:flex-end;gap:10px;height:220px;padding-top:12px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to top,transparent 0 43px,var(--line-2) 43px 44px)}
+.bar-g{flex:1;display:flex;flex-direction:column;height:100%;min-width:0}
+.bars{flex:1;display:flex;align-items:flex-end;gap:3px;justify-content:center}
+.bar{flex:1;max-width:28px;border-radius:7px 7px 2px 2px;min-height:3px;position:relative}
+.bar-l{font-size:11.5px;text-align:center;margin-top:7px;color:var(--muted);font-weight:600}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--muted);font-weight:600}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* alertas */
+.alerts{display:flex;flex-direction:column;gap:8px;padding:14px 22px 20px}
+.alert{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;border:1px solid var(--line);width:100%;transition:border .15s,background .15s}
+button.alert:hover{border-color:#cdd1e1;background:#fafbfe}
+.alert .a-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex-shrink:0}
+.alert b{display:block;font-size:14px}.alert small{color:var(--muted);font-size:12.5px}
+.alert.r .a-ic{background:var(--red-50);color:var(--red)}.alert.o .a-ic{background:var(--orange-50);color:var(--orange)}.alert.b .a-ic{background:var(--navy-50);color:var(--navy)}.alert.g .a-ic{background:var(--green-50);color:var(--green-d)}
+
+/* ============================================================
+   CAJA
+   ============================================================ */
+.today{display:flex;align-items:center;gap:8px 28px;flex-wrap:wrap;padding:16px 20px;margin-bottom:16px}
+.today .t-item small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.today .t-item b{font-family:var(--mono);font-size:20px;letter-spacing:-.02em}
+.today .t-sep{width:1px;align-self:stretch;background:var(--line)}
+.today .grow{min-width:20px}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.level{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 16px;border-radius:16px;background:#fff;border:1.5px solid var(--line);transition:border .15s,box-shadow .15s,background .15s;overflow:hidden}
+.level:hover{border-color:#cdd1e1}
+.level b{font-size:15px;font-weight:800}
+.level small{color:var(--muted);font-size:12.5px}
+.level .lv-bar{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--lv,var(--navy))}
+.level.on{border-color:var(--lv,var(--navy));background:color-mix(in srgb,var(--lv,var(--navy)) 6%,#fff);box-shadow:0 0 0 3px color-mix(in srgb,var(--lv,var(--navy)) 14%,transparent)}
+.level .mora{color:var(--red);font-weight:700}
+@media(max-width:900px){.levels{grid-template-columns:repeat(5,minmax(132px,1fr));overflow-x:auto;scrollbar-width:none}.levels::-webkit-scrollbar{display:none}}
+.filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.filters .search{flex:1;min-width:220px}
+.filters .search .input{height:44px}
+.courses{margin-bottom:14px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.scard{position:relative;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--sh-1);text-align:left;width:100%;transition:border .15s,box-shadow .2s,transform .15s var(--ease)}
+.scard:hover{border-color:#cdd1e1;box-shadow:var(--sh-2);transform:translateY(-2px)}
+.sc-top{display:flex;align-items:center;gap:12px;min-width:0}
+.sc-top .who{flex:1;min-width:0}
+.sc-top small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-top b{display:block;font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-top small{color:var(--muted);font-size:12.5px}
+.strip{display:grid;grid-template-columns:1.3fr repeat(10,1fr);gap:3px}
+.strip i{height:8px;border-radius:3px;background:var(--line-2)}
+.strip i.pagado,.strip i.exento{background:var(--green)}
+.strip i.abonado{background:linear-gradient(90deg,var(--blue) 50%,var(--blue-100) 50%)}
+.strip i.vencido{background:var(--red)}
+.strip i.del_mes{background:var(--orange)}
+.strip i.proximo{background:var(--line)}
+.sc-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
+.sc-foot b{font-family:var(--mono);color:var(--text);font-size:13px}
+.more-row{display:flex;justify-content:center;margin-top:16px}
+
+/* ============================================================
+   PANEL DESLIZABLE (estudiante)
+   ============================================================ */
+.drawer-back{position:fixed;inset:0;z-index:80;background:rgba(14,20,80,.28);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.drawer-back.in{animation:fade .2s}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(640px,100vw);background:var(--bg);box-shadow:var(--sh-3);display:flex;flex-direction:column}
+.drawer-back.in .drawer{animation:slideIn .32s var(--ease)}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}}
+@keyframes fade{from{opacity:0}}
+.dr-hd{background:#fff;padding:18px 20px 0;border-bottom:1px solid var(--line)}
+.dr-top{display:flex;align-items:flex-start;gap:14px}
+.dr-top .avatar{width:52px;height:52px;border-radius:16px;font-size:17px}
+.dr-top .who{flex:1;min-width:0}
+.dr-top h2{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.dr-top .meta{color:var(--muted);font-size:13px;margin-top:3px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.dr-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+@media(max-width:520px){.dr-sum{gap:6px}.dr-sum b{font-size:12.5px;letter-spacing:-.04em}.dr-sum div{padding:9px 8px}.dr-sum small{font-size:11px}}
+.dr-sum div{background:var(--bg);border-radius:14px;padding:10px 12px}
+.dr-sum small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.dr-sum b{font-family:var(--mono);font-size:16px;letter-spacing:-.02em}
+.dr-sum .bad{background:var(--red-50)}.dr-sum .bad b{color:var(--red)}
+.tabs{display:flex;gap:4px}
+.tab{padding:12px 14px;font-weight:700;font-size:14px;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--navy);border-bottom-color:var(--navy)}
+.dr-body{flex:1;overflow:auto;padding:18px 20px 24px}
+.dr-ft{background:#fff;border-top:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dr-ft .sel{flex:1;min-width:150px}
+.dr-ft .sel small{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+.dr-ft .sel b{font-family:var(--mono);font-size:21px;letter-spacing:-.02em}
+.months{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.months .mt.mat{grid-column:1/-1}
+@media(max-width:520px){.months{grid-template-columns:repeat(2,1fr)}}
+.mt{position:relative;display:flex;flex-direction:column;gap:4px;padding:12px 13px;border-radius:16px;background:#fff;border:1.5px solid var(--line);text-align:left;width:100%;min-width:0;transition:border .15s,box-shadow .15s,background .15s}
+.mt.mat{flex-direction:row;align-items:center;gap:14px}
+.mt.mat .mt-main{flex:1}
+.mt-hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mt-name{font-weight:800;font-size:14px}
+.mt-amt{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.mt-line{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;margin-top:4px}
+.mt-rec{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.mt-prog{height:6px;border-radius:999px;background:var(--blue-100);overflow:hidden;margin-top:6px}
+.mt-prog i{display:block;height:100%;background:var(--blue);border-radius:999px}
+.mt-disc{font-size:11.5px;color:var(--green-d);font-weight:700}
+.mt .chk{width:22px;height:22px;border-radius:7px;border:2px solid #cfd3e3;display:grid;place-items:center;background:#fff;color:#fff;flex-shrink:0;transition:all .15s}
+.mt.pagado,.mt.exento{background:var(--green-50);border-color:var(--green-100)}
+.mt.pagado .mt-line,.mt.exento .mt-line{color:var(--green-d)}
+.mt.abonado{background:#fbfcff;border-color:var(--blue-100)}.mt.abonado .mt-line{color:var(--blue)}
+.mt.vencido{background:var(--red-50);border-color:var(--red-100)}.mt.vencido .mt-line{color:var(--red)}
+.mt.del_mes{background:var(--orange-50);border-color:var(--orange-100)}.mt.del_mes .mt-line{color:#c24500}
+.mt.proximo,.mt.sin_tarifa{border-style:dashed;background:transparent}.mt.proximo .mt-line,.mt.sin_tarifa .mt-line{color:var(--faint)}
+.mt.pick{cursor:pointer}
+.mt.pick:hover{border-color:var(--navy)}
+.mt.sel{border-color:var(--navy)!important;box-shadow:0 0 0 3px rgba(26,35,126,.14)}
+.mt.sel .chk{background:var(--navy);border-color:var(--navy)}
+.mt.view{cursor:pointer}
+.seal{position:absolute;right:9px;top:9px;width:34px;height:34px;color:var(--green);opacity:.8;transform:rotate(-12deg)}
+.mt.pagado .mt-hd,.mt.exento .mt-hd{padding-right:34px}
+.mt.mat .seal{position:static;width:44px;height:44px}
+.mt.mat .mt-hd{padding-right:0!important}
+.dr-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-weight:600;margin-top:14px}
+.dr-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.sec-title{font-size:15px;font-weight:800;margin:4px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:14px}
+.mov{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.mov:last-child{border-bottom:0}
+.mov-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--green-50);color:var(--green-d);flex-shrink:0}
+.mov-ic.ab{background:var(--blue-50);color:var(--blue)}
+.mov-main{flex:1;min-width:0}.mov-main b{display:block;font-size:14px}.mov-main small{color:var(--muted);font-size:12.5px}
+.mov-amt{font-family:var(--mono);font-weight:700;white-space:nowrap}
+.disc-hero{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;background:var(--green-50);margin-bottom:10px}
+.disc-hero .big{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--green-d)}
+.disc-hero b{display:block}.disc-hero small{color:var(--muted)}
+.access{display:flex;gap:10px;margin:12px 0}
+.access div{flex:1;background:var(--bg);border-radius:14px;padding:12px 14px}
+.access small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.access b{font-family:var(--mono);font-size:17px}
+.access .code{font-size:22px;letter-spacing:.28em;color:var(--navy)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ============================================================
+   MODALES
+   ============================================================ */
+.modal-back{position:fixed;inset:0;z-index:100;background:rgba(14,20,80,.42);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px 24px;overflow:auto;animation:fade .15s}
+.modal{background:#fff;border-radius:var(--r-xl);width:100%;max-width:600px;box-shadow:var(--sh-3);animation:pop .22s var(--ease);overflow:hidden}
+.modal.wide{max-width:900px}.modal.xwide{max-width:1040px}
+@keyframes pop{from{transform:translateY(14px) scale(.985);opacity:0}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.modal-hd h3{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.modal-hd p{color:var(--muted);font-size:13px;margin-top:1px}
+.modal-bd{padding:20px 22px}
+.modal-ft{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:#fafbfd;flex-wrap:wrap;align-items:center}
+@media(max-width:640px){.modal-back{padding:0;align-items:flex-end}.modal{border-radius:24px 24px 0 0;max-height:94vh;overflow:auto}.modal-ft{position:sticky;bottom:0}}
+
+/* buscador global */
+.spot{max-width:640px}
+.spot-in{display:flex;align-items:center;gap:12px;padding:6px 18px;border-bottom:1px solid var(--line)}
+.spot-in .ic{color:var(--faint)}
+.spot-in input{flex:1;height:58px;border:0;outline:0;font-size:18px;font-weight:500;background:transparent}
+.spot-in kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:2px 6px;color:var(--muted)}
+.spot-list{max-height:62vh;overflow:auto;padding:8px}
+.spot-g{font-size:12.5px;color:var(--faint);font-weight:700;padding:10px 12px 6px}
+.spot-it{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;width:100%;text-align:left}
+.spot-it.on,.spot-it:hover{background:var(--navy-50)}
+.spot-it .avatar{width:36px;height:36px;border-radius:11px;font-size:12px}
+.spot-it .rec-ic{width:36px;height:36px;border-radius:11px;background:var(--green-50);color:var(--green-d);display:grid;place-items:center;flex-shrink:0}
+.spot-it .who{flex:1;min-width:0}.spot-it b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.spot-it small{color:var(--muted);font-size:12.5px}
+.spot-it .end{font-family:var(--mono);font-size:13px;font-weight:700;white-space:nowrap}
+.spot-empty{padding:28px;text-align:center;color:var(--muted)}
+.spot-foot{display:flex;gap:16px;padding:10px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+.spot-foot kbd{font-family:var(--mono);border:1px solid var(--line);border-radius:5px;padding:0 5px;margin-right:4px}
+
+/* caja registradora (cobro) */
+.pos{display:grid;grid-template-columns:1.2fr 1fr;min-height:0}
+.pos-left{padding:20px 22px;border-right:1px solid var(--line);overflow:auto;max-height:76vh}
+.pos-right{padding:22px;background:linear-gradient(180deg,#f6f7fb,#eef0f7);display:flex;flex-direction:column;gap:14px}
+@media(max-width:860px){.pos{grid-template-columns:1fr}.pos-left{max-height:none;border-right:0}.pos-right{padding:18px}}
+.pos-sec{margin-bottom:20px}
+.pos-sec:last-child{margin-bottom:0}
+.pos-t{font-size:14.5px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.pos-t .req{font-size:11.5px;font-weight:700;color:var(--red);background:var(--red-50);padding:2px 8px;border-radius:999px}
+.manual{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;margin-top:12px;padding:14px;border-radius:14px;background:var(--bg)}
+.manual .field{margin-bottom:10px}
+@media(max-width:520px){.manual{grid-template-columns:1fr}}
+.methods{display:flex;gap:8px;flex-wrap:wrap}
+.drop{display:flex;align-items:center;gap:14px;border:2px dashed #cfd3e3;border-radius:16px;padding:14px 16px;cursor:pointer;transition:border .15s,background .15s}
+.drop:hover{border-color:var(--navy);background:#fafbff}
+.drop.has{border-style:solid;border-color:var(--green-100);background:var(--green-50)}
+.drop .d-ic{width:46px;height:46px;border-radius:12px;background:var(--line-2);display:grid;place-items:center;flex-shrink:0;color:var(--muted);overflow:hidden}
+.drop .d-ic img{width:100%;height:100%;object-fit:cover}
+.drop b{display:block;font-size:14px}.drop small{color:var(--muted);font-size:12.5px}
+.ticket{position:relative;background:#fff;border-radius:14px 14px 0 0;padding:18px 18px 26px;box-shadow:0 18px 40px -20px rgba(18,22,51,.35);
+  -webkit-mask:radial-gradient(circle 7px at 50% 100%,transparent 6.5px,#000 7px) bottom/18px 14px repeat-x,linear-gradient(#000,#000) top/100% calc(100% - 7px) no-repeat;
+  mask:radial-gradient(circle 7px at 50% 100%,transparent 6.5px,#000 7px) bottom/18px 14px repeat-x,linear-gradient(#000,#000) top/100% calc(100% - 7px) no-repeat}
+.tk-hd{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1.5px dashed var(--line);margin-bottom:10px}
+.tk-hd .crest{width:34px;height:34px;border-radius:10px;font-size:11.5px}
+.tk-hd b{display:block;font-size:13.5px}.tk-hd small{color:var(--muted);font-size:12px}
+.tk-line{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13.5px}
+.tk-line>span:last-child{font-family:var(--mono);white-space:nowrap}
+.tk-line .sub{display:block;color:var(--green-d);font-size:12px}
+.tk-line.minus>span:last-child{color:var(--green-d)}
+.tk-div{border-top:1.5px dashed var(--line);margin:8px 0}
+.tk-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:4px}
+.tk-total span{font-weight:800}
+.tk-total b{font-family:var(--mono);font-size:24px;letter-spacing:-.03em}
+.amount{background:#fff;border-radius:16px;padding:14px 16px;border:2px solid var(--line);transition:border .15s,box-shadow .15s}
+.amount:focus-within{border-color:var(--green);box-shadow:0 0 0 4px rgba(39,174,96,.12)}
+.amount label{font-size:12.5px;font-weight:700;color:var(--muted)}
+.amount .row{display:flex;align-items:center;gap:6px;margin-top:2px}
+.amount .row span{font-family:var(--mono);font-size:24px;color:var(--faint)}
+.amount input{flex:1;min-width:0;border:0;outline:0;font-family:var(--mono);font-size:30px;font-weight:700;letter-spacing:-.03em;background:transparent}
+.amount-msg{min-height:26px;font-size:13px;font-weight:600}
+.quick-amt{display:flex;gap:6px;flex-wrap:wrap}
+.quick-amt button{font-family:var(--mono);font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.quick-amt button:hover{color:var(--text);border-color:#cdd1e1}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.kv>div{background:var(--bg);border-radius:12px;padding:10px 12px}
+.kv small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.kv b{font-family:var(--mono)}
+.proof-view{background:#151933;border-radius:16px;overflow:hidden;display:grid;place-items:center;min-height:300px}
+.proof-view img{max-width:100%;max-height:70vh;display:block}
+.proof-view iframe{width:100%;height:70vh;border:0;background:#fff}
+.check-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer}
+.check-row:hover{background:#fafbfe}
+.check-row input{width:18px;height:18px;accent-color:var(--navy)}
+.check-row b{display:block}.check-row small{color:var(--muted);font-size:12.5px}
+.disc-preview{padding:12px 14px;border-radius:12px;background:var(--green-50);font-size:13.5px;min-height:46px}
+pre.code{background:#0f1430;color:#d6dcff;border-radius:14px;padding:16px;overflow:auto;font-family:var(--mono);font-size:12px;line-height:1.65;margin:12px 0 0}
+.url-box{display:flex;gap:8px;align-items:center;background:var(--bg);border-radius:14px;padding:8px 8px 8px 16px;margin:14px 0}
+.url-box code{flex:1;font-family:var(--mono);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.how div{background:var(--bg);border-radius:16px;padding:14px 16px}
+.how .n{width:28px;height:28px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;margin-bottom:10px}
+.how b{display:block;font-size:14px}.how small{color:var(--muted);font-size:12.5px}
+@media(max-width:760px){.how{grid-template-columns:1fr}}
+.progress{height:10px;border-radius:999px;background:var(--line-2);overflow:hidden;margin-top:12px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--navy),var(--green));width:0;transition:width .25s}
+.rates{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:1000px){.rates{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.rates{grid-template-columns:1fr}}
+.rate{border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;position:relative;overflow:hidden}
+.rate::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--lv)}
+.rate h4{font-size:15px;font-weight:800;margin:4px 0 10px}
+.rate .field{margin-bottom:10px}
+.spinner{width:24px;height:24px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* toasts */
+#toast-root{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:8px;align-items:center;width:max-content;max-width:92vw;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;background:#121633;color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;box-shadow:var(--sh-3);animation:pop .22s var(--ease);font-size:14px}
+.toast.err{background:var(--red)}.toast.warn{background:#b04300}
+</style>
+</head>
+<body>
+
+<!-- ============================ LOGIN ============================ -->
+<section class="login" id="login">
+  <div class="login-art" aria-hidden="true">
+    <div class="brandmark" style="margin:0"><div class="crest" style="background:rgba(255,255,255,.14)">LM</div><div><b>I.E.T. Liceo Moderno Suesca</b><small style="color:rgba(255,255,255,.6)">Pensiones y matrículas</small></div></div>
+    <div>
+      <div class="login-ticket">
+        <small>Recibo REC-2026-0142</small>
+        <div class="row" style="margin-top:8px"><span>Mensualidad marzo</span><span class="num">$ 250.000</span></div>
+        <div class="row"><span>Descuento hermanos</span><span class="num" style="color:var(--green-d)">−$ 25.000</span></div>
+        <div class="tot"><span>Total</span><span class="num">$ 225.000</span></div>
+      </div>
+      <h2 style="margin-top:44px">La caja del colegio, en orden.</h2>
+      <p>Busque al estudiante, marque los meses y entregue el recibo. El acudiente ve el pago en su celular al instante.</p>
+    </div>
+    <small style="position:relative;z-index:1;opacity:.55">Suesca, Cundinamarca</small>
+  </div>
+  <div class="login-side">
+    <form class="login-card" id="loginForm" autocomplete="off">
+      <div class="brandmark"><div class="crest">LM</div><div><b>Liceo Moderno Suesca</b><small>Control de pagos</small></div></div>
+      <h1>Ingrese a la caja</h1>
+      <p class="sub">Use su usuario y clave de coordinación.</p>
+      <div class="field"><label class="lbl" for="loginId">Usuario</label><input class="input" id="loginId" autocapitalize="characters" placeholder="Su ID" required></div>
+      <div class="field"><label class="lbl" for="loginKey">Clave</label><input class="input" id="loginKey" type="password" placeholder="Su clave" required></div>
+      <div class="login-err" id="loginError" role="alert"></div>
+      <button class="btn btn-primary btn-lg btn-block" id="loginBtn" type="submit">Ingresar</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ APP ============================ -->
+<div id="app" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand"><div class="crest">LM</div><div><b>Liceo Moderno</b><small>Control de pagos</small></div></div>
+    <div class="sb-cta" id="sbCta"></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sb-user" id="sbUser"></div>
+  </aside>
+  <div class="scrim" id="scrim" data-act="scrim"></div>
+  <div class="main">
+    <header class="topbar" id="topbar">
+      <button class="icon-btn burger" data-act="burger" aria-label="Abrir menú"></button>
+      <h2 id="pageTitle">Inicio</h2>
+      <button class="tb-search" data-act="spot" aria-label="Buscar estudiante o recibo"></button>
+      <div class="tb-meta" id="tbMeta"></div>
+      <button class="icon-btn" data-act="refresh" id="tbSync" title="Actualizar datos" aria-label="Actualizar datos"></button>
+    </header>
+    <main class="view" id="view"></main>
+  </div>
+</div>
+
+<div id="drawer-root"></div>
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+
+<script type="module">
+/* =====================================================================
+   CONTROL DE PAGOS · I.E.T. LICEO MODERNO SUESCA
+   1. Firebase y constantes      7. Navegación y buscador global
+   2. Estado                     8. Vistas
+   3. Utilidades e íconos        9. Panel del estudiante
+   4. Carga de datos            10. Cobro (caja registradora)
+   5. Dominio (cartón, saldos)  11. Descuentos fijos
+   6. Login y sesión            12. Recibos, comprobantes, impresión
+                                13. Cartilla del papá
+                                14. Eventos
+   ===================================================================== */
+
+/* ===================== 1. FIREBASE Y CONSTANTES ===================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, deleteDoc, deleteField, query, where, runTransaction, writeBatch, FieldPath } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+
+const SCHOOL = 'I.E.T. Liceo Moderno Suesca';
+const PORTAL_URL = 'https://alejandrozambranovalbuena-eng.github.io/calificaciones/cartilla.html';
+const ADMIN = { id: 'ADMIN', key: '20261' };
+const MESES = ["Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre"];
+const MESES_CAL = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const LEVELS = { preescolar: 'Preescolar', primaria: 'Primaria', secundaria: 'Secundaria', tecnica: 'Técnica' };
+const LEVEL_COLOR = { preescolar: '#ff8a1f', primaria: '#1a237e', secundaria: '#c0392b', tecnica: '#1d8a4b' };
+const METHODS = ['Efectivo','Transferencia','Consignación','Nequi','Daviplata','Otro'];
+const DISCOUNT_REASONS = ['Hermanos','Beca','Hijo de docente o funcionario','Pronto pago','Convenio','Acuerdo de pago','Otro'];
+const PERIODS = [
+  { id: 'MAT', label: 'Matrícula', short: 'Mat', concept: 'Matrícula', month: null, idx: -1 },
+  ...MESES.map((m, i) => ({ id: m, label: m, short: m.slice(0, 3), concept: 'Mensualidad', month: m, idx: i }))
+];
+/* Comprobantes nuevos en "pagos_comprobantes" (mismo ID del pago) para que la lista de
+   pagos cargue rápido. Los pagos anteriores con paymentProof dentro se siguen leyendo igual. */
+const PROOF_SEPARATE = true;
+const PROOF_MAX_CHARS = 700000;
+const LOCK = { attempts: 3, minutes: 5 };
+const SESSION_KEY = 'lms_pagos_session';
+const CARTILLA_SALT = 'LMS-CARTILLA';          // igual en cartilla.html
+const CARD_LIMIT = 120;
+
+/* ===================== 2. ESTADO ===================== */
+const S = {
+  user: null, systemLoaded: false, data: null, coordinators: [], cashiers: null,
+  students: [], byKey: new Map(), courses: [],
+  tarifas: null, year: new Date().getFullYear(),
+  payments: [], payByStudent: new Map(), ledgers: new Map(),
+  discounts: {}, loadedAt: null, view: 'inicio',
+  caja: { q: '', level: 'all', course: 'all', filter: 'all', limit: CARD_LIMIT },
+  drawer: null,                 // { key, tab, sel:Set }
+  mor: { level: 'all', course: 'all', concept: 'all' },
+  rec: { level: 'all', course: 'all' },
+  hist: { q: '', course: 'all', concept: 'all', month: 'all', method: 'all' },
+  spot: null, chg: null, discEdit: null, cierreDate: null, proofCache: new Map(),
+};
+
+/* ===================== 3. UTILIDADES E ÍCONOS ===================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const COP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+const NUM = new Intl.NumberFormat('es-CO');
+const fmt$ = n => COP.format(Math.round(Number(n) || 0));
+const num = v => { const n = Number(String(v ?? '').replace(/[^\d]/g, '')); return Number.isFinite(n) ? n : 0; };
+const moneyInput = v => { const n = num(v); return n ? NUM.format(n) : ''; };
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const sum = (arr, f) => arr.reduce((a, x) => a + (Number(f ? f(x) : x) || 0), 0);
+const deaccent = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+const norm = s => deaccent(s).toUpperCase().replace(/\s+/g, ' ').trim();
+const docKeyOf = d => String(d ?? '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+const pad2 = n => String(n).padStart(2, '0');
+const isoOf = ts => { const d = new Date(ts || 0); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; };
+const todayISO = () => isoOf(Date.now());
+const parseISO = s => { const [y, m, d] = String(s || '').split('-').map(Number); return new Date(y || 1970, (m || 1) - 1, d || 1); };
+const longDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+const medDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+const shortDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }).replace('.', '') : '—';
+const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+const firstName = n => { const w = String(n || '').trim().split(/\s+/)[0] || ''; return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(); };
+const title = n => String(n || '').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+const maskDoc = d => { const s = String(d || ''); return s.length <= 4 ? s : '•'.repeat(Math.min(6, s.length - 4)) + s.slice(-4); };
+const kb = data => Math.round(String(data || '').length * 0.75 / 1024) + ' KB';
+const greet = () => { const h = new Date().getHours(); return h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches'; };
+const plural = (n, a, b) => `${NUM.format(n)} ${n === 1 ? a : b}`;
+
+const ICONS = {
+  home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  wallet: '<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/>',
+  alert: '<path d="M10.3 4 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  chart: '<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>',
+  receipt: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  tag: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.4"/>',
+  family: '<circle cx="9" cy="8" r="3.4"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.4 3.4 0 0 1 0 6.8M18.3 14.2A5.5 5.5 0 0 1 21.5 20"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  print: '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+  eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  refresh: '<path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/>',
+  logout: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  chevR: '<path d="m9 6 6 6-6 6"/>', chevL: '<path d="m15 6-6 6 6 6"/>',
+  chat: '<path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5A8.5 8.5 0 1 1 21 11.5z"/>',
+  copy: '<rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M5 16V5.5A2.5 2.5 0 0 1 7.5 3H16"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  download: '<path d="M12 4v11m-5-5 5 5 5-5M4 20h16"/>',
+  upload: '<path d="M12 20V9m-5 5 5-5 5 5M4 4h16"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  half: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+  dot: '<circle cx="12" cy="12" r="4"/>',
+  file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
+  send: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
+  link: '<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',
+  cash: '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+};
+const ic = (name, size = 18, sw = 1.9) => `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+const SEAL = `<svg class="seal" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="32" cy="32" r="29" stroke-width="2.4"/><circle cx="32" cy="32" r="23" stroke-width="1"/><path d="m21 33 7.5 7.5L44 25" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g><path id="sealArc" d="M10 32a22 22 0 0 1 44 0" fill="none"/><text font-family="Plus Jakarta Sans,Arial" font-size="6.4" font-weight="800" letter-spacing="1.6" fill="currentColor"><textPath href="#sealArc" startOffset="50%" text-anchor="middle">PAGADO</textPath></text></svg>`;
+
+function toast(msg, type = 'ok') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = (type === 'ok' ? ic('check', 17, 2.4) : ic('alert', 17)) + `<span>${esc(msg)}</span>`;
+  $('#toast-root').appendChild(t);
+  setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, type === 'err' ? 5500 : 3200);
+}
+function syncLock() { document.body.classList.toggle('locked', !!($('#modal-root').innerHTML || $('#drawer-root').innerHTML)); }
+function openModal(html, { size = '' } = {}) {
+  $('#modal-root').innerHTML = `<div class="modal-back"><div class="modal ${size}" role="dialog" aria-modal="true">${html}</div></div>`;
+  syncLock();
+  return $('#modal-root .modal');
+}
+function closeModal() { $('#modal-root').innerHTML = ''; S.chg = null; S.spot = null; syncLock(); }
+const modalHead = (t, sub = '') => `<div class="modal-hd"><div><h3>${t}</h3>${sub ? `<p>${sub}</p>` : ''}</div><button class="icon-btn" data-act="modal-close" aria-label="Cerrar">${ic('x', 20)}</button></div>`;
+async function copyText(t) { try { await navigator.clipboard.writeText(t); toast('Copiado'); } catch { toast('No se pudo copiar', 'err'); } }
+const emptyHTML = (icon, t, sub = '') => `<div class="empty"><div class="e-ic">${ic(icon, 26)}</div><b>${t}</b>${sub}</div>`;
+
+/* ===================== 4. CARGA DE DATOS ===================== */
+/* Nivel del curso: lo que diga Configuración; si no, se deduce del nombre. */
+function autoLevel(courseName) {
+  const n = norm(courseName);
+  if (/KINDER|TRANSICION|JARDIN|PARVULO|PREESCOLAR/.test(n)) return 'preescolar';
+  if (/\b(DECIMO|UNDECIMO|ONCE|DIEZ)\b/.test(n)) return 'tecnica';
+  if (/\b(PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO)\b/.test(n)) return 'primaria';
+  const m = n.match(/^(?:GRADO\s*)?(\d+)/);
+  if (m) {
+    let g = Number(m[1]); if (m[1].length >= 3) g = Math.floor(g / 100);
+    if (g === 0) return 'preescolar';
+    if (g <= 5) return 'primaria';
+    if (g >= 10) return 'tecnica';
+  }
+  return 'secundaria';
+}
+function buildStudents(data) {
+  const students = [], courses = [];
+  (data.courses || []).forEach((c, ci) => {
+    const courseName = String(c.name || c.nombre || `Curso ${ci + 1}`).trim();
+    const courseId = String(c.id ?? courseName);
+    const list = (c.students || c.estudiantes || []).map(s => {
+      const name = String(s.name || s.nombre || '').trim();
+      const docv = String(s.doc ?? s.documento ?? '').trim();
+      const dk = docKeyOf(docv);
+      return { key: dk || ('N:' + norm(name) + '|' + norm(courseName)), name, doc: docv, docKey: dk, docType: s.docType || s.tipoDoc || '', courseId, courseName, level: 'secundaria', search: norm(name) + ' ' + dk };
+    }).filter(s => s.name);
+    list.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    courses.push({ id: courseId, name: courseName, auto: autoLevel(courseName), level: 'secundaria', count: list.length, order: ci });
+    students.push(...list);
+  });
+  S.students = students; S.courses = courses;
+  S.byKey = new Map(students.map(s => [s.key, s]));
+  applyLevels();
+}
+function applyLevels() {
+  const over = S.tarifas?.courseLevels || {};
+  const map = new Map();
+  S.courses.forEach(c => { c.level = LEVELS[over[c.id]] ? over[c.id] : c.auto; map.set(c.id, c.level); });
+  S.students.forEach(s => { s.level = map.get(s.courseId) || 'secundaria'; });
+}
+async function loadSystem() {
+  const [sys, perm] = await Promise.all([getDoc(doc(db, 'system', 'data')), getDoc(doc(db, 'pagos_config', 'permisos'))]);
+  S.data = sys.exists() ? sys.data() : {};
+  const co = S.data.coordinators;
+  S.coordinators = Array.isArray(co) ? co : Object.values(co || {});
+  S.cashiers = perm.exists() && Array.isArray(perm.data().cajeros) ? perm.data().cajeros.map(x => String(x).toUpperCase()) : null;
+  buildStudents(S.data);
+  S.systemLoaded = true;
+}
+function normTarifas(t) {
+  const y = Number(t?.year) || new Date().getFullYear();
+  const lv = k => ({ matricula: Number(t?.[k]?.matricula) || 0, mensualidad: Number(t?.[k]?.mensualidad) || 0 });
+  const out = { year: y, meses: MESES, updatedAt: t?.updatedAt || 0, courseLevels: t?.courseLevels || {} };
+  Object.keys(LEVELS).forEach(k => { out[k] = lv(k); });
+  return out;
+}
+const levelsInUse = () => [...new Set(S.students.map(s => s.level))];
+const missingRates = () => levelsInUse().filter(k => !S.tarifas[k].mensualidad);
+async function loadPayData() {
+  const [tar, desc] = await Promise.all([getDoc(doc(db, 'pagos_config', 'tarifas')), getDoc(doc(db, 'pagos_config', 'descuentos'))]);
+  S.tarifas = normTarifas(tar.exists() ? tar.data() : null);
+  S.year = S.tarifas.year;
+  applyLevels();
+  S.discounts = desc.exists() ? (desc.data().items || {}) : {};
+  await loadPayments();
+}
+async function loadPayments() {
+  const snap = await getDocs(query(collection(db, 'pagos'), where('year', 'in', [S.year, String(S.year)])));
+  S.payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  indexPayments(); computeAllLedgers();
+  S.loadedAt = new Date();
+}
+function payKey(p) { return docKeyOf(p.studentDoc) || ('N:' + norm(p.studentName) + '|' + norm(p.courseName)); }
+function indexPayments() {
+  S.payByStudent = new Map();
+  for (const p of S.payments) { const k = payKey(p); if (!S.payByStudent.has(k)) S.payByStudent.set(k, []); S.payByStudent.get(k).push(p); }
+  for (const arr of S.payByStudent.values()) arr.sort((a, b) => (a.registeredAt || 0) - (b.registeredAt || 0));
+}
+async function syncStudentPayments(st) {
+  if (st.doc) {
+    const snap = await getDocs(query(collection(db, 'pagos'), where('studentDoc', '==', st.doc), where('year', '==', S.year)));
+    const ids = new Set(S.payments.map(p => p.id)); let added = 0;
+    snap.docs.forEach(d => { if (!ids.has(d.id)) { S.payments.push({ id: d.id, ...d.data() }); added++; } });
+    if (added) indexPayments();
+  }
+  S.ledgers.set(st.key, computeLedger(st));
+}
+
+/* ===================== 5. DOMINIO ===================== */
+function tarifa(level, concept) { const t = S.tarifas?.[level]; if (!t) return 0; return Number(concept === 'Matrícula' ? t.matricula : t.mensualidad) || 0; }
+const discShort = d => (d.tipo === 'pct' ? `${d.valor}%` : fmt$(d.valor)) + ' ' + d.motivo.toLowerCase();
+function fixedDiscountFor(st, concept, base) {
+  const d = S.discounts[st.key]; if (!d) return null;
+  const applies = d.aplica === 'ambos' || (d.aplica === 'mensualidad' && concept === 'Mensualidad') || (d.aplica === 'matricula' && concept === 'Matrícula');
+  if (!applies) return null;
+  const v = Number(d.valor) || 0;
+  return { amount: d.tipo === 'pct' ? Math.round(base * Math.min(100, v) / 100) : Math.min(base, v), reason: d.motivo + (d.tipo === 'pct' ? ` (${v}%)` : ''), source: 'fijo' };
+}
+function curMonthIdx() {
+  const now = new Date(), y = now.getFullYear();
+  if (y > S.year) return MESES.length;
+  if (y < S.year) return -1;
+  return clamp(now.getMonth() - 1, 0, MESES.length - 1);
+}
+const curMonthName = () => MESES[clamp(curMonthIdx(), 0, MESES.length - 1)];
+/* Cartón de un estudiante: un renglón por Matrícula y por mes.
+   Pagos anteriores (sin netAmount) cuentan como pagados completos, como antes.
+   Pagos nuevos suman abonos contra el valor neto (tarifa − descuento). */
+function computeLedger(st) {
+  const pays = S.payByStudent.get(st.key) || [];
+  const cur = curMonthIdx();
+  const items = PERIODS.map(per => {
+    const ps = pays.filter(p => p.concept === per.concept && (per.month ? p.month === per.month : true));
+    const tarifaNow = tarifa(st.level, per.concept);
+    const legacy = ps.length > 0 && ps.some(p => p.netAmount == null);
+    const paid = sum(ps, p => p.paidAmount);
+    let gross, discount = 0, reason = '', source = 'ninguno';
+    if (legacy) {
+      gross = Number(ps[0].expectedAmount) || tarifaNow || paid;
+      discount = Math.max(0, gross - paid);
+      if (discount) { reason = 'Ajuste de registro anterior'; source = 'legacy'; }
+    } else if (ps.length) {
+      const last = ps[ps.length - 1];
+      gross = Number(last.expectedAmount) || 0; discount = Number(last.discountAmount) || 0;
+      reason = last.discountReason || ''; source = last.discountSource || 'manual';
+    } else {
+      gross = tarifaNow;
+      const fd = fixedDiscountFor(st, per.concept, gross);
+      if (fd) { discount = fd.amount; reason = fd.reason; source = 'fijo'; }
+    }
+    const due = legacy ? Math.max(paid, 0) : Math.max(0, gross - discount);
+    const balance = legacy ? 0 : Math.max(0, due - paid);
+    const overdue = per.idx < cur;
+    let status;
+    if (legacy) status = 'pagado';
+    else if (gross === 0 && !ps.length) status = 'sin_tarifa';
+    else if (due === 0) status = 'exento';
+    else if (paid >= due) status = 'pagado';
+    else if (paid > 0) status = 'abonado';
+    else status = overdue ? 'vencido' : (per.idx === cur ? 'del_mes' : 'proximo');
+    const inMora = balance > 0 && overdue && status !== 'sin_tarifa';
+    return { ...per, gross, discount, reason, source, due, paid, balance, status, overdue, inMora, payments: ps, locked: ps.length > 0 };
+  });
+  const moraItems = items.filter(i => i.inMora);
+  const curItem = cur >= 0 && cur < MESES.length ? items[cur + 1] : null;
+  return {
+    items, moraItems,
+    gross: sum(items, i => i.gross), discount: sum(items, i => i.discount),
+    due: sum(items, i => i.due), paid: sum(items, i => i.paid), balance: sum(items, i => i.balance),
+    mora: sum(moraItems, i => i.balance), alDia: moraItems.length === 0,
+    matOk: ['pagado', 'exento', 'sin_tarifa'].includes(items[0].status),
+    curOk: !curItem || ['pagado', 'exento', 'sin_tarifa'].includes(curItem.status),
+  };
+}
+function computeAllLedgers() { S.ledgers = new Map(S.students.map(st => [st.key, computeLedger(st)])); }
+const ST = {
+  pagado: { t: 'Pagado', c: 'ok' }, exento: { t: 'Exento', c: 'ok' }, abonado: { t: 'Abonado', c: 'info' },
+  vencido: { t: 'Vencido', c: 'bad' }, del_mes: { t: 'Vence este mes', c: 'warn' }, proximo: { t: 'Próximo', c: 'gray' }, sin_tarifa: { t: 'Sin tarifa', c: 'gray' },
+};
+const pillLedger = L => L.alDia ? `<span class="pill pill-ok">${ic('check', 14, 2.6)}Al día</span>` : `<span class="pill pill-bad">Debe ${fmt$(L.mora)}</span>`;
+
+/* ===================== 6. LOGIN Y SESIÓN ===================== */
+const readLock = () => { try { return JSON.parse(localStorage.getItem('lms_pagos_lock') || '{}'); } catch { return {}; } };
+const writeLock = o => { try { localStorage.setItem('lms_pagos_lock', JSON.stringify(o)); } catch { } };
+const lockRemaining = () => { const l = readLock(); return l.until && l.until > Date.now() ? l.until - Date.now() : 0; };
+const coordUid = c => String(c.userId ?? c.id ?? '').trim().toUpperCase();
+const coordName = c => String(c.name || c.nombre || coordUid(c)).trim();
+const isRectoria = c => norm(c.type || c.tipo || '').includes('RECT');
+function isCashier(c) { return Array.isArray(S.cashiers) ? S.cashiers.includes(coordUid(c)) : norm(coordName(c)).includes('KAREN'); }
+function tryLogin(id, key) {
+  id = String(id || '').trim().toUpperCase(); key = String(key || '').trim();
+  if (id === ADMIN.id && key === ADMIN.key) return { id, name: 'Administrador', role: 'admin', cashier: false };
+  const c = S.coordinators.find(c => coordUid(c) === id && String(c.key ?? c.clave ?? '').trim() === key);
+  if (!c) return null;
+  const role = isRectoria(c) ? 'rectoria' : 'coordinadora';
+  return { id, name: coordName(c), role, cashier: role === 'coordinadora' && isCashier(c) };
+}
+const saveSession = () => sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ...S.user, t: Date.now() }));
+function readSession() { try { const s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); return s && Date.now() - s.t < 12 * 3600e3 ? s : null; } catch { return null; } }
+function refreshUserFlags() {
+  if (!S.user || S.user.role === 'admin') return true;
+  const c = S.coordinators.find(c => coordUid(c) === S.user.id);
+  if (!c) return false;
+  S.user.role = isRectoria(c) ? 'rectoria' : 'coordinadora';
+  S.user.cashier = S.user.role === 'coordinadora' && isCashier(c);
+  S.user.name = coordName(c);
+  return true;
+}
+
+/* ===================== 7. NAVEGACIÓN Y BUSCADOR GLOBAL ===================== */
+const canCharge = () => !!S.user?.cashier;
+const isAdmin = () => S.user?.role === 'admin';
+const canManage = () => canCharge() || isAdmin();
+const NAV_BY_ROLE = {
+  caja:         ['caja', 'inicio', 'morosos', 'recaudo', 'historial', 'descuentos', 'portal'],
+  coordinadora: ['inicio', 'caja', 'morosos', 'recaudo', 'historial'],
+  admin:        ['inicio', 'caja', 'morosos', 'recaudo', 'historial', 'descuentos', 'portal', 'config'],
+  rectoria:     ['inicio', 'caja', 'morosos', 'recaudo'],
+};
+const allowedViews = () => NAV_BY_ROLE[S.user.cashier ? 'caja' : S.user.role] || ['inicio'];
+const VIEWS = {
+  inicio:     { icon: 'home',    label: () => 'Inicio', render: renderInicio },
+  caja:       { icon: 'wallet',  label: () => canCharge() ? 'Caja' : 'Estudiantes', render: renderCaja, after: afterCaja },
+  morosos:    { icon: 'alert',   label: () => 'Morosos', render: renderMorosos },
+  recaudo:    { icon: 'chart',   label: () => 'Recaudo', render: renderRecaudo },
+  historial:  { icon: 'receipt', label: () => 'Historial de pagos', render: renderHistorial },
+  descuentos: { icon: 'tag',     label: () => 'Descuentos', render: renderDescuentos },
+  portal:     { icon: 'family',  label: () => 'Cartilla de padres', render: renderPortal },
+  config:     { icon: 'gear',    label: () => 'Tarifas y permisos', render: renderConfig },
+};
+function renderNav() {
+  const moraCount = [...S.ledgers.values()].filter(l => !l.alDia).length;
+  $('#nav').innerHTML = allowedViews().map((v, i) => `${i === 2 ? '<div class="nav-group">Reportes</div>' : ''}${v === 'descuentos' || (v === 'config' && !allowedViews().includes('descuentos')) ? '<div class="nav-group">Administración</div>' : ''}
+    <button class="nav-item ${S.view === v ? 'active' : ''}" data-act="nav" data-v="${v}">${ic(VIEWS[v].icon, 19)}${esc(VIEWS[v].label())}${v === 'morosos' && moraCount ? `<span class="badge">${moraCount}</span>` : ''}</button>`).join('');
+}
+function renderChrome() {
+  const roleLabel = S.user.cashier ? 'Coordinación, caja' : ({ admin: 'Administrador', rectoria: 'Rectoría', coordinadora: 'Coordinación, consulta' }[S.user.role]);
+  $('#sbCta').innerHTML = canCharge()
+    ? `<button class="btn btn-green" data-act="spot">${ic('plus', 19, 2.4)}Cobrar a un estudiante</button>`
+    : `<button class="btn btn-primary" data-act="spot">${ic('search', 18)}Buscar estudiante</button>`;
+  $('#sbUser').innerHTML = `<div class="avatar">${esc(initials(S.user.name))}</div><div class="who"><b>${esc(title(S.user.name))}</b><small>${roleLabel}</small></div><button class="icon-btn" data-act="logout" title="Cerrar sesión" aria-label="Cerrar sesión">${ic('logout', 18)}</button>`;
+  $('.burger').innerHTML = ic('menu', 22);
+  $('.tb-search').innerHTML = `${ic('search', 18)}<span>Buscar estudiante, documento o recibo</span><kbd>Ctrl K</kbd>`;
+  $('#tbMeta').innerHTML = `Año <b class="num">${S.year}</b>&nbsp;&nbsp;Mes en curso <b>${curMonthName()}</b>`;
+  $('#tbSync').innerHTML = ic('refresh', 18);
+  $('#tbSync').title = S.loadedAt ? `Actualizado a las ${S.loadedAt.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}` : 'Actualizar';
+}
+function go(v) {
+  if (!allowedViews().includes(v)) v = allowedViews()[0];
+  S.view = v; sessionStorage.setItem('lms_pagos_view', v);
+  renderNav(); renderView(); toggleSidebar(false); window.scrollTo({ top: 0 });
+}
+function renderView() {
+  const V = VIEWS[S.view];
+  $('#pageTitle').textContent = V.label();
+  $('#view').innerHTML = V.render();
+  V.after?.();
+}
+function refreshAfterChange() { renderNav(); renderView(); if (S.drawer) renderDrawer(); }
+function toggleSidebar(open) { $('#sidebar').classList.toggle('open', open); $('#scrim').classList.toggle('show', open); }
+async function enterApp() {
+  $('#login').hidden = true; $('#app').hidden = false;
+  renderChrome(); renderNav();
+  $('#view').innerHTML = `<div class="kpis">${'<div class="skel" style="height:112px"></div>'.repeat(4)}</div><div class="skel" style="height:360px"></div>`;
+  try { await loadPayData(); }
+  catch (e) { console.error(e); $('#view').innerHTML = `<div class="card">${emptyHTML('alert', 'No se pudieron cargar los pagos', `<p>${esc(e.message || e)}</p><button class="btn btn-primary" style="margin-top:16px" data-act="refresh">Reintentar</button>`)}</div>`; return; }
+  renderChrome();
+  const saved = sessionStorage.getItem('lms_pagos_view');
+  go(allowedViews().includes(saved) ? saved : allowedViews()[0]);
+}
+async function refreshAll() {
+  const b = $('#tbSync'); b.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2.5px"></span>';
+  try {
+    await loadSystem();
+    if (!refreshUserFlags()) { toast('Su usuario ya no existe en el sistema', 'err'); return logout(); }
+    saveSession(); await loadPayData(); renderChrome(); refreshAfterChange(); toast('Datos actualizados');
+  } catch (e) { console.error(e); toast('No se pudo actualizar: ' + (e.message || e), 'err'); renderChrome(); }
+}
+function logout() { sessionStorage.removeItem(SESSION_KEY); sessionStorage.removeItem('lms_pagos_view'); location.reload(); }
+
+/* ---------- Buscador global (Ctrl K) ---------- */
+function receiptGroups() {
+  const g = new Map();
+  for (const p of S.payments) { if (!p.receiptNumber) continue; if (!g.has(p.receiptNumber)) g.set(p.receiptNumber, []); g.get(p.receiptNumber).push(p); }
+  return [...g.entries()].map(([rec, ps]) => ({ rec, ps, at: Math.max(...ps.map(p => p.registeredAt || 0)) })).sort((a, b) => b.at - a.at);
+}
+function spotResults(q) {
+  const tokens = norm(q).split(' ').filter(Boolean), dq = docKeyOf(q), uq = norm(q).replace(/\s/g, '');
+  if (!tokens.length) return { students: [], receipts: receiptGroups().slice(0, 5), recent: true };
+  const students = S.students.filter(st => tokens.every(t => st.search.includes(t)) || (dq.length >= 3 && st.docKey.includes(dq))).slice(0, 8);
+  const receipts = receiptGroups().filter(r => norm(r.rec).replace(/\s/g, '').includes(uq) || (dq.length >= 4 && r.ps.some(p => docKeyOf(p.studentDoc).includes(dq)))).slice(0, 5);
+  return { students, receipts, recent: false };
+}
+function openSpot(prefill = '') {
+  openModal(`<div class="spot-in">${ic('search', 22)}<input id="spotQ" placeholder="Nombre, documento o número de recibo" autocomplete="off" value="${esc(prefill)}" data-bind="spot-q" aria-label="Buscar"><kbd>Esc</kbd></div>
+    <div class="spot-list" id="spotList"></div>
+    <div class="spot-foot"><span><kbd>↑</kbd><kbd>↓</kbd>moverse</span><span><kbd>Enter</kbd>abrir</span><span><kbd>Esc</kbd>cerrar</span></div>`, { size: 'spot' });
+  S.spot = { q: prefill, idx: 0, items: [] };
+  renderSpotList();
+  setTimeout(() => $('#spotQ')?.focus(), 30);
+}
+function renderSpotList() {
+  const sp = S.spot; if (!sp) return;
+  const r = spotResults(sp.q);
+  sp.items = [...r.students.map(s => ({ type: 'stu', v: s.key })), ...r.receipts.map(x => ({ type: 'rec', v: x.rec }))];
+  sp.idx = clamp(sp.idx, 0, Math.max(0, sp.items.length - 1));
+  let i = 0;
+  const stu = r.students.map(st => { const L = S.ledgers.get(st.key); const on = i++ === sp.idx; return `<button class="spot-it ${on ? 'on' : ''}" data-act="spot-pick" data-type="stu" data-v="${esc(st.key)}"><span class="avatar lv-${st.level}">${esc(initials(st.name))}</span><span class="who"><b>${esc(st.name)}</b><small>${esc(st.courseName)}${st.doc ? ', doc. ' + esc(st.doc) : ''}</small></span>${pillLedger(L)}</button>`; }).join('');
+  const rec = r.receipts.map(x => { const on = i++ === sp.idx; const p0 = x.ps[0]; return `<button class="spot-it ${on ? 'on' : ''}" data-act="spot-pick" data-type="rec" data-v="${esc(x.rec)}"><span class="rec-ic">${ic('receipt', 18)}</span><span class="who"><b>${esc(x.rec)}</b><small>${esc(p0.studentName)}, ${esc(shortDate(p0.paymentDate))}</small></span><span class="end">${fmt$(sum(x.ps, p => p.paidAmount))}</span></button>`; }).join('');
+  $('#spotList').innerHTML = (stu ? `<div class="spot-g">Estudiantes</div>${stu}` : '') + (rec ? `<div class="spot-g">${r.recent ? 'Últimos recibos' : 'Recibos'}</div>${rec}` : '')
+    || `<div class="spot-empty">No hay resultados para “${esc(sp.q)}”.<br>Pruebe con el apellido o los últimos números del documento.</div>`;
+  $('#spotList .spot-it.on')?.scrollIntoView({ block: 'nearest' });
+}
+function spotPick(type, v) {
+  closeModal();
+  if (type === 'stu') openDrawer(v); else openReceipt(v);
+}
+
+/* ===================== 8. VISTAS ===================== */
+function kpi(label, value, sub, color = 'var(--navy)') { return `<div class="kpi"><div class="k-label"><span class="k-dot" style="background:${color}"></span>${label}</div><div class="k-val">${value}</div><div class="k-sub">${sub}</div></div>`; }
+function barChart(rows, series) {
+  const max = Math.max(1, ...rows.flatMap(r => r.values));
+  return `<div class="chart"><div class="chart-plot">${rows.map(r => `<div class="bar-g"><div class="bars">${r.values.map((v, i) => `<div class="bar" style="height:${(v / max * 100).toFixed(1)}%;background:${series[i].color}" title="${esc(r.label)}, ${esc(series[i].name)}: ${fmt$(v)}"></div>`).join('')}</div><div class="bar-l">${esc(r.short || r.label)}</div></div>`).join('')}</div>
+  ${series.length > 1 ? `<div class="legend">${series.map(s => `<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('')}</div>` : ''}</div>`;
+}
+const levelOptions = sel => `<option value="all">Todos los niveles</option>` + Object.entries(LEVELS).map(([k, v]) => `<option value="${k}" ${sel === k ? 'selected' : ''}>${v}</option>`).join('');
+function courseOptions(level, sel, byName = false) {
+  return `<option value="all">Todos los cursos</option>` + S.courses.filter(c => level === 'all' || c.level === level)
+    .map(c => { const v = byName ? c.name : c.id; return `<option value="${esc(v)}" ${String(sel) === String(v) ? 'selected' : ''}>${esc(c.name)}</option>`; }).join('');
+}
+const studentsIn = (level, course) => S.students.filter(st => (level === 'all' || st.level === level) && (course === 'all' || st.courseId === course));
+const ratesBanner = () => { const miss = missingRates(); return miss.length ? `<div class="banner">${ic('alert', 22)}<div style="flex:1"><b>Faltan tarifas de ${miss.map(k => LEVELS[k]).join(', ')} para ${S.year}.</b><span class="hint">Sin tarifa el sistema no puede calcular lo que debe cada estudiante de ese nivel.</span></div>${isAdmin() ? `<button class="btn btn-primary btn-sm" data-act="nav" data-v="config">Configurar tarifas</button>` : ''}</div>` : ''; };
+function cierrePays(date) { return S.payments.filter(p => isoOf(p.registeredAt) === date).sort((a, b) => (a.registeredAt || 0) - (b.registeredAt || 0)); }
+
+/* ---------- 8.1 Inicio ---------- */
+function renderInicio() {
+  const cur = clamp(curMonthIdx(), 0, 9), curM = MESES[cur];
+  const Ls = S.students.map(s => S.ledgers.get(s.key));
+  const now = new Date(), ym = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}`;
+  const totalYear = sum(S.payments, p => p.paidAmount), expected = sum(Ls, l => l.due);
+  const monthCash = sum(S.payments.filter(p => String(p.paymentDate || '').startsWith(ym)), p => p.paidAmount);
+  const alDia = Ls.filter(l => l.alDia).length, enMora = Ls.length - alDia, moraTotal = sum(Ls, l => l.mora);
+  const sinMat = Ls.filter(l => !l.matOk).length, sinCur = Ls.filter(l => !l.curOk).length;
+  const withDisc = Object.keys(S.discounts).filter(k => S.byKey.has(k)).length;
+  const cash = MESES_CAL.map((m, i) => ({ label: m, short: m.slice(0, 3), values: [sum(S.payments.filter(p => String(p.paymentDate || '').startsWith(`${S.year}-${pad2(i + 1)}`)), p => p.paidAmount)] }));
+  return `
+  <div class="page-hd"><div><h1>${greet()}, ${esc(firstName(S.user.name))}</h1><p>${esc(longDate(todayISO()))}. Mes en curso: ${curM}.</p></div>
+    ${canCharge() ? `<button class="btn btn-green btn-lg" data-act="spot">${ic('plus', 20, 2.4)}Cobrar a un estudiante</button>` : ''}</div>
+  ${ratesBanner()}
+  <div class="kpis">
+    ${kpi('Recaudado en el año', fmt$(totalYear), expected ? `${Math.round(totalYear / expected * 100)}% de ${fmt$(expected)} esperados` : 'Sin valor esperado', 'var(--green)')}
+    ${kpi(`Recaudado en ${MESES_CAL[now.getMonth()].toLowerCase()}`, fmt$(monthCash), 'por fecha de pago', 'var(--navy)')}
+    ${kpi('Al día', NUM.format(alDia), `de ${plural(Ls.length, 'estudiante', 'estudiantes')}`, 'var(--green)')}
+    ${kpi('En mora', NUM.format(enMora), `${fmt$(moraTotal)} vencidos`, 'var(--red)')}
+  </div>
+  ${canManage() ? cajaHoyHTML() : ''}
+  <div class="grid-main">
+    <div class="card"><div class="card-hd"><h3>Ingresos por mes</h3><span class="hint">Según la fecha en que se pagó</span></div>${barChart(cash, [{ name: 'Recaudado', color: 'var(--navy)' }])}</div>
+    <div class="card"><div class="card-hd"><h3>Para revisar</h3></div><div class="alerts">
+      <button class="alert r" data-act="mor-go" data-v="mat"><span class="a-ic">${ic('file', 19)}</span><span><b>${plural(sinMat, 'estudiante', 'estudiantes')} sin matrícula</b><small>Ver en el reporte de morosos</small></span></button>
+      <button class="alert o" data-act="mor-go" data-v="all"><span class="a-ic">${ic('clock', 19)}</span><span><b>${plural(sinCur, 'estudiante', 'estudiantes')} sin pagar ${curM.toLowerCase()}</b><small>Mensualidad del mes en curso</small></span></button>
+      <div class="alert b"><span class="a-ic">${ic('calendar', 19)}</span><span><b>Mes de corte: ${curM}</b><small>Lo anterior con saldo ya cuenta como vencido</small></span></div>
+      ${canManage() ? `<button class="alert g" data-act="nav" data-v="descuentos"><span class="a-ic">${ic('tag', 19)}</span><span><b>${plural(withDisc, 'estudiante', 'estudiantes')} con descuento fijo</b><small>Hermanos, becas y convenios</small></span></button>` : ''}
+    </div></div>
+  </div>`;
+}
+function cajaHoyHTML() {
+  const todays = cierrePays(todayISO());
+  const receipts = new Set(todays.map(p => p.receiptNumber || p.id)).size;
+  const last = todays[todays.length - 1];
+  return `<div class="card today">
+    <div class="t-item"><small>Recibido hoy</small><b>${fmt$(sum(todays, p => p.paidAmount))}</b></div><div class="t-sep"></div>
+    <div class="t-item"><small>Recibos</small><b>${receipts}</b></div><div class="t-sep"></div>
+    <div class="t-item"><small>Último recibo</small><b style="font-size:15px">${last ? `${esc(last.receiptNumber || '—')}` : '—'}</b></div>
+    <div class="grow"></div>
+    <button class="btn btn-soft" data-act="cierre">${ic('print', 17)}Cierre de caja</button>
+  </div>`;
+}
+
+/* ---------- 8.2 Caja / Estudiantes ---------- */
+function filteredStudents() {
+  const { q, level, course, filter } = S.caja;
+  const tokens = norm(q).split(' ').filter(Boolean), dq = docKeyOf(q);
+  return S.students.filter(st => {
+    if (level !== 'all' && st.level !== level) return false;
+    if (course !== 'all' && st.courseId !== course) return false;
+    if (tokens.length && !tokens.every(t => st.search.includes(t)) && !(dq.length >= 3 && st.docKey.includes(dq))) return false;
+    const L = S.ledgers.get(st.key);
+    if (filter === 'mora' && L.alDia) return false;
+    if (filter === 'aldia' && !L.alDia) return false;
+    return true;
+  });
+}
+function studentCard(st) {
+  const L = S.ledgers.get(st.key);
+  return `<button class="scard" data-act="open-stu" data-k="${esc(st.key)}">
+    <div class="sc-top"><span class="avatar lv-${st.level}">${esc(initials(st.name))}</span><span class="who"><b>${esc(title(st.name))}</b><small>${esc(st.courseName)}${st.doc ? `, ${esc(st.doc)}` : ''}</small></span></div>
+    <div class="strip" title="Matrícula y meses de febrero a noviembre">${L.items.map(i => `<i class="${i.status}" title="${esc(i.label)}: ${ST[i.status].t}"></i>`).join('')}</div>
+    <div class="sc-foot"><span>Pagado <b>${fmt$(L.paid)}</b></span>${pillLedger(L)}</div>
+  </button>`;
+}
+function studentGridHTML() {
+  const list = filteredStudents();
+  if (!list.length) return emptyHTML('search', 'Ningún estudiante coincide', 'Pruebe con otro nombre, documento o curso.');
+  return `<div class="sgrid">${list.slice(0, S.caja.limit).map(studentCard).join('')}</div>
+    ${list.length > S.caja.limit ? `<div class="more-row"><button class="btn btn-soft" data-act="more">Mostrar ${Math.min(CARD_LIMIT, list.length - S.caja.limit)} más de ${NUM.format(list.length - S.caja.limit)} restantes</button></div>` : ''}`;
+}
+function renderCaja() {
+  const c = S.caja;
+  const lvStats = k => { const l = S.students.filter(s => k === 'all' || s.level === k); return { n: l.length, mora: l.filter(s => !S.ledgers.get(s.key).alDia).length }; };
+  const courses = S.courses.filter(x => c.level === 'all' || x.level === c.level);
+  const list = filteredStudents();
+  return `
+  ${canCharge() ? cajaHoyHTML() : ''}
+  ${ratesBanner()}
+  <div class="levels" role="tablist" aria-label="Nivel">
+    ${[['all', 'Todo el colegio'], ...Object.entries(LEVELS)].map(([k, v]) => { const s = lvStats(k); return `<button class="level ${c.level === k ? 'on' : ''}" style="--lv:${LEVEL_COLOR[k] || 'var(--navy)'}" data-act="caja-level" data-v="${k}" role="tab" aria-selected="${c.level === k}"><span class="lv-bar"></span><b>${v}</b><small>${plural(s.n, 'estudiante', 'estudiantes')}${s.mora ? `, <span class="mora">${s.mora} en mora</span>` : ''}</small></button>`; }).join('')}
+  </div>
+  <div class="hscroll courses">${[{ id: 'all', name: c.level === 'all' ? 'Todos los cursos' : `Todo ${LEVELS[c.level].toLowerCase()}` }, ...courses].map(x => `<button class="chip ${c.course === x.id ? 'on' : ''}" data-act="caja-course" data-v="${esc(x.id)}">${esc(x.name)}${x.count != null ? `<span class="n">${x.count}</span>` : ''}</button>`).join('')}</div>
+  <div class="filters">
+    <label class="search">${ic('search', 18)}<input id="cajaSearch" class="input" placeholder="Filtrar por nombre o documento" value="${esc(c.q)}" data-bind="caja-q" autocomplete="off" aria-label="Filtrar estudiantes"></label>
+    <div class="seg">${[['all', 'Todos'], ['mora', 'En mora'], ['aldia', 'Al día']].map(([k, v]) => `<button class="${c.filter === k ? 'on' : ''}" data-act="caja-filter" data-v="${k}">${v}</button>`).join('')}</div>
+    <span class="hint" id="cajaCount">${plural(list.length, 'estudiante', 'estudiantes')}</span>
+    ${c.course !== 'all' && canManage() ? `<button class="btn btn-soft btn-sm" data-act="print-course-codes" data-c="${esc(c.course)}">${ic('print', 16)}Avisos para padres</button>` : ''}
+  </div>
+  <div id="sgridWrap">${studentGridHTML()}</div>`;
+}
+function afterCaja() { /* el foco se deja libre: la búsqueda rápida es Ctrl K */ }
+function renderStudentGrid() { const w = $('#sgridWrap'); if (!w) return; w.innerHTML = studentGridHTML(); const n = filteredStudents().length; $('#cajaCount').textContent = plural(n, 'estudiante', 'estudiantes'); }
+
+/* ---------- 8.3 Morosos ---------- */
+function morososRows() {
+  const m = S.mor;
+  return studentsIn(m.level, m.course).map(st => {
+    const its = S.ledgers.get(st.key).moraItems.filter(i => m.concept === 'all' || (m.concept === 'mat' ? i.concept === 'Matrícula' : i.concept === 'Mensualidad'));
+    return { st, its, debt: sum(its, i => i.balance) };
+  }).filter(r => r.its.length).sort((a, b) => b.debt - a.debt);
+}
+function renderMorosos() {
+  const m = S.mor, rows = morososRows(), total = sum(rows, r => r.debt);
+  return `<div class="page-hd"><div><h1>Morosos</h1><p>Estudiantes con matrícula o meses vencidos, con corte a ${curMonthName().toLowerCase()}.</p></div><button class="btn btn-primary" data-act="mor-print" ${rows.length ? '' : 'disabled'}>${ic('print', 17)}Imprimir reporte</button></div>
+  <div class="kpis">${kpi('Estudiantes en mora', NUM.format(rows.length), 'con los filtros actuales', 'var(--red)')}${kpi('Total vencido', fmt$(total), 'saldo por cobrar', 'var(--orange)')}${kpi('Mayor deuda', rows[0] ? fmt$(rows[0].debt) : '—', rows[0] ? esc(title(rows[0].st.name)) : 'nadie en mora', 'var(--navy)')}</div>
+  <div class="toolbar">
+    <select class="input" data-bind="mor-level" aria-label="Nivel">${levelOptions(m.level)}</select>
+    <select class="input" data-bind="mor-course" aria-label="Curso">${courseOptions(m.level, m.course)}</select>
+    <div class="seg">${[['all', 'Todo'], ['mat', 'Matrícula'], ['men', 'Mensualidades']].map(([k, v]) => `<button class="${m.concept === k ? 'on' : ''}" data-act="mor-concept" data-v="${k}">${v}</button>`).join('')}</div>
+  </div>
+  <div class="card">${rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Estudiante</th><th>Curso</th><th>Qué debe</th><th class="r">Valor</th><th></th></tr></thead><tbody>
+    ${rows.map(r => `<tr class="click" data-act="open-stu" data-k="${esc(r.st.key)}"><td><div class="who-cell"><span class="avatar lv-${r.st.level}">${esc(initials(r.st.name))}</span><span><b>${esc(title(r.st.name))}</b><small>${esc(r.st.doc || '')}</small></span></div></td><td>${esc(r.st.courseName)}</td>
+      <td>${r.its.map(i => `<span class="mtag ${i.status === 'abonado' ? 'ab' : ''}">${esc(i.label)}${i.status === 'abonado' ? ', saldo' : ''}</span>`).join('')}</td>
+      <td class="r red"><b>${fmt$(r.debt)}</b></td><td><div class="acts"><span class="btn btn-soft btn-sm">${canCharge() ? 'Cobrar' : 'Ver'}</span></div></td></tr>`).join('')}
+    </tbody><tfoot><tr><td colspan="3">${plural(rows.length, 'estudiante', 'estudiantes')}</td><td class="r">${fmt$(total)}</td><td></td></tr></tfoot></table></div>`
+    : emptyHTML('check', 'Nadie en mora', 'con los filtros seleccionados.')}</div>`;
+}
+
+/* ---------- 8.4 Recaudo ---------- */
+function recaudoRows() {
+  const list = studentsIn(S.rec.level, S.rec.course).map(st => S.ledgers.get(st.key));
+  return PERIODS.map((p, i) => {
+    const its = list.map(L => L.items[i]);
+    const gross = sum(its, x => x.gross), discount = sum(its, x => x.discount), due = sum(its, x => x.due), paid = sum(its, x => x.paid);
+    return { ...p, gross, discount, due, paid, pending: Math.max(0, due - paid), pct: due ? paid / due * 100 : (paid ? 100 : 0) };
+  });
+}
+const pctClass = p => p >= 80 ? 'g' : p >= 50 ? 'o' : 'r';
+function renderRecaudo() {
+  const r = S.rec, rows = recaudoRows(), T = k => sum(rows, x => x[k]);
+  const due = T('due'), paid = T('paid');
+  const known = new Set(S.students.map(s => s.key)), orphans = S.payments.filter(p => !known.has(payKey(p)));
+  return `<div class="page-hd"><div><h1>Recaudo</h1><p>Lo esperado contra lo recaudado en matrícula y en cada mes.</p></div><button class="btn btn-primary" data-act="rec-print">${ic('print', 17)}Imprimir</button></div>
+  <div class="toolbar"><select class="input" data-bind="rec-level" aria-label="Nivel">${levelOptions(r.level)}</select><select class="input" data-bind="rec-course" aria-label="Curso">${courseOptions(r.level, r.course)}</select></div>
+  <div class="kpis">
+    ${kpi('Esperado', fmt$(due), `tarifas ${fmt$(T('gross'))} menos descuentos ${fmt$(T('discount'))}`, 'var(--navy)')}
+    ${kpi('Recaudado', fmt$(paid), due ? `${(paid / due * 100).toFixed(1)}% de cumplimiento` : '—', 'var(--green)')}
+    ${kpi('Pendiente del año', fmt$(T('pending')), 'incluye meses que aún no vencen', 'var(--orange)')}
+  </div>
+  <div class="card" style="margin-bottom:16px"><div class="card-hd"><h3>Esperado y recaudado por período</h3></div>${barChart(rows.map(x => ({ label: x.label, short: x.short, values: [x.due, x.paid] })), [{ name: 'Esperado', color: '#c9cdea' }, { name: 'Recaudado', color: 'var(--green)' }])}</div>
+  <div class="card"><div class="tbl-wrap" style="max-height:none"><table class="tbl"><thead><tr><th>Período</th><th class="r">Tarifas</th><th class="r">Descuentos</th><th class="r">Esperado</th><th class="r">Recaudado</th><th class="r">Pendiente</th><th class="r">Cumplimiento</th></tr></thead><tbody>
+    ${rows.map(x => `<tr><td><b>${x.label}</b></td><td class="r">${fmt$(x.gross)}</td><td class="r green">${x.discount ? '−' + fmt$(x.discount) : '—'}</td><td class="r">${fmt$(x.due)}</td><td class="r"><b>${fmt$(x.paid)}</b></td><td class="r">${fmt$(x.pending)}</td><td class="r"><span class="pct ${pctClass(x.pct)}">${x.pct.toFixed(0)}%</span></td></tr>`).join('')}
+  </tbody><tfoot><tr><td>Total</td><td class="r">${fmt$(T('gross'))}</td><td class="r">−${fmt$(T('discount'))}</td><td class="r">${fmt$(due)}</td><td class="r">${fmt$(paid)}</td><td class="r">${fmt$(T('pending'))}</td><td class="r">${due ? (paid / due * 100).toFixed(0) : 0}%</td></tr></tfoot></table></div></div>
+  ${orphans.length ? `<p class="hint" style="margin-top:12px">Hay ${plural(orphans.length, 'pago', 'pagos')} por ${fmt$(sum(orphans, p => p.paidAmount))} de estudiantes que ya no aparecen en los cursos. No entran en esta tabla, pero sí en el historial.</p>` : ''}`;
+}
+
+/* ---------- 8.5 Historial ---------- */
+function histRows() {
+  const h = S.hist, q = norm(h.q), dq = docKeyOf(h.q);
+  return S.payments.filter(p =>
+    (h.course === 'all' || p.courseName === h.course) && (h.concept === 'all' || p.concept === h.concept) &&
+    (h.month === 'all' || p.month === h.month) && (h.method === 'all' || (p.paymentMethod || 'Sin especificar') === h.method) &&
+    (!q || norm(p.studentName).includes(q) || (dq.length >= 3 && docKeyOf(p.studentDoc).includes(dq)) || norm(p.receiptNumber).includes(q))
+  ).sort((a, b) => (b.registeredAt || 0) - (a.registeredAt || 0));
+}
+function histTableHTML() {
+  const rows = histRows(), LIMIT = 500;
+  if (!rows.length) return emptyHTML('receipt', 'No hay pagos', 'con los filtros seleccionados.');
+  return `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Recibo</th><th>Estudiante</th><th>Concepto</th><th class="r">Valor</th><th>Fecha</th><th>Medio</th><th></th></tr></thead><tbody>
+    ${rows.slice(0, LIMIT).map(p => `<tr class="click" data-act="receipt" data-rec="${esc(p.receiptNumber || '')}" data-pid="${esc(p.id)}"><td class="num" style="font-size:12.5px">${esc(p.receiptNumber || '—')}</td>
+      <td><div class="who-cell"><span><b>${esc(title(p.studentName))}</b><small>${esc(p.courseName)}</small></span></div></td>
+      <td>${esc(p.concept)}${p.month ? ' ' + esc(p.month.toLowerCase()) : ''}${p.paymentType === 'abono' ? ' <span class="pill pill-info" style="padding:1px 8px;font-size:11px">abono</span>' : ''}${p.discountAmount ? `<div class="hint" style="font-size:12px">descuento ${fmt$(p.discountAmount)}</div>` : ''}</td>
+      <td class="r"><b>${fmt$(p.paidAmount)}</b></td><td style="white-space:nowrap">${esc(shortDate(p.paymentDate))}</td><td>${esc(p.paymentMethod || '—')}</td>
+      <td><div class="acts">${(p.paymentProof || p.proofId) ? `<button class="icon-btn" data-act="proof" data-pid="${esc(p.id)}" title="Ver comprobante" aria-label="Ver comprobante">${ic('eye', 18)}</button>` : ''}</div></td></tr>`).join('')}
+  </tbody><tfoot><tr><td colspan="3">${plural(rows.length, 'pago', 'pagos')}${rows.length > LIMIT ? `, se muestran los ${LIMIT} más recientes` : ''}</td><td class="r">${fmt$(sum(rows, p => p.paidAmount))}</td><td colspan="3"></td></tr></tfoot></table></div>`;
+}
+function renderHistorial() {
+  const h = S.hist, methods = ['all', ...new Set(S.payments.map(p => p.paymentMethod || 'Sin especificar'))];
+  return `<div class="page-hd"><div><h1>Historial de pagos</h1><p>Toque un pago para ver su recibo.</p></div><button class="btn btn-soft" data-act="hist-csv">${ic('download', 17)}Descargar para Excel</button></div>
+  <div class="toolbar">
+    <label class="search grow" style="min-width:240px">${ic('search', 18)}<input class="input" style="width:100%;height:40px" placeholder="Estudiante, documento o recibo" value="${esc(h.q)}" data-bind="hist-q" aria-label="Buscar pagos"></label>
+    <select class="input" data-bind="hist-course" aria-label="Curso">${courseOptions('all', h.course, true)}</select>
+    <select class="input" data-bind="hist-concept" aria-label="Concepto"><option value="all">Todos los conceptos</option>${['Matrícula', 'Mensualidad'].map(c => `<option ${h.concept === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+    <select class="input" data-bind="hist-month" aria-label="Mes"><option value="all">Todos los meses</option>${MESES.map(m => `<option ${h.month === m ? 'selected' : ''}>${m}</option>`).join('')}</select>
+    <select class="input" data-bind="hist-method" aria-label="Medio de pago">${methods.map(m => `<option value="${esc(m)}" ${h.method === m ? 'selected' : ''}>${m === 'all' ? 'Todos los medios' : esc(m)}</option>`).join('')}</select>
+  </div>
+  <div class="card" id="histTable">${histTableHTML()}</div>`;
+}
+function exportCSV() {
+  const rows = histRows();
+  const head = ['Recibo', 'Fecha pago', 'Estudiante', 'Documento', 'Curso', 'Nivel', 'Concepto', 'Mes', 'Tarifa', 'Descuento', 'Motivo descuento', 'Valor pagado', 'Saldo después', 'Tipo', 'Medio', 'Referencia', 'Observaciones', 'Registró', 'Fecha registro'];
+  const data = rows.map(p => [p.receiptNumber, p.paymentDate, p.studentName, p.studentDoc, p.courseName, p.courseLevel, p.concept, p.month || '', p.expectedAmount, p.discountAmount || 0, p.discountReason || '', p.paidAmount, p.balanceAfter || 0, p.paymentType || 'completo', p.paymentMethod || '', p.referenceNumber || '', p.observations || '', p.registeredBy || '', p.registeredAt ? new Date(p.registeredAt).toLocaleString('es-CO') : '']);
+  const csv = [head, ...data].map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `pagos-${S.year}-${todayISO()}.csv`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+/* ---------- 8.6 Descuentos ---------- */
+function renderDescuentos() {
+  const ap = { mensualidad: 'Mensualidades', matricula: 'Matrícula', ambos: 'Matrícula y mensualidades' };
+  const entries = Object.entries(S.discounts).map(([k, d]) => ({ k, d, st: S.byKey.get(k) })).sort((a, b) => (a.st?.name || a.d.studentName || '').localeCompare(b.st?.name || b.d.studentName || '', 'es'));
+  const granted = sum([...S.ledgers.values()].flatMap(L => L.items.filter(i => i.locked && i.source !== 'legacy')), i => i.discount);
+  return `<div class="page-hd"><div><h1>Descuentos</h1><p>Los fijos se aplican solos en cada cobro. Para agregar uno, abra al estudiante y vaya a la pestaña Más.</p></div></div>
+  <div class="kpis">${kpi('Con descuento fijo', NUM.format(entries.length), 'estudiantes', 'var(--green)')}${kpi('Descuentos dados', fmt$(granted), `en cobros registrados de ${S.year}`, 'var(--navy)')}</div>
+  <div class="card">${entries.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Estudiante</th><th class="r">Descuento</th><th>Motivo</th><th>Aplica a</th><th>Actualizó</th></tr></thead><tbody>
+    ${entries.map(({ k, d, st }) => `<tr class="${st ? 'click' : ''}" ${st ? `data-act="open-stu" data-k="${esc(k)}" data-tab="mas"` : ''}><td><div class="who-cell">${st ? `<span class="avatar lv-${st.level}">${esc(initials(st.name))}</span>` : ''}<span><b>${esc(title(st?.name || d.studentName || k))}</b><small>${st ? esc(st.courseName) : '<span class="red">ya no aparece en los cursos</span>'}</small></span></div></td>
+      <td class="r"><b class="green">${d.tipo === 'pct' ? d.valor + '%' : fmt$(d.valor)}</b></td><td>${esc(d.motivo)}${d.detalle ? `<div class="hint" style="font-size:12px">${esc(d.detalle)}</div>` : ''}</td><td>${ap[d.aplica] || '—'}</td>
+      <td class="hint">${esc(title(d.updatedBy || ''))}<br>${d.updatedAt ? new Date(d.updatedAt).toLocaleDateString('es-CO') : ''}</td></tr>`).join('')}
+  </tbody></table></div>` : emptyHTML('tag', 'Aún no hay descuentos fijos', 'Ábralos desde la ficha de cada estudiante.')}</div>`;
+}
+
+/* ---------- 8.7 Cartilla de padres ---------- */
+const RULES = `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cartillas de padres: solo se abren por su ID exacto.
+    // Nadie puede listar la colección completa.
+    match /cartilla_publica/{id} {
+      allow get: if true;
+      allow list: if false;
+      allow create, update, delete: if true;
+    }
+    // El resto de colecciones queda como hoy
+    match /{coleccion}/{documento=**} {
+      allow read, write: if coleccion != 'cartilla_publica';
+    }
+  }
+}`;
+function renderPortal() {
+  const withDoc = S.students.filter(s => s.docKey);
+  return `<div class="page-hd"><div><h1>Cartilla de padres</h1><p>El cartón de pagos de siempre, en el celular del acudiente. Cada cobro lo actualiza solo.</p></div></div>
+  <div class="card card-pad" style="margin-bottom:16px">
+    <div class="url-box">${ic('link', 18)}<code>${PORTAL_URL}</code><button class="btn btn-soft btn-sm" data-act="copy" data-text="${PORTAL_URL}">${ic('copy', 16)}Copiar</button><a class="btn btn-primary btn-sm" href="${PORTAL_URL}" target="_blank" rel="noopener">Abrir</a></div>
+    <div class="how">
+      <div><div class="n">1</div><b>Entra al enlace</b><small>Desde cualquier celular, sin instalar nada.</small></div>
+      <div><div class="n">2</div><b>Escribe el documento del estudiante</b><small>Y como código, los últimos 4 dígitos de ese mismo documento.</small></div>
+      <div><div class="n">3</div><b>Ve cada mes</b><small>Si está pagado, con la fecha y el número de recibo.</small></div>
+    </div>
+  </div>
+  <div class="kpis">${kpi('Pueden consultar', NUM.format(withDoc.length), `de ${plural(S.students.length, 'estudiante', 'estudiantes')}`, 'var(--green)')}${kpi('Sin documento', NUM.format(S.students.length - withDoc.length), 'regístrelo en la plataforma académica', 'var(--orange)')}</div>
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card card-pad"><h3 style="font-size:16px;font-weight:800;margin-bottom:6px">Publicar todas las cartillas</h3>
+      <p class="hint" style="margin-bottom:14px">Hágalo la primera vez, después de cambiar tarifas o si un acudiente no ve un pago. También retira los códigos viejos de 4 dígitos al azar.</p>
+      <button class="btn btn-primary" data-act="publish-all">${ic('send', 17)}Publicar cartillas</button><div id="pubProgress" style="margin-top:12px"></div></div>
+    <div class="card card-pad"><h3 style="font-size:16px;font-weight:800;margin-bottom:6px">Avisos para entregar</h3>
+      <p class="hint" style="margin-bottom:14px">Una hoja con un aviso recortable por estudiante, con el enlace y cómo entrar.</p>
+      <div class="toolbar" style="margin:0"><select class="input grow" id="portalCourse" aria-label="Curso">${S.courses.map(c => `<option value="${esc(c.id)}">${esc(c.name)} (${c.count})</option>`).join('')}</select><button class="btn btn-soft" data-act="print-course-codes">${ic('print', 17)}Imprimir</button></div></div>
+  </div>
+  ${isAdmin() ? `<div class="card card-pad"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><h3 style="font-size:16px;font-weight:800">Reglas de seguridad de Firestore</h3><button class="btn btn-soft btn-sm" data-act="copy-rules">${ic('copy', 16)}Copiar reglas</button></div><pre class="code">${esc(RULES)}</pre></div>` : ''}`;
+}
+
+/* ---------- 8.8 Tarifas y permisos (admin) ---------- */
+function renderConfig() {
+  const t = S.tarifas, coords = S.coordinators.filter(c => !isRectoria(c));
+  return `<div class="page-hd"><div><h1>Tarifas y permisos</h1><p>Valores del año lectivo de febrero a noviembre, diez cuotas.</p></div><button class="btn btn-primary" data-act="save-tarifas">${ic('check', 17, 2.4)}Guardar tarifas</button></div>
+  <form id="tarForm" onsubmit="return false">
+    <div class="card card-pad" style="margin-bottom:16px">
+      <div class="field" style="max-width:200px"><label class="lbl" for="tYear">Año lectivo</label><input class="input num" id="tYear" name="year" value="${t.year}" inputmode="numeric" maxlength="4"></div>
+      <div class="rates">${Object.entries(LEVELS).map(([k, v]) => `<div class="rate" style="--lv:${LEVEL_COLOR[k]}"><h4>${v}</h4>
+        <div class="field"><label class="lbl">Matrícula</label><input class="input num" data-money inputmode="numeric" name="${k}_matricula" value="${moneyInput(t[k].matricula)}" placeholder="0"></div>
+        <div class="field" style="margin:0"><label class="lbl">Pensión mensual</label><input class="input num" data-money inputmode="numeric" name="${k}_mensualidad" value="${moneyInput(t[k].mensualidad)}" placeholder="0"></div>
+        <p class="hint" style="margin-top:10px">${plural(S.students.filter(s => s.level === k).length, 'estudiante', 'estudiantes')}</p></div>`).join('')}</div>
+      <p class="hint" style="margin-top:12px">Los pagos ya registrados conservan la tarifa con que se cobraron.${t.updatedAt ? ` Última actualización: ${new Date(t.updatedAt).toLocaleString('es-CO')}.` : ''}</p>
+    </div>
+    <div class="card" style="margin-bottom:16px"><div class="card-hd"><h3>Nivel de cada curso</h3><p>El sistema lo deduce del nombre del curso. Cámbielo aquí si alguno quedó mal; décimo y once quedan como técnica.</p></div>
+      <div class="tbl-wrap" style="margin-top:12px"><table class="tbl"><thead><tr><th>Curso</th><th>Estudiantes</th><th>Nivel</th></tr></thead><tbody>
+        ${S.courses.map(c => `<tr><td><b>${esc(c.name)}</b></td><td class="num">${c.count}</td><td><select class="input" style="height:38px;max-width:220px" data-course-level="${esc(c.id)}">${Object.entries(LEVELS).map(([k, v]) => `<option value="${k}" ${c.level === k ? 'selected' : ''}>${v}${c.auto === k ? ' (automático)' : ''}</option>`).join('')}</select></td></tr>`).join('')}
+      </tbody></table></div></div>
+  </form>
+  <div class="card card-pad"><h3 style="font-size:16px;font-weight:800;margin-bottom:4px">Quién maneja la caja</h3>
+    <p class="hint" style="margin-bottom:14px">Solo las personas marcadas registran pagos y descuentos. Las demás coordinadoras consultan.${S.cashiers === null ? ' Aún no se ha guardado: por ahora tiene caja la coordinadora cuyo nombre contiene Karen.' : ''}</p>
+    <div id="cashierList">${coords.map(c => `<label class="check-row"><input type="checkbox" value="${esc(coordUid(c))}" ${isCashier(c) ? 'checked' : ''}><span><b>${esc(title(coordName(c)))}</b><small>Usuario ${esc(coordUid(c))}</small></span></label>`).join('') || '<p class="hint">No hay coordinadores en system/data.</p>'}</div>
+    <button class="btn btn-primary" data-act="save-cashiers" style="margin-top:6px">Guardar permisos</button></div>`;
+}
+async function saveTarifas() {
+  const f = new FormData($('#tarForm')), year = num(f.get('year'));
+  if (year < 2020 || year > 2100) return toast('Escriba un año válido', 'err');
+  const courseLevels = {};
+  $$('[data-course-level]').forEach(s => { const c = S.courses.find(x => x.id === s.dataset.courseLevel); if (c && s.value !== c.auto) courseLevels[c.id] = s.value; });
+  const t = { year, meses: MESES, updatedAt: Date.now(), courseLevels };
+  for (const k of Object.keys(LEVELS)) t[k] = { matricula: num(f.get(k + '_matricula')), mensualidad: num(f.get(k + '_mensualidad')) };
+  await setDoc(doc(db, 'pagos_config', 'tarifas'), t);
+  const yearChanged = year !== S.year;
+  S.tarifas = normTarifas(t); S.year = year; applyLevels();
+  if (yearChanged) await loadPayments(); else computeAllLedgers();
+  renderChrome(); refreshAfterChange(); toast('Tarifas guardadas');
+  if (confirm('¿Actualizar ahora las cartillas de los padres con las nuevas tarifas?')) { go('portal'); runPublishAll(); }
+}
+async function saveCashiers() {
+  const ids = $$('#cashierList input:checked').map(i => i.value);
+  await setDoc(doc(db, 'pagos_config', 'permisos'), { cajeros: ids, updatedAt: Date.now(), updatedBy: S.user.name }, { merge: true });
+  S.cashiers = ids; toast('Permisos guardados. Aplican desde el próximo ingreso.');
+}
+
+/* ===================== 9. PANEL DEL ESTUDIANTE ===================== */
+function openDrawer(key, tab = 'carton') {
+  if (!S.byKey.has(key)) return toast('No se encontró el estudiante', 'err');
+  S.drawer = { key, tab, sel: new Set() };
+  renderDrawer(true);
+}
+function closeDrawer() { S.drawer = null; $('#drawer-root').innerHTML = ''; syncLock(); }
+function renderDrawer(animate = false) {
+  const d = S.drawer; if (!d) return;
+  const st = S.byKey.get(d.key); if (!st) return closeDrawer();
+  const body = $('#drawer-root .dr-body'), top = body ? body.scrollTop : 0;
+  $('#drawer-root').innerHTML = `<div class="drawer-back ${animate ? 'in' : ''}"><aside class="drawer" role="dialog" aria-modal="true" aria-label="${esc(st.name)}">${drawerHTML(st)}</aside></div>`;
+  const nb = $('#drawer-root .dr-body'); if (nb && !animate) nb.scrollTop = top;
+  syncLock();
+}
+function drawerHTML(st) {
+  const d = S.drawer, L = S.ledgers.get(st.key);
+  const selItems = L.items.filter(i => d.sel.has(i.id)), selTotal = sum(selItems, i => i.balance);
+  const pays = S.payByStudent.get(st.key) || [];
+  const tabs = [['carton', 'Cartón'], ['movs', `Pagos (${pays.length})`], ['mas', 'Más']];
+  return `<div class="dr-hd">
+    <div class="dr-top"><span class="avatar lv-${st.level}">${esc(initials(st.name))}</span>
+      <div class="who"><h2>${esc(title(st.name))}</h2><div class="meta"><span>${esc(st.docType || 'Doc.')} ${esc(st.doc || 'sin documento')}</span><span>${esc(st.courseName)}</span><span>${LEVELS[st.level]}</span></div></div>
+      <button class="icon-btn" data-act="drawer-close" aria-label="Cerrar">${ic('x', 22)}</button></div>
+    <div class="dr-sum"><div><small>Pagado ${S.year}</small><b class="green">${fmt$(L.paid)}</b></div><div><small>Saldo del año</small><b>${fmt$(L.balance)}</b></div><div class="${L.mora ? 'bad' : ''}"><small>${L.mora ? 'Vencido' : 'Estado'}</small><b>${L.mora ? fmt$(L.mora) : 'Al día'}</b></div></div>
+    <div class="tabs" role="tablist">${tabs.map(([k, v]) => `<button class="tab ${d.tab === k ? 'on' : ''}" data-act="drawer-tab" data-v="${k}" role="tab" aria-selected="${d.tab === k}">${v}</button>`).join('')}</div>
+  </div>
+  <div class="dr-body">${d.tab === 'carton' ? cartonTab(st, L) : d.tab === 'movs' ? movsTab(pays) : masTab(st)}</div>
+  ${canCharge() && d.tab === 'carton' ? `<div class="dr-ft">
+    <div class="sel"><small>${selItems.length ? `${plural(selItems.length, 'concepto', 'conceptos')} por cobrar` : 'Toque los meses que va a pagar'}</small><b>${fmt$(selTotal)}</b></div>
+    <button class="btn btn-soft btn-sm" data-act="sel-current">Mes en curso</button>
+    <button class="btn btn-soft btn-sm" data-act="sel-overdue" ${L.moraItems.length ? '' : 'disabled'}>Todo lo vencido</button>
+    <button class="btn btn-green" data-act="charge" ${selItems.length ? '' : 'disabled'}>${ic('cash', 18)}Cobrar</button>
+  </div>` : ''}`;
+}
+const isSelectable = it => canCharge() && it.balance > 0 && it.status !== 'sin_tarifa';
+function monthTile(it) {
+  const d = S.drawer, pick = isSelectable(it), on = d.sel.has(it.id);
+  const last = it.payments[it.payments.length - 1];
+  let line = '';
+  switch (it.status) {
+    case 'pagado': line = `<div class="mt-line">${ic('check', 14, 2.6)}Pagado el ${esc(shortDate(last?.paymentDate))}</div><div class="mt-rec">${esc(last?.receiptNumber || 'Registro anterior')}</div>`; break;
+    case 'exento': line = `<div class="mt-line">${ic('check', 14, 2.6)}Exento</div><div class="mt-rec">${esc(it.reason)}</div>`; break;
+    case 'abonado': line = `<div class="mt-prog"><i style="width:${Math.round(it.paid / it.due * 100)}%"></i></div><div class="mt-line">Abonó ${fmt$(it.paid)}</div><div class="mt-rec">Saldo ${fmt$(it.balance)}</div>`; break;
+    case 'vencido': line = `<div class="mt-line">${ic('alert', 14)}Vencido</div>`; break;
+    case 'del_mes': line = `<div class="mt-line">${ic('clock', 14)}Vence este mes</div>`; break;
+    case 'sin_tarifa': line = `<div class="mt-line">Sin tarifa</div>`; break;
+    default: line = `<div class="mt-line">Próximo</div>`;
+  }
+  const paid = ['pagado', 'exento'].includes(it.status);
+  return `<div class="mt ${it.status} ${it.id === 'MAT' ? 'mat' : ''} ${pick ? 'pick' : 'view'} ${on ? 'sel' : ''}" data-act="tile" data-id="${esc(it.id)}" role="button" tabindex="0" aria-pressed="${on}">
+    <div class="mt-main"><div class="mt-hd"><span class="mt-name">${esc(it.label)}</span>${pick ? `<span class="chk">${on ? ic('check', 14, 3) : ''}</span>` : ''}</div>
+    <div class="mt-amt">${it.status === 'sin_tarifa' ? '—' : fmt$(it.due)}</div>${line}
+    ${it.discount > 0 && it.source !== 'legacy' && !paid ? `<div class="mt-disc">Descuento ${fmt$(it.discount)}</div>` : ''}</div>
+    ${paid ? SEAL : ''}
+  </div>`;
+}
+function cartonTab(st, L) {
+  return `<div class="months">${L.items.map(monthTile).join('')}</div>
+    <div class="dr-legend"><span><i style="background:var(--green)"></i>Pagado</span><span><i style="background:var(--blue)"></i>Abono</span><span><i style="background:var(--red)"></i>Vencido</span><span><i style="background:var(--orange)"></i>Este mes</span><span><i style="background:var(--line)"></i>Próximo</span></div>`;
+}
+function movHTML(p) {
+  const ab = p.paymentType === 'abono';
+  return `<div class="mov"><span class="mov-ic ${ab ? 'ab' : ''}">${ic(ab ? 'half' : 'check', 18, ab ? 1.6 : 2.4)}</span>
+    <div class="mov-main"><b>${esc(p.concept)}${p.month ? ' ' + esc(p.month.toLowerCase()) : ''}${ab ? ', abono' : p.paymentType === 'saldo' ? ', saldo' : ''}</b><small>${esc(medDate(p.paymentDate))}, ${esc(p.receiptNumber || 'registro anterior')}${p.paymentMethod ? ', ' + esc(p.paymentMethod.toLowerCase()) : ''}</small></div>
+    <span class="mov-amt">${fmt$(p.paidAmount)}</span>
+    <button class="icon-btn" data-act="receipt" data-rec="${esc(p.receiptNumber || '')}" data-pid="${esc(p.id)}" title="Ver recibo" aria-label="Ver recibo">${ic('receipt', 18)}</button>
+    ${(p.paymentProof || p.proofId) ? `<button class="icon-btn" data-act="proof" data-pid="${esc(p.id)}" title="Ver comprobante" aria-label="Ver comprobante">${ic('eye', 18)}</button>` : ''}</div>`;
+}
+function movsTab(pays) { return pays.length ? `<div class="box">${[...pays].reverse().map(movHTML).join('')}</div>` : `<div class="box">${emptyHTML('receipt', 'Sin pagos este año', '')}</div>`; }
+function masTab(st) {
+  const d = S.discounts[st.key];
+  const ap = { mensualidad: 'Solo mensualidades', matricula: 'Solo matrícula', ambos: 'Matrícula y mensualidades' };
+  return `<div class="box"><div class="sec-title">Descuento fijo${canManage() ? `<button class="btn btn-soft btn-sm" data-act="edit-discount" data-k="${esc(st.key)}">${d ? 'Cambiar' : 'Agregar'}</button>` : ''}</div>
+      ${d ? `<div class="disc-hero"><span class="big">${d.tipo === 'pct' ? d.valor + '%' : fmt$(d.valor)}</span><span><b>${esc(d.motivo)}</b><small>${ap[d.aplica] || ''}${d.detalle ? `. ${esc(d.detalle)}` : ''}</small></span></div><p class="hint">Se aplica solo en cobros nuevos. Lo ya pagado no cambia.</p>`
+        : `<p class="hint">Sin descuento fijo.${canCharge() ? ' También puede aplicar uno manual al cobrar.' : ''}</p>`}</div>
+    <div class="box"><div class="sec-title">Cartilla del acudiente</div>
+      ${st.docKey ? `<p class="hint">El acudiente entra con el documento del estudiante y los últimos 4 dígitos como código.</p>
+        <div class="access"><div><small>Documento</small><b>${esc(st.doc)}</b></div><div><small>Código</small><b class="code">${esc(accessCode(st))}</b></div></div>
+        <div class="btn-row"><button class="btn btn-soft btn-sm" data-act="wa-access" data-k="${esc(st.key)}">${ic('chat', 16)}Enviar por WhatsApp</button><button class="btn btn-soft btn-sm" data-act="print-access" data-k="${esc(st.key)}">${ic('print', 16)}Imprimir aviso</button></div>`
+        : `<p class="hint">Este estudiante no tiene documento registrado, así que el acudiente no puede consultar. Regístrelo en la plataforma académica.</p>`}</div>
+    <div class="box"><div class="sec-title">Estado de cuenta<button class="btn btn-soft btn-sm" data-act="print-statement" data-k="${esc(st.key)}">${ic('print', 16)}Imprimir</button></div><p class="hint">Matrícula y los diez meses con valores, descuentos, pagos y recibos.</p></div>`;
+}
+function openPeriodDetail(st, it) {
+  openModal(`${modalHead(`${esc(it.label)} ${S.year}`, esc(title(st.name)) + ', ' + esc(st.courseName))}
+  <div class="modal-bd">
+    <div class="kv"><div><small>Tarifa</small><b>${fmt$(it.gross)}</b></div><div><small>Descuento</small><b class="green">${it.discount ? '−' + fmt$(it.discount) : '—'}</b>${it.reason ? `<div class="hint" style="font-size:12px">${esc(it.reason)}</div>` : ''}</div><div><small>Valor a pagar</small><b>${fmt$(it.due)}</b></div><div><small>Saldo</small><b class="${it.balance ? 'red' : ''}">${fmt$(it.balance)}</b></div></div>
+    ${it.payments.length ? it.payments.slice().reverse().map(movHTML).join('') : '<p class="hint">Aún no hay pagos de este concepto.</p>'}
+  </div>`);
+}
+
+/* ===================== 10. COBRO (CAJA REGISTRADORA) ===================== */
+function openCharge(st, ids) {
+  const L = S.ledgers.get(st.key);
+  const items = L.items.filter(i => ids.includes(i.id) && i.balance > 0);
+  if (!items.length) return toast('Marque al menos un mes con saldo', 'warn');
+  S.chg = { st, items, discMode: S.discounts[st.key] ? 'fijo' : 'ninguno', discTipo: 'pct', discValor: 0, discMotivo: DISCOUNT_REASONS[0], discDetalle: '', method: 'Efectivo', date: todayISO(), ref: '', obs: '', proof: null, amountTouched: false };
+  openModal(chargeHTML(), { size: 'xwide' });
+  refreshCharge();
+  if (items.length === 1) $('#chgAmount')?.select();
+}
+function chargeLines() {
+  const c = S.chg;
+  return c.items.map(it => {
+    if (it.locked) return { it, gross: it.gross, discount: it.discount, reason: it.reason, source: it.source, net: it.due, prevPaid: it.paid, balance: it.balance };
+    let discount = 0, reason = '', source = 'ninguno';
+    if (c.discMode === 'fijo') { const fd = fixedDiscountFor(c.st, it.concept, it.gross); if (fd) ({ amount: discount, reason, source } = fd); }
+    else if (c.discMode === 'manual') {
+      const v = Number(c.discValor) || 0;
+      discount = c.discTipo === 'pct' ? Math.round(it.gross * Math.min(100, v) / 100) : Math.min(it.gross, v);
+      if (discount) { reason = c.discMotivo + (c.discTipo === 'pct' ? ` (${Math.min(100, v)}%)` : '') + (c.discDetalle ? ', ' + c.discDetalle : ''); source = 'manual'; }
+    }
+    const net = Math.max(0, it.gross - discount);
+    return { it, gross: it.gross, discount, reason, source, net, prevPaid: 0, balance: net };
+  });
+}
+function chargeHTML() {
+  const c = S.chg, st = c.st, single = c.items.length === 1, fixed = S.discounts[st.key];
+  const anyUnlocked = c.items.some(i => !i.locked), anyLocked = c.items.some(i => i.locked);
+  return `${modalHead('Cobrar', `${esc(title(st.name))}, ${esc(st.courseName)}`)}
+  <div class="pos">
+    <div class="pos-left">
+      ${anyUnlocked ? `<div class="pos-sec"><div class="pos-t">Descuento</div>
+        <div class="seg" id="chgDiscSeg">
+          <button type="button" data-act="chg-disc" data-v="ninguno">Sin descuento</button>
+          <button type="button" data-act="chg-disc" data-v="fijo" ${fixed ? '' : 'disabled'} title="${fixed ? '' : 'Este estudiante no tiene descuento fijo'}">${fixed ? 'Fijo, ' + esc(discShort(fixed)) : 'Fijo'}</button>
+          <button type="button" data-act="chg-disc" data-v="manual">Manual</button>
+        </div>
+        <div class="manual" id="chgManual" hidden>
+          <div class="field"><label class="lbl">Tipo</label><select class="input" data-bind="chg-dtipo"><option value="pct">Porcentaje</option><option value="valor">Valor por concepto</option></select></div>
+          <div class="field"><label class="lbl">Valor</label><input class="input num" inputmode="numeric" data-bind="chg-dvalor" placeholder="0"></div>
+          <div class="field"><label class="lbl">Motivo</label><select class="input" data-bind="chg-dmotivo">${DISCOUNT_REASONS.map(r => `<option>${esc(r)}</option>`).join('')}</select></div>
+          <div class="field"><label class="lbl">Quién autorizó</label><input class="input" data-bind="chg-ddetalle" placeholder="Opcional"></div>
+        </div>
+        ${anyLocked ? '<p class="hint" style="margin-top:10px">Los meses con abonos anteriores conservan su descuento.</p>' : ''}</div>`
+      : `<p class="hint pos-sec">Este mes ya tiene abonos: se cobra el saldo con el mismo descuento.</p>`}
+      <div class="pos-sec"><div class="pos-t">Medio de pago</div>
+        <div class="methods" id="chgMethods">${METHODS.map(m => `<button type="button" class="chip ${c.method === m ? 'on' : ''}" data-act="chg-method" data-v="${esc(m)}">${esc(m)}</button>`).join('')}</div></div>
+      <div class="pos-sec grid-2" style="gap:0 12px">
+        <div class="field"><label class="lbl" for="chgDate">Fecha del pago</label><input id="chgDate" type="date" class="input" data-bind="chg-date" value="${c.date}" max="${todayISO()}"></div>
+        <div class="field"><label class="lbl" for="chgRef">Número de referencia</label><input id="chgRef" class="input num" data-bind="chg-ref" placeholder="Opcional"></div>
+        <div class="field" style="grid-column:1/-1;margin:0"><label class="lbl" for="chgObs">Observaciones</label><textarea id="chgObs" class="input" data-bind="chg-obs" rows="2" placeholder="Opcional"></textarea></div>
+      </div>
+      <div class="pos-sec"><div class="pos-t">Comprobante <span class="req" id="chgProofReq">obligatorio</span></div>
+        <label class="drop" id="chgDrop"><input type="file" accept="image/*,application/pdf" data-bind="chg-proof" hidden>
+          <span class="d-ic" id="chgProofIc">${ic('upload', 22)}</span><span id="chgProofTx"><b>Adjuntar foto o PDF del pago</b><small>Las fotos se optimizan solas</small></span></label></div>
+    </div>
+    <div class="pos-right">
+      <div class="ticket"><div class="tk-hd"><span class="crest">LM</span><span><b>Liceo Moderno Suesca</b><small>Caja, ${esc(medDate(todayISO()))}</small></span></div>
+        <div id="chgLines"></div></div>
+      <div class="amount"><label for="chgAmount">Valor recibido</label><div class="row"><span>$</span><input id="chgAmount" inputmode="numeric" autocomplete="off" data-bind="chg-amount" ${single ? '' : 'readonly'}></div></div>
+      ${single ? '<div class="quick-amt" id="chgQuick"></div>' : '<p class="hint">Con varios meses se cobra el total. Para abonar, cobre un solo mes.</p>'}
+      <div class="amount-msg" id="chgAmountMsg"></div>
+      <button class="btn btn-green btn-lg btn-block" id="chgSave" data-act="chg-save">${ic('check', 20, 2.6)}<span id="chgSaveTx">Registrar pago</span></button>
+    </div>
+  </div>`;
+}
+function refreshCharge() {
+  const c = S.chg; if (!c) return;
+  const lines = chargeLines(), single = c.items.length === 1, total = sum(lines, l => l.balance);
+  const gross = sum(lines, l => l.gross), disc = sum(lines, l => l.discount), prev = sum(lines, l => l.prevPaid);
+  $('#chgLines').innerHTML = lines.map(l => `<div class="tk-line"><span>${esc(l.it.label)}${l.reason ? `<span class="sub">${esc(l.reason)}</span>` : ''}</span><span>${fmt$(l.gross)}</span></div>`).join('')
+    + `<div class="tk-div"></div>`
+    + (disc ? `<div class="tk-line minus"><span>Descuentos</span><span>−${fmt$(disc)}</span></div>` : '')
+    + (prev ? `<div class="tk-line"><span>Abonado antes</span><span>−${fmt$(prev)}</span></div>` : '')
+    + `<div class="tk-total"><span>Total</span><b>${fmt$(total)}</b></div>`;
+  $$('#chgDiscSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === c.discMode));
+  const man = $('#chgManual'); if (man) man.hidden = c.discMode !== 'manual';
+  const amt = $('#chgAmount');
+  if (!single || !c.amountTouched) amt.value = moneyInput(total);
+  const val = num(amt.value), msg = $('#chgAmountMsg');
+  const q = $('#chgQuick');
+  if (q) q.innerHTML = total ? [total, Math.round(total / 2 / 1000) * 1000, 100000, 50000].filter((v, i, a) => v > 0 && v <= total && a.indexOf(v) === i).map(v => `<button type="button" data-act="chg-quick" data-v="${v}">${fmt$(v)}</button>`).join('') : '';
+  let ok = true;
+  if (total === 0) msg.innerHTML = '<span class="pill pill-ok">Exento: se registra en $ 0</span>';
+  else if (val <= 0) { msg.innerHTML = '<span class="red">Escriba el valor recibido</span>'; ok = false; }
+  else if (val > total) { msg.innerHTML = `<span class="red">Es más de lo que debe (${fmt$(total)})</span>`; ok = false; }
+  else if (val < total) msg.innerHTML = `<span class="pill pill-info">Queda como abono, saldo ${fmt$(total - val)}</span>`;
+  else msg.innerHTML = `<span class="pill pill-ok">${ic('check', 14, 2.6)}Paga ${single ? 'completo' : 'todo'}</span>`;
+  const charged = single ? (total === 0 ? 0 : val) : total;
+  $('#chgSaveTx').textContent = `Registrar ${fmt$(charged)}`;
+  $('#chgProofReq').hidden = total === 0;
+  Object.assign(c, { lines, total, amount: charged, valid: ok });
+}
+const readDataURL = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(new Error('No se pudo leer el archivo')); r.readAsDataURL(f); });
+const loadImg = file => new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('No se pudo leer la imagen. Si es HEIC del iPhone, envíela como JPG o captura de pantalla.')); }; im.src = u; });
+async function fileToProof(file) {
+  if (file.type === 'application/pdf') {
+    const data = await readDataURL(file);
+    if (data.length > PROOF_MAX_CHARS) throw new Error(`El PDF pesa ${Math.round(file.size / 1024)} KB y el máximo es 500 KB. Use una foto o captura del comprobante.`);
+    return { data, mime: 'application/pdf', name: file.name };
+  }
+  if (!file.type.startsWith('image/')) throw new Error('Solo se aceptan fotos o PDF.');
+  const img = await loadImg(file);
+  let side = 1600, q = 0.8, data = '';
+  for (let i = 0; i < 7; i++) {
+    const scale = Math.min(1, side / Math.max(img.width, img.height));
+    const w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+    const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+    data = cv.toDataURL('image/jpeg', q);
+    if (data.length <= PROOF_MAX_CHARS * 0.6) break;
+    side = Math.round(side * 0.8); q = Math.max(0.5, q - 0.07);
+  }
+  if (data.length > PROOF_MAX_CHARS) throw new Error('No fue posible reducir la imagen. Intente con otra foto.');
+  return { data, mime: 'image/jpeg', name: (file.name || 'comprobante').replace(/\.\w+$/, '') + '.jpg' };
+}
+async function handleProof(el) {
+  const f = el.files?.[0]; if (!f || !S.chg) return;
+  const ico = $('#chgProofIc'), tx = $('#chgProofTx');
+  ico.innerHTML = '<span class="spinner"></span>'; tx.innerHTML = '<b>Optimizando…</b>';
+  try {
+    const p = await fileToProof(f); if (!S.chg) return;
+    S.chg.proof = p;
+    ico.innerHTML = p.mime.includes('pdf') ? ic('file', 22) : `<img src="${p.data}" alt="">`;
+    tx.innerHTML = `<b>${esc(f.name)}</b><small>${kb(p.data)}, toque para cambiar</small>`;
+    $('#chgDrop').classList.add('has');
+  } catch (err) {
+    if (S.chg) S.chg.proof = null;
+    $('#chgDrop').classList.remove('has');
+    ico.innerHTML = ic('alert', 22); tx.innerHTML = `<b class="red">${esc(err.message)}</b><small>Toque para intentar con otro archivo</small>`;
+  }
+}
+async function nextReceipt() {
+  const ref = doc(db, 'pagos_config', 'receiptCounter');
+  const n = await runTransaction(db, async tx => { const s = await tx.get(ref); const c = s.exists() ? (Number(s.data().count) || 1) : 1; tx.set(ref, { count: c + 1 }, { merge: true }); return c; });
+  return `REC-${S.year}-${String(n).padStart(4, '0')}`;
+}
+async function saveCharge() {
+  const c = S.chg; if (!c) return;
+  refreshCharge();
+  if (!c.valid) return toast('Revise el valor recibido', 'err');
+  if (!c.method) return toast('Elija el medio de pago', 'err');
+  if (!c.date) return toast('Indique la fecha del pago', 'err');
+  if (c.total > 0 && !c.proof) return toast('Adjunte el comprobante del pago', 'err');
+  const btn = $('#chgSave'); btn.disabled = true; $('#chgSaveTx').textContent = 'Registrando…';
+  try {
+    const st = c.st;
+    await syncStudentPayments(st);                       // evita duplicar si otro equipo cobró
+    const fresh = S.ledgers.get(st.key);
+    const stale = c.items.find(it => { const f = fresh.items.find(x => x.id === it.id); return !f || f.balance <= 0 || f.paid !== it.paid; });
+    if (stale) { closeModal(); if (S.drawer) { S.drawer.sel.clear(); renderDrawer(); } return toast(`${stale.label} ya tenía un pago nuevo. Revise el cartón antes de cobrar.`, 'warn'); }
+    const lines = chargeLines(), single = lines.length === 1;
+    const rec = await nextReceipt();
+    const batch = writeBatch(db), created = [], now = Date.now(), hasProof = !!c.proof;
+    let proofId = null;
+    lines.forEach((ln, i) => {
+      const ref = doc(collection(db, 'pagos'));
+      if (i === 0) proofId = ref.id;
+      const paid = single ? c.amount : ln.balance, after = Math.max(0, ln.balance - paid);
+      const p = {
+        studentName: st.name, studentDoc: st.doc, courseName: st.courseName, courseLevel: st.level,
+        concept: ln.it.concept, month: ln.it.month, expectedAmount: ln.gross, paidAmount: paid, paymentDate: c.date,
+        referenceNumber: c.ref || '', paymentProof: hasProof && !PROOF_SEPARATE ? c.proof.data : '',
+        observations: c.obs || '', registeredBy: S.user.name, registeredAt: now, year: S.year,
+        discountAmount: ln.discount, discountReason: ln.reason, discountSource: ln.source, netAmount: ln.net,
+        paymentType: after > 0 ? 'abono' : (ln.prevPaid > 0 ? 'saldo' : 'completo'), balanceAfter: after,
+        receiptNumber: rec, paymentMethod: c.method, registeredById: S.user.id,
+        proofId: hasProof && PROOF_SEPARATE ? proofId : null, proofMime: hasProof ? c.proof.mime : null,
+      };
+      batch.set(ref, p); created.push({ id: ref.id, ...p });
+    });
+    if (hasProof && PROOF_SEPARATE) batch.set(doc(db, 'pagos_comprobantes', proofId), { data: c.proof.data, mime: c.proof.mime, name: c.proof.name, receiptNumber: rec, studentDoc: st.doc, createdAt: now });
+    await batch.commit();
+    S.payments.push(...created); indexPayments(); S.ledgers.set(st.key, computeLedger(st));
+    if (S.drawer) S.drawer.sel.clear();
+    closeModal(); refreshAfterChange();
+    let pubOk = true; try { await publishCartilla(st); } catch (e) { pubOk = false; console.error(e); }
+    openReceipt(rec, null, true);
+    toast(pubOk ? `Pago registrado, recibo ${rec}` : 'Pago registrado. La cartilla del acudiente no se actualizó; use Publicar cartillas.', pubOk ? 'ok' : 'warn');
+  } catch (e) {
+    console.error(e); toast('No se pudo registrar: ' + (e.message || e), 'err');
+    if (btn.isConnected) { btn.disabled = false; refreshCharge(); }
+  }
+}
+
+/* ===================== 11. DESCUENTOS FIJOS ===================== */
+function openDiscount(st) {
+  const d = S.discounts[st.key] || { tipo: 'pct', valor: '', motivo: 'Hermanos', aplica: 'mensualidad', detalle: '' };
+  S.discEdit = st.key;
+  openModal(`${modalHead('Descuento fijo', esc(title(st.name)) + ', ' + esc(st.courseName))}
+  <form class="modal-bd" id="discForm" onsubmit="return false">
+    <p class="hint" style="margin-bottom:14px">Se aplica solo en cada cobro nuevo de este estudiante. Lo ya pagado no cambia.</p>
+    <div class="grid-2" style="gap:0 12px">
+      <div class="field"><label class="lbl">Tipo</label><select class="input" name="tipo"><option value="pct" ${d.tipo === 'pct' ? 'selected' : ''}>Porcentaje</option><option value="valor" ${d.tipo === 'valor' ? 'selected' : ''}>Valor fijo</option></select></div>
+      <div class="field"><label class="lbl">Valor</label><input class="input num" name="valor" inputmode="numeric" value="${d.tipo === 'valor' ? moneyInput(d.valor) : esc(d.valor)}"></div>
+      <div class="field"><label class="lbl">Motivo</label><select class="input" name="motivo">${DISCOUNT_REASONS.map(r => `<option ${d.motivo === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select></div>
+      <div class="field"><label class="lbl">Aplica a</label><select class="input" name="aplica"><option value="mensualidad" ${d.aplica === 'mensualidad' ? 'selected' : ''}>Solo mensualidades</option><option value="matricula" ${d.aplica === 'matricula' ? 'selected' : ''}>Solo matrícula</option><option value="ambos" ${d.aplica === 'ambos' ? 'selected' : ''}>Matrícula y mensualidades</option></select></div>
+    </div>
+    <div class="field"><label class="lbl">Detalle o autorización</label><input class="input" name="detalle" value="${esc(d.detalle || '')}" placeholder="Ej: hermano en 7B, autorizó rectoría"></div>
+    <div class="disc-preview" id="discPreview"></div>
+  </form>
+  <div class="modal-ft">${S.discounts[st.key] ? '<button class="btn btn-quiet btn-danger" data-act="disc-remove" style="margin-right:auto">Quitar descuento</button>' : ''}<button class="btn btn-soft" data-act="modal-close">Cancelar</button><button class="btn btn-primary" data-act="disc-save">Guardar descuento</button></div>`);
+  const f = $('#discForm');
+  const upd = () => {
+    const fd = new FormData(f), tipo = fd.get('tipo'), v = num(fd.get('valor')), apl = fd.get('aplica');
+    if (tipo === 'valor') f.valor.value = moneyInput(f.valor.value);
+    const parts = [['Matrícula', 'Matrícula'], ['Pensión', 'Mensualidad']].filter(([, c]) => apl === 'ambos' || (apl === 'mensualidad' && c === 'Mensualidad') || (apl === 'matricula' && c === 'Matrícula'))
+      .map(([l, c]) => { const base = tarifa(st.level, c); const dd = tipo === 'pct' ? Math.round(base * Math.min(100, v) / 100) : Math.min(base, v); return `${l}: ${fmt$(base)} pasa a <b>${fmt$(base - dd)}</b>`; });
+    $('#discPreview').innerHTML = v ? parts.join('<br>') : '<span class="hint">Escriba el valor para ver cómo queda.</span>';
+  };
+  f.addEventListener('input', upd); f.addEventListener('change', upd); upd();
+}
+async function saveDiscount() {
+  const st = S.byKey.get(S.discEdit); if (!st) return;
+  const fd = new FormData($('#discForm')), tipo = fd.get('tipo'), valor = num(fd.get('valor'));
+  if (!valor) return toast('Escriba el valor del descuento', 'err');
+  if (tipo === 'pct' && valor > 100) return toast('El porcentaje no puede pasar de 100', 'err');
+  const item = { tipo, valor, motivo: fd.get('motivo'), aplica: fd.get('aplica'), detalle: String(fd.get('detalle') || '').trim(), updatedAt: Date.now(), updatedBy: S.user.name, studentName: st.name, courseName: st.courseName };
+  await setDoc(doc(db, 'pagos_config', 'descuentos'), { items: { [st.key]: item } }, { merge: true });
+  S.discounts[st.key] = item; afterDiscountChange(st, 'Descuento guardado');
+}
+async function removeDiscount() {
+  const st = S.byKey.get(S.discEdit); if (!st || !confirm('¿Quitar el descuento fijo de este estudiante?')) return;
+  await updateDoc(doc(db, 'pagos_config', 'descuentos'), new FieldPath('items', st.key), deleteField());
+  delete S.discounts[st.key]; afterDiscountChange(st, 'Descuento quitado');
+}
+function afterDiscountChange(st, msg) {
+  S.ledgers.set(st.key, computeLedger(st)); closeModal(); refreshAfterChange(); toast(msg);
+  publishCartilla(st).catch(e => console.error(e));
+}
+
+/* ===================== 12. RECIBOS, COMPROBANTES, IMPRESIÓN ===================== */
+const RCPT_CSS = `
+.rcpt{font-family:'Plus Jakarta Sans',Arial,sans-serif;color:#121633;max-width:660px;margin:0 auto}
+.rcpt-hd{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:2px solid #121633;margin-bottom:16px}
+.rcpt-crest{width:46px;height:46px;border-radius:13px;background:linear-gradient(140deg,#1a237e,#5a2a7a 60%,#c0392b);color:#fff;display:grid;place-items:center;font-weight:800;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rcpt-hd h2{font-size:16px;margin:0}.rcpt-hd p{font-size:12px;color:#687090;margin:2px 0 0}
+.rcpt-no{margin-left:auto;text-align:right}.rcpt-no small{display:block;font-size:11px;color:#687090}
+.rcpt-no b{font-family:'JetBrains Mono',monospace;font-size:16px;color:#c0392b}
+.rcpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:13px;margin-bottom:16px}
+.rcpt-grid small{display:block;color:#687090;font-size:11.5px}
+.rcpt table{width:100%;border-collapse:collapse;font-size:13px}
+.rcpt th{text-align:left;font-size:11.5px;color:#687090;font-weight:600;border-bottom:1px solid #e6e8f0;padding:8px 6px}
+.rcpt td{padding:9px 6px;border-bottom:1px solid #f0f1f6}.rcpt .r{text-align:right;font-family:'JetBrains Mono',monospace;white-space:nowrap}.rcpt th.r{font-family:inherit}
+.rcpt-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:14px 16px;background:#f3f4f8;border-radius:12px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rcpt-total b{font-family:'JetBrains Mono',monospace;font-size:22px}
+.rcpt-obs{font-size:12.5px;margin-top:12px}.rcpt-disc{font-size:12px;color:#1d8a4b;margin-top:8px}
+.rcpt-foot{margin-top:16px;font-size:12px;color:#687090;border-top:1px dashed #cfd3e3;padding-top:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.rcpt-code{border:1.5px solid #1a237e;border-radius:12px;padding:10px 12px;font-size:12px;color:#1a237e;line-height:1.55}
+.rcpt-code b{font-family:'JetBrains Mono',monospace}
+.tag-ab{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px;background:#eef2fd;color:#2f5bd3;margin-left:6px}`;
+const PRINT_CSS = `@page{size:letter;margin:14mm}*{box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',Arial,sans-serif;color:#121633;font-size:12px;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ph{display:flex;align-items:center;gap:14px;border-bottom:2px solid #121633;padding-bottom:10px;margin-bottom:14px}
+.ph h1{font-size:17px;margin:0}.ph p{margin:2px 0 0;color:#687090;font-size:11px}.ph-date{margin-left:auto;text-align:right;font-size:10px;color:#687090}
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.info div{background:#f3f4f8;border-radius:8px;padding:8px 10px}
+.info small{display:block;font-size:10px;color:#687090}.info b{font-size:12.5px}
+table.pt{width:100%;border-collapse:collapse}.pt th{background:#f3f4f8;text-align:left;font-size:10px;color:#687090;font-weight:600;padding:7px 8px;border-bottom:1px solid #d9dde9}
+.pt td{padding:7px 8px;border-bottom:1px solid #f0f1f6;vertical-align:top}.pt .r{text-align:right;font-family:'JetBrains Mono',monospace;white-space:nowrap}.pt th.r{font-family:inherit}
+.pt tfoot td{font-weight:800;background:#f3f4f8;border-top:2px solid #121633}
+.ok{color:#1d8a4b;font-weight:700}.bad{color:#c0392b;font-weight:700}.warn{color:#c24500;font-weight:700}.info-t{color:#2f5bd3;font-weight:700}.mute{color:#9aa0b8}
+.note{margin-top:14px;font-size:10.5px;color:#687090}.sign{margin-top:46px;display:flex;gap:40px}.sign div{flex:1;border-top:1px solid #121633;padding-top:6px;font-size:10.5px;text-align:center}
+.slips{display:grid;grid-template-columns:1fr 1fr}.slip{border:1px dashed #9aa0b8;padding:16px;break-inside:avoid;page-break-inside:avoid;min-height:60mm}
+.slip-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}.slip-hd b{display:block;font-size:12px}.slip-hd small{font-size:10px;color:#687090}
+.slip .rcpt-crest{width:34px;height:34px;border-radius:10px;font-size:11px}
+.slip-name{font-size:14px;font-weight:800}.slip-course{font-size:11px;color:#687090;margin-bottom:10px}
+.slip-url{font-family:'JetBrains Mono',monospace;font-size:10px;background:#f3f4f8;border-radius:6px;padding:6px 8px;word-break:break-all}
+.slip-how{font-size:10.5px;margin-top:10px;line-height:1.5}.slip-how b{font-family:'JetBrains Mono',monospace}
+${RCPT_CSS}`;
+function printHTML(t, body) {
+  const ifr = document.createElement('iframe');
+  ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  document.body.appendChild(ifr);
+  const d = ifr.contentDocument;
+  d.open();
+  d.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(t)}</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"><style>${PRINT_CSS}</style></head><body>${body}</body></html>`);
+  d.close();
+  ifr.contentWindow.onafterprint = () => setTimeout(() => ifr.remove(), 500);
+  setTimeout(() => { ifr.contentWindow.focus(); ifr.contentWindow.print(); setTimeout(() => ifr.isConnected && ifr.remove(), 60000); }, 700);
+}
+const printHeader = (t, sub = '') => `<div class="ph"><div class="rcpt-crest">LM</div><div><h1>${esc(t)}</h1><p>${SCHOOL}${sub ? ', ' + esc(sub) : ''}</p></div><div class="ph-date">Generado ${new Date().toLocaleString('es-CO')}<br>por ${esc(title(S.user?.name || ''))}</div></div>`;
+const receiptPays = (rec, pid) => rec ? S.payments.filter(p => p.receiptNumber === rec) : S.payments.filter(p => p.id === pid);
+function receiptHTML(pays) {
+  const p0 = pays[0], st = S.byKey.get(payKey(p0)), total = sum(pays, p => p.paidAmount);
+  const reasons = [...new Set(pays.filter(p => p.discountAmount && p.discountReason).map(p => p.discountReason))];
+  return `<div class="rcpt">
+    <div class="rcpt-hd"><div class="rcpt-crest">LM</div><div><h2>${SCHOOL}</h2><p>Recibo de pago, pensiones y matrículas ${esc(p0.year)}</p></div><div class="rcpt-no"><small>Recibo</small><b>${esc(p0.receiptNumber || 'Registro anterior')}</b></div></div>
+    <div class="rcpt-grid"><div><small>Estudiante</small><b>${esc(p0.studentName)}</b></div><div><small>Documento</small>${esc(p0.studentDoc || '—')}</div>
+      <div><small>Curso</small>${esc(p0.courseName)}</div><div><small>Fecha de pago</small>${esc(longDate(p0.paymentDate))}</div>
+      <div><small>Medio de pago</small>${esc(p0.paymentMethod || '—')}</div><div><small>Referencia</small>${esc(p0.referenceNumber || '—')}</div></div>
+    <table><thead><tr><th>Concepto</th><th class="r">Tarifa</th><th class="r">Descuento</th><th class="r">Pagado</th><th class="r">Saldo</th></tr></thead><tbody>
+      ${pays.map(p => `<tr><td>${esc(p.concept)}${p.month ? ' ' + esc(p.month.toLowerCase()) : ''}${p.paymentType === 'abono' ? '<span class="tag-ab">abono</span>' : p.paymentType === 'saldo' ? '<span class="tag-ab">saldo</span>' : ''}</td><td class="r">${fmt$(p.expectedAmount)}</td><td class="r">${p.discountAmount ? '−' + fmt$(p.discountAmount) : '—'}</td><td class="r">${fmt$(p.paidAmount)}</td><td class="r">${p.balanceAfter ? fmt$(p.balanceAfter) : '—'}</td></tr>`).join('')}
+    </tbody></table>
+    ${reasons.length ? `<div class="rcpt-disc">Descuento: ${esc(reasons.join(', '))}</div>` : ''}
+    <div class="rcpt-total"><span>Total recibido</span><b>${fmt$(total)}</b></div>
+    ${p0.observations ? `<p class="rcpt-obs"><b>Observaciones:</b> ${esc(p0.observations)}</p>` : ''}
+    <div class="rcpt-foot"><div>Recibió <b>${esc(title(p0.registeredBy || ''))}</b><br>${p0.registeredAt ? new Date(p0.registeredAt).toLocaleString('es-CO') : ''}</div>
+      ${st?.docKey ? `<div class="rcpt-code">Consulte este pago en el celular:<br><b>${esc(PORTAL_URL.replace('https://', ''))}</b><br>Documento ${esc(st.doc)}, código: los últimos 4 dígitos (<b>${esc(accessCode(st))}</b>)</div>` : ''}</div>
+  </div>`;
+}
+function openReceipt(rec, pid, fresh = false) {
+  const pays = receiptPays(rec, pid);
+  if (!pays.length) return toast('No se encontró el recibo', 'err');
+  openModal(`${modalHead(fresh ? 'Pago registrado' : 'Recibo de pago', fresh ? 'Imprímalo o envíelo; la cartilla del acudiente ya se actualizó.' : '')}<div class="modal-bd">${receiptHTML(pays)}</div>
+    <div class="modal-ft">${(pays[0].paymentProof || pays[0].proofId) ? `<button class="btn btn-soft" data-act="proof" data-pid="${esc(pays[0].id)}" style="margin-right:auto">${ic('eye', 17)}Comprobante</button>` : ''}<button class="btn btn-soft" data-act="modal-close">Cerrar</button><button class="btn btn-primary" data-act="print-receipt" data-rec="${esc(rec || '')}" data-pid="${esc(pid || pays[0].id)}">${ic('print', 17)}Imprimir recibo</button></div>`, { size: 'wide' });
+}
+function printReceipt(rec, pid) { const pays = receiptPays(rec, pid); if (pays.length) printHTML(pays[0].receiptNumber || 'Recibo', receiptHTML(pays)); }
+function dataURLtoBlob(d) { const [h, b] = d.split(','); const mime = (h.match(/data:([^;]+)/) || [])[1] || 'application/octet-stream'; const bin = atob(b); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new Blob([u], { type: mime }); }
+async function viewProof(pid) {
+  const p = S.payments.find(x => x.id === pid); if (!p) return;
+  let data = p.paymentProof || S.proofCache.get(p.proofId);
+  if (!data && p.proofId) {
+    openModal(`${modalHead('Comprobante')}<div class="modal-bd" style="display:grid;place-items:center;min-height:200px"><span class="spinner"></span></div>`);
+    const s = await getDoc(doc(db, 'pagos_comprobantes', p.proofId));
+    if (s.exists()) { data = s.data().data; S.proofCache.set(p.proofId, data); }
+  }
+  if (!data) { closeModal(); return toast('Este pago no tiene comprobante guardado', 'warn'); }
+  const blob = dataURLtoBlob(data), url = URL.createObjectURL(blob), pdf = blob.type.includes('pdf');
+  openModal(`${modalHead('Comprobante', `${esc(p.receiptNumber || '')} ${esc(title(p.studentName))}`)}
+    <div class="modal-bd"><div class="proof-view">${pdf ? `<iframe src="${url}" title="Comprobante"></iframe>` : `<img src="${url}" alt="Comprobante de pago">`}</div></div>
+    <div class="modal-ft"><a class="btn btn-soft" href="${url}" target="_blank" rel="noopener">Abrir en otra pestaña</a><a class="btn btn-primary" href="${url}" download="comprobante-${esc(p.receiptNumber || p.id)}.${pdf ? 'pdf' : 'jpg'}">${ic('download', 17)}Descargar</a></div>`, { size: 'wide' });
+}
+function printStatement(st) {
+  const L = S.ledgers.get(st.key);
+  const cls = { pagado: 'ok', exento: 'ok', abonado: 'info-t', vencido: 'bad', del_mes: 'warn', proximo: 'mute', sin_tarifa: 'mute' };
+  printHTML('Estado de cuenta ' + st.name, `${printHeader('Estado de cuenta ' + S.year, st.name)}
+  <div class="info"><div><small>Estudiante</small><b>${esc(st.name)}</b></div><div><small>Documento</small><b>${esc(st.doc || '—')}</b></div><div><small>Curso</small><b>${esc(st.courseName)}, ${LEVELS[st.level]}</b></div>
+    <div><small>Valor del año</small><b>${fmt$(L.due)}</b></div><div><small>Pagado</small><b class="ok">${fmt$(L.paid)}</b></div><div><small>Vencido</small><b class="${L.mora ? 'bad' : 'ok'}">${fmt$(L.mora)}</b></div></div>
+  <table class="pt"><thead><tr><th>Concepto</th><th class="r">Tarifa</th><th class="r">Descuento</th><th class="r">A pagar</th><th class="r">Pagado</th><th class="r">Saldo</th><th>Estado</th><th>Recibos</th></tr></thead><tbody>
+    ${L.items.map(it => `<tr><td><b>${it.label}</b>${it.reason ? `<br><span class="mute" style="font-size:10px">${esc(it.reason)}</span>` : ''}</td><td class="r">${fmt$(it.gross)}</td><td class="r">${it.discount ? '−' + fmt$(it.discount) : '—'}</td><td class="r">${fmt$(it.due)}</td><td class="r">${fmt$(it.paid)}</td><td class="r">${fmt$(it.balance)}</td><td class="${cls[it.status]}">${ST[it.status].t}</td><td style="font-size:10px">${it.payments.map(p => esc(p.receiptNumber || 'anterior') + ', ' + shortDate(p.paymentDate)).join('<br>')}</td></tr>`).join('')}
+  </tbody><tfoot><tr><td>Total</td><td class="r">${fmt$(L.gross)}</td><td class="r">−${fmt$(L.discount)}</td><td class="r">${fmt$(L.due)}</td><td class="r">${fmt$(L.paid)}</td><td class="r">${fmt$(L.balance)}</td><td colspan="2"></td></tr></tfoot></table>
+  ${st.docKey ? `<p class="note">Cartilla digital: ${esc(PORTAL_URL)}. Documento ${esc(st.doc)}, código ${esc(accessCode(st))} (últimos 4 dígitos).</p>` : ''}
+  <p class="note">Corte: ${curMonthName()}. Los meses anteriores con saldo se consideran vencidos.</p>`);
+}
+function printMorosos() {
+  const rows = morososRows(), m = S.mor;
+  const filt = [m.level !== 'all' ? LEVELS[m.level] : '', m.course !== 'all' ? (S.courses.find(c => c.id === m.course)?.name || '') : '', m.concept === 'mat' ? 'Matrícula' : m.concept === 'men' ? 'Mensualidades' : ''].filter(Boolean).join(', ') || 'Todo el colegio';
+  printHTML('Reporte de morosos', `${printHeader('Reporte de morosos ' + S.year, 'corte ' + curMonthName().toLowerCase() + ', ' + filt)}
+  <table class="pt"><thead><tr><th>#</th><th>Estudiante</th><th>Documento</th><th>Curso</th><th>Qué debe</th><th class="r">Valor</th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr><td>${i + 1}</td><td><b>${esc(r.st.name)}</b></td><td>${esc(r.st.doc)}</td><td>${esc(r.st.courseName)}</td><td>${r.its.map(x => x.label + (x.status === 'abonado' ? ' (saldo)' : '')).join(', ')}</td><td class="r bad">${fmt$(r.debt)}</td></tr>`).join('')}
+  </tbody><tfoot><tr><td colspan="5">${plural(rows.length, 'estudiante', 'estudiantes')} en mora</td><td class="r">${fmt$(sum(rows, r => r.debt))}</td></tr></tfoot></table>`);
+}
+function printRecaudo() {
+  const rows = recaudoRows(), T = k => sum(rows, x => x[k]), r = S.rec;
+  const filt = [r.level !== 'all' ? LEVELS[r.level] : '', r.course !== 'all' ? (S.courses.find(c => c.id === r.course)?.name || '') : ''].filter(Boolean).join(', ') || 'Todo el colegio';
+  printHTML('Recaudo', `${printHeader('Recaudo por período ' + S.year, filt)}
+  <table class="pt"><thead><tr><th>Período</th><th class="r">Tarifas</th><th class="r">Descuentos</th><th class="r">Esperado</th><th class="r">Recaudado</th><th class="r">Pendiente</th><th class="r">%</th></tr></thead><tbody>
+  ${rows.map(x => `<tr><td><b>${x.label}</b></td><td class="r">${fmt$(x.gross)}</td><td class="r">${x.discount ? '−' + fmt$(x.discount) : '—'}</td><td class="r">${fmt$(x.due)}</td><td class="r">${fmt$(x.paid)}</td><td class="r">${fmt$(x.pending)}</td><td class="r ${x.pct >= 80 ? 'ok' : x.pct >= 50 ? 'warn' : 'bad'}">${x.pct.toFixed(0)}%</td></tr>`).join('')}
+  </tbody><tfoot><tr><td>Total</td><td class="r">${fmt$(T('gross'))}</td><td class="r">−${fmt$(T('discount'))}</td><td class="r">${fmt$(T('due'))}</td><td class="r">${fmt$(T('paid'))}</td><td class="r">${fmt$(T('pending'))}</td><td class="r">${T('due') ? (T('paid') / T('due') * 100).toFixed(0) : 0}%</td></tr></tfoot></table>`);
+}
+function cierreTotals(ps) { const by = {}; ps.forEach(p => { const m = p.paymentMethod || 'Sin especificar'; by[m] = (by[m] || 0) + (Number(p.paidAmount) || 0); }); return by; }
+function cierreBody(date) {
+  const ps = cierrePays(date);
+  if (!ps.length) return emptyHTML('cash', 'Sin pagos registrados ese día', '');
+  const by = cierreTotals(ps);
+  return `<div class="kv">${Object.entries(by).map(([m, v]) => `<div><small>${esc(m)}</small><b>${fmt$(v)}</b></div>`).join('')}<div style="background:var(--green-50)"><small>Total del día</small><b>${fmt$(sum(ps, p => p.paidAmount))}</b></div></div>
+  <div class="tbl-wrap" style="border:1px solid var(--line);border-radius:14px"><table class="tbl"><thead><tr><th>Hora</th><th>Recibo</th><th>Estudiante</th><th>Concepto</th><th>Medio</th><th class="r">Valor</th></tr></thead><tbody>
+  ${ps.map(p => `<tr><td class="num">${new Date(p.registeredAt).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</td><td class="num" style="font-size:12.5px">${esc(p.receiptNumber || '—')}</td><td>${esc(title(p.studentName))}</td><td>${esc(p.concept)}${p.month ? ' ' + esc(p.month.toLowerCase()) : ''}</td><td>${esc(p.paymentMethod || '—')}</td><td class="r">${fmt$(p.paidAmount)}</td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+function openCierre() {
+  S.cierreDate = todayISO();
+  openModal(`${modalHead('Cierre de caja', 'Pagos registrados en el día que elija')}
+  <div class="modal-bd"><div class="field" style="max-width:220px"><label class="lbl" for="cierreDate">Fecha</label><input id="cierreDate" type="date" class="input" data-bind="cierre-date" value="${S.cierreDate}" max="${todayISO()}"></div><div id="cierreBody">${cierreBody(S.cierreDate)}</div></div>
+  <div class="modal-ft"><button class="btn btn-soft" data-act="modal-close">Cerrar</button><button class="btn btn-primary" data-act="cierre-print">${ic('print', 17)}Imprimir cierre</button></div>`, { size: 'wide' });
+}
+function printCierre() {
+  const date = S.cierreDate, ps = cierrePays(date), by = cierreTotals(ps);
+  printHTML('Cierre de caja ' + date, `${printHeader('Cierre de caja', longDate(date))}
+  <div class="info">${Object.entries(by).map(([m, v]) => `<div><small>${esc(m)}</small><b>${fmt$(v)}</b></div>`).join('')}<div><small>Total del día</small><b>${fmt$(sum(ps, p => p.paidAmount))}</b></div><div><small>Recibos</small><b>${new Set(ps.map(p => p.receiptNumber || p.id)).size}</b></div></div>
+  <table class="pt"><thead><tr><th>Hora</th><th>Recibo</th><th>Estudiante</th><th>Curso</th><th>Concepto</th><th>Medio</th><th>Ref.</th><th class="r">Valor</th></tr></thead><tbody>
+  ${ps.map(p => `<tr><td>${new Date(p.registeredAt).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</td><td>${esc(p.receiptNumber || '—')}</td><td>${esc(p.studentName)}</td><td>${esc(p.courseName)}</td><td>${esc(p.concept)}${p.month ? ' ' + esc(p.month.toLowerCase()) : ''}${p.paymentType === 'abono' ? ' (abono)' : ''}</td><td>${esc(p.paymentMethod || '—')}</td><td>${esc(p.referenceNumber || '')}</td><td class="r">${fmt$(p.paidAmount)}</td></tr>`).join('') || '<tr><td colspan="8">Sin pagos</td></tr>'}
+  </tbody><tfoot><tr><td colspan="7">Total</td><td class="r">${fmt$(sum(ps, p => p.paidAmount))}</td></tr></tfoot></table>
+  <div class="sign"><div>Entrega: ${esc(title(S.user.name))}</div><div>Recibe</div></div>`);
+}
+
+/* ===================== 13. CARTILLA DEL PAPÁ ===================== */
+/* Código de acceso = últimos 4 dígitos del documento del estudiante. */
+const accessCode = st => st.docKey.slice(-4);
+const cartillaId = (docKey, code) => sha256hex(`${CARTILLA_SALT}|${docKey}|${code}`);
+async function sha256hex(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+function cartillaPayload(st) {
+  const L = S.ledgers.get(st.key);
+  const rates = {}; Object.keys(LEVELS).forEach(k => { rates[k] = { label: LEVELS[k], matricula: S.tarifas[k].matricula, mensualidad: S.tarifas[k].mensualidad }; });
+  return {
+    v: 2, school: SCHOOL, year: S.year, studentName: st.name, courseName: st.courseName, level: st.level, levelLabel: LEVELS[st.level], docMasked: maskDoc(st.doc),
+    updatedAt: Date.now(), cutMonth: curMonthName(), rates,
+    summary: { due: L.due, paid: L.paid, balance: L.balance, mora: L.mora, discount: L.discount },
+    items: L.items.map(it => ({
+      id: it.id, label: it.label, concept: it.concept, status: it.status, gross: it.gross, discount: it.discount,
+      reason: it.discount && it.source !== 'legacy' ? it.reason : '', due: it.due, paid: it.paid, balance: it.balance,
+      stamps: it.payments.map(p => ({ date: p.paymentDate || '', receipt: p.receiptNumber || '', amount: Number(p.paidAmount) || 0, type: p.paymentType || 'completo', method: p.paymentMethod || '' })),
+    })),
+  };
+}
+async function publishCartilla(st) {
+  if (!st?.docKey) return false;
+  await setDoc(doc(db, 'cartilla_publica', await cartillaId(st.docKey, accessCode(st))), cartillaPayload(st));
+  return true;
+}
+async function publishMany(list, onProgress) {
+  const ready = list.filter(s => s.docKey);
+  for (let i = 0; i < ready.length; i += 400) {
+    const batch = writeBatch(db);
+    for (const st of ready.slice(i, i + 400)) batch.set(doc(db, 'cartilla_publica', await cartillaId(st.docKey, accessCode(st))), cartillaPayload(st));
+    await batch.commit();
+    onProgress?.(Math.min(ready.length, i + 400), ready.length);
+  }
+  return ready.length;
+}
+/* Retira las cartillas publicadas con los códigos al azar de la versión anterior. */
+async function retireOldCodes() {
+  const s = await getDoc(doc(db, 'pagos_config', 'codigos')); if (!s.exists()) return 0;
+  const entries = Object.entries(s.data().items || {}).filter(([k, code]) => code !== k.slice(-4));
+  for (let i = 0; i < entries.length; i += 400) {
+    const b = writeBatch(db);
+    for (const [k, code] of entries.slice(i, i + 400)) b.delete(doc(db, 'cartilla_publica', await cartillaId(k, code)));
+    await b.commit();
+  }
+  await deleteDoc(doc(db, 'pagos_config', 'codigos'));
+  return entries.length;
+}
+async function runPublishAll() {
+  const box = $('#pubProgress');
+  const show = (t, p) => { if (box) box.innerHTML = `<div class="hint">${t}</div><div class="progress"><i style="width:${p}%"></i></div>`; };
+  try {
+    show('Retirando códigos anteriores…', 5);
+    const retired = await retireOldCodes();
+    const n = await publishMany(S.students, (d, t) => show(`Publicando ${d} de ${t}…`, Math.round(d / t * 100)));
+    show(`Listo: ${plural(n, 'cartilla publicada', 'cartillas publicadas')}${retired ? `, ${retired} códigos viejos retirados` : ''}.`, 100);
+    toast('Cartillas publicadas');
+  } catch (e) { console.error(e); show(esc(e.message || e), 0); toast('No se pudo publicar: ' + (e.message || e), 'err'); }
+}
+function slipHTML(st) {
+  return `<div class="slip"><div class="slip-hd"><div class="rcpt-crest">LM</div><div><b>${SCHOOL}</b><small>Consulta de pensión ${S.year}</small></div></div>
+    <div class="slip-name">${esc(st.name)}</div><div class="slip-course">${esc(st.courseName)}</div>
+    <div class="slip-url">${esc(PORTAL_URL.replace('https://', ''))}</div>
+    <div class="slip-how">Entre desde su celular y escriba:<br>Documento del estudiante: <b>${esc(st.doc)}</b><br>Código: los últimos 4 dígitos de ese documento.<br>Verá cada mes pagado con su fecha y número de recibo.</div></div>`;
+}
+function printAccessFor(list) {
+  list = list.filter(s => s?.docKey);
+  if (!list.length) return toast('No hay estudiantes con documento para imprimir', 'warn');
+  printHTML('Avisos cartilla', `<div class="slips">${list.map(slipHTML).join('')}</div>`);
+}
+async function waAccess(st) {
+  if (!st.docKey) return;
+  publishCartilla(st).catch(e => console.error(e));
+  const msg = `Señor(a) acudiente de *${title(st.name)}* (${st.courseName}):\n\nPuede ver el estado de la pensión en el celular:\n${PORTAL_URL}?doc=${encodeURIComponent(st.doc)}\n\nDocumento del estudiante: ${st.doc}\nCódigo: los últimos 4 dígitos del documento.\n\n${SCHOOL}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+}
+
+/* ===================== 14. EVENTOS ===================== */
+const ACTIONS = {
+  'nav': el => go(el.dataset.v),
+  'logout': () => logout(),
+  'burger': () => toggleSidebar(true),
+  'scrim': () => toggleSidebar(false),
+  'refresh': () => refreshAll(),
+  'modal-close': () => closeModal(),
+  'spot': () => { toggleSidebar(false); openSpot(); },
+  'spot-pick': el => spotPick(el.dataset.type, el.dataset.v),
+  'caja-level': el => { S.caja.level = el.dataset.v; S.caja.course = 'all'; S.caja.limit = CARD_LIMIT; renderView(); },
+  'caja-course': el => { S.caja.course = el.dataset.v; S.caja.limit = CARD_LIMIT; renderView(); },
+  'caja-filter': el => { S.caja.filter = el.dataset.v; S.caja.limit = CARD_LIMIT; renderView(); },
+  'more': () => { S.caja.limit += CARD_LIMIT; renderStudentGrid(); },
+  'open-stu': el => openDrawer(el.dataset.k, el.dataset.tab || 'carton'),
+  'drawer-close': () => closeDrawer(),
+  'drawer-tab': el => { S.drawer.tab = el.dataset.v; renderDrawer(); $('#drawer-root .dr-body').scrollTop = 0; },
+  'tile': el => {
+    const st = S.byKey.get(S.drawer?.key); if (!st) return;
+    const it = S.ledgers.get(st.key).items.find(i => i.id === el.dataset.id);
+    if (isSelectable(it)) { const s = S.drawer.sel; s.has(it.id) ? s.delete(it.id) : s.add(it.id); renderDrawer(); }
+    else openPeriodDetail(st, it);
+  },
+  'sel-current': () => {
+    const st = S.byKey.get(S.drawer.key), it = S.ledgers.get(st.key).items[clamp(curMonthIdx(), 0, 9) + 1];
+    if (isSelectable(it)) { S.drawer.sel.add(it.id); renderDrawer(); } else toast(`${it.label} ya está ${ST[it.status].t.toLowerCase()}`, 'warn');
+  },
+  'sel-overdue': () => { S.ledgers.get(S.drawer.key).moraItems.forEach(i => S.drawer.sel.add(i.id)); renderDrawer(); },
+  'charge': () => openCharge(S.byKey.get(S.drawer.key), [...S.drawer.sel]),
+  'chg-disc': el => { S.chg.discMode = el.dataset.v; S.chg.amountTouched = false; refreshCharge(); },
+  'chg-method': el => { S.chg.method = el.dataset.v; $$('#chgMethods .chip').forEach(b => b.classList.toggle('on', b.dataset.v === el.dataset.v)); },
+  'chg-quick': el => { S.chg.amountTouched = true; $('#chgAmount').value = moneyInput(el.dataset.v); refreshCharge(); },
+  'chg-save': () => saveCharge(),
+  'edit-discount': el => openDiscount(S.byKey.get(el.dataset.k)),
+  'disc-save': () => saveDiscount(),
+  'disc-remove': () => removeDiscount(),
+  'print-access': el => printAccessFor([S.byKey.get(el.dataset.k)]),
+  'wa-access': el => waAccess(S.byKey.get(el.dataset.k)),
+  'print-course-codes': el => { const cid = el.dataset.c || $('#portalCourse')?.value; printAccessFor(S.students.filter(s => s.courseId === cid)); },
+  'receipt': (el, e) => { if (e.target.closest('[data-act="proof"]')) return; openReceipt(el.dataset.rec, el.dataset.pid); },
+  'print-receipt': el => printReceipt(el.dataset.rec, el.dataset.pid),
+  'proof': el => viewProof(el.dataset.pid),
+  'print-statement': el => printStatement(S.byKey.get(el.dataset.k)),
+  'mor-go': el => { S.mor.concept = el.dataset.v || 'all'; go('morosos'); },
+  'mor-concept': el => { S.mor.concept = el.dataset.v; renderView(); },
+  'mor-print': () => printMorosos(),
+  'rec-print': () => printRecaudo(),
+  'hist-csv': () => exportCSV(),
+  'cierre': () => openCierre(),
+  'cierre-print': () => printCierre(),
+  'publish-all': el => { el.disabled = true; return runPublishAll().finally(() => { el.disabled = false; }); },
+  'copy': el => copyText(el.dataset.text),
+  'copy-rules': () => copyText(RULES),
+  'save-tarifas': () => saveTarifas(),
+  'save-cashiers': () => saveCashiers(),
+};
+const BINDS = {
+  'spot-q': el => { S.spot.q = el.value; S.spot.idx = 0; renderSpotList(); },
+  'caja-q': el => { S.caja.q = el.value; S.caja.limit = CARD_LIMIT; renderStudentGrid(); },
+  'mor-level': el => { S.mor.level = el.value; S.mor.course = 'all'; renderView(); },
+  'mor-course': el => { S.mor.course = el.value; renderView(); },
+  'rec-level': el => { S.rec.level = el.value; S.rec.course = 'all'; renderView(); },
+  'rec-course': el => { S.rec.course = el.value; renderView(); },
+  'hist-q': el => { S.hist.q = el.value; $('#histTable').innerHTML = histTableHTML(); },
+  'hist-course': el => { S.hist.course = el.value; renderView(); },
+  'hist-concept': el => { S.hist.concept = el.value; renderView(); },
+  'hist-month': el => { S.hist.month = el.value; renderView(); },
+  'hist-method': el => { S.hist.method = el.value; renderView(); },
+  'chg-amount': el => { S.chg.amountTouched = true; el.value = moneyInput(el.value); refreshCharge(); },
+  'chg-dtipo': el => { S.chg.discTipo = el.value; refreshCharge(); },
+  'chg-dvalor': el => { S.chg.discValor = num(el.value); if (S.chg.discTipo === 'valor') el.value = moneyInput(el.value); S.chg.amountTouched = false; refreshCharge(); },
+  'chg-dmotivo': el => { S.chg.discMotivo = el.value; refreshCharge(); },
+  'chg-ddetalle': el => { S.chg.discDetalle = el.value.trim(); refreshCharge(); },
+  'chg-date': el => { S.chg.date = el.value; },
+  'chg-ref': el => { S.chg.ref = el.value.trim(); },
+  'chg-obs': el => { S.chg.obs = el.value.trim(); },
+  'chg-proof': el => handleProof(el),
+  'cierre-date': el => { S.cierreDate = el.value; $('#cierreBody').innerHTML = cierreBody(el.value); },
+};
+async function run(fn) { try { await fn(); } catch (e) { console.error(e); toast(e.message || 'Ocurrió un error', 'err'); } }
+const isTexty = el => el && (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && !['file', 'checkbox', 'radio', 'date'].includes(el.type)));
+
+document.addEventListener('click', e => {
+  if (e.target.classList?.contains('modal-back')) return closeModal();
+  if (e.target.classList?.contains('drawer-back')) return closeDrawer();
+  const el = e.target.closest('[data-act]');
+  if (!el || el.disabled) return;
+  const fn = ACTIONS[el.dataset.act];
+  if (fn) { if (el.tagName !== 'LABEL') e.preventDefault(); run(() => fn(el, e)); }
+});
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.matches?.('[data-money]')) el.value = moneyInput(el.value);
+  const b = el.dataset?.bind;
+  if (b && BINDS[b] && isTexty(el)) run(() => BINDS[b](el));
+});
+document.addEventListener('change', e => { const el = e.target, b = el.dataset?.bind; if (b && BINDS[b] && !isTexty(el)) run(() => BINDS[b](el)); });
+document.addEventListener('keydown', e => {
+  const k = e.key;
+  if ((e.ctrlKey || e.metaKey) && k.toLowerCase() === 'k' && S.user) { e.preventDefault(); return S.spot ? closeModal() : openSpot(); }
+  if (k === '/' && S.user && !isTexty(document.activeElement) && !$('#modal-root').innerHTML) { e.preventDefault(); return openSpot(); }
+  if (k === 'Escape') { if ($('#modal-root').innerHTML) return closeModal(); if (S.drawer) return closeDrawer(); toggleSidebar(false); }
+  if (S.spot && e.target.id === 'spotQ') {
+    if (k === 'ArrowDown' || k === 'ArrowUp') { e.preventDefault(); S.spot.idx = clamp(S.spot.idx + (k === 'ArrowDown' ? 1 : -1), 0, Math.max(0, S.spot.items.length - 1)); renderSpotList(); }
+    if (k === 'Enter') { e.preventDefault(); const it = S.spot.items[S.spot.idx]; if (it) spotPick(it.type, it.v); }
+  }
+  if ((k === 'Enter' || k === ' ') && e.target.classList?.contains('mt')) { e.preventDefault(); e.target.click(); }
+});
+window.addEventListener('scroll', () => $('#topbar')?.classList.toggle('scrolled', window.scrollY > 4), { passive: true });
+
+/* ---------- Login ---------- */
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#loginError'), btn = $('#loginBtn');
+  err.textContent = '';
+  const rem = lockRemaining();
+  if (rem) { err.textContent = `Acceso bloqueado. Intente de nuevo en ${Math.ceil(rem / 60000)} min.`; return; }
+  btn.disabled = true; btn.textContent = 'Verificando…';
+  try {
+    if (!S.systemLoaded) await loadSystem();
+    const u = tryLogin($('#loginId').value, $('#loginKey').value);
+    if (!u) {
+      const fails = (readLock().fails || 0) + 1;
+      if (fails >= LOCK.attempts) { writeLock({ fails: 0, until: Date.now() + LOCK.minutes * 60000 }); err.textContent = `Demasiados intentos. Acceso bloqueado ${LOCK.minutes} minutos.`; }
+      else { writeLock({ fails }); err.textContent = `Usuario o clave incorrectos. Le quedan ${LOCK.attempts - fails} intento(s).`; }
+      return;
+    }
+    writeLock({}); S.user = u; saveSession(); await enterApp();
+  } catch (ex) { console.error(ex); err.textContent = 'No hay conexión con la base de datos. Revise internet.'; }
+  finally { btn.disabled = false; btn.textContent = 'Ingresar'; }
+});
+
+/* ---------- Arranque ---------- */
+document.head.insertAdjacentHTML('beforeend', `<style>${RCPT_CSS}</style>`);
+(async function boot() {
+  try { await loadSystem(); } catch (e) { console.error(e); $('#loginError').textContent = 'No se pudo conectar con la base de datos. Revise internet y recargue.'; return; }
+  const sess = readSession();
+  if (sess) { S.user = sess; if (refreshUserFlags()) { saveSession(); await enterApp(); } else sessionStorage.removeItem(SESSION_KEY); }
+})();
+</script>
+</body>
+</html>

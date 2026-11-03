@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#1a237e">
+<meta name="robots" content="noindex">
+<title>Estado de pensión · Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a237e; --navy-d:#0e1450; --navy-50:#eef0fb;
+  --red:#c0392b; --red-50:#fdf0ee; --red-100:#f6d3cd;
+  --green:#27ae60; --green-d:#1d8a4b; --green-50:#ecf8f1; --green-100:#c9ebd6;
+  --orange:#ff5a00; --orange-50:#fff3eb; --orange-100:#ffd9c2;
+  --blue:#2f5bd3; --blue-50:#eef2fd; --blue-100:#d3defa;
+  --bg:#f3f4f8; --line:#e6e8f0; --line-2:#f0f1f6; --text:#121633; --muted:#687090; --faint:#9aa0b8;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--text);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;text-align:inherit}
+input{font:inherit;color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2.5px solid var(--navy);outline-offset:2px;border-radius:8px}
+.ic{display:block;flex-shrink:0}
+.num{font-family:var(--mono);font-feature-settings:"tnum";letter-spacing:-.01em}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* barra superior */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top-in{max-width:780px;margin:0 auto;height:62px;padding:0 18px;display:flex;align-items:center;gap:12px}
+.crest{width:38px;height:38px;border-radius:12px;background:linear-gradient(140deg,var(--navy) 0%,#5a2a7a 60%,var(--red) 100%);display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;letter-spacing:-.02em;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.top b{display:block;font-size:14.5px;line-height:1.2;white-space:nowrap}.top small{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.top .btn-quiet{white-space:nowrap}
+.top .grow{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 22px;border-radius:14px;font-weight:700;font-size:15px;transition:background .15s,transform .06s,opacity .15s;white-space:nowrap}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{opacity:.5}
+.btn-primary{background:var(--navy);color:#fff;width:100%}.btn-primary:hover:not(:disabled){background:var(--navy-d)}
+.btn-soft{background:#fff;border:1.5px solid var(--line);height:44px;font-size:14px;padding:0 16px}.btn-soft:hover{border-color:#cdd1e1}
+.btn-quiet{height:38px;padding:0 12px;font-size:13.5px;color:var(--muted);border-radius:11px}.btn-quiet:hover{background:var(--line-2);color:var(--text)}
+.wrap{max-width:780px;margin:0 auto;padding:22px 18px 40px}
+
+/* ============ ACCESO ============ */
+.access{max-width:440px;margin:4vh auto 0}
+.access-hero{text-align:center;margin-bottom:22px}
+.mini-months{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+.mini-months span{width:40px;height:46px;border-radius:11px;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;font-size:10.5px;font-weight:800;color:var(--muted)}
+.mini-months span.ok{background:var(--green-50);border-color:var(--green-100);color:var(--green-d)}
+.access-hero h1{font-size:27px;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.access-hero p{color:var(--muted);margin-top:8px;font-size:15px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 1px 2px rgba(18,22,51,.04),0 18px 40px -22px rgba(18,22,51,.28)}
+.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:7px}
+.input{width:100%;height:56px;border:1.5px solid var(--line);border-radius:15px;padding:0 16px;background:#fff;outline:none;font-size:19px;font-family:var(--mono);letter-spacing:.02em;transition:border .15s,box-shadow .15s}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(26,35,126,.10)}
+.field{margin-bottom:18px}
+.otp{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.otp input{height:62px;text-align:center;font-size:26px;font-weight:700;padding:0;border-radius:15px}
+.help{font-size:13px;color:var(--muted);margin-top:8px}
+.remember{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);margin:4px 0 16px;cursor:pointer}
+.remember input{width:19px;height:19px;accent-color:var(--navy)}
+.err{color:var(--red);font-size:14px;font-weight:600;min-height:22px;margin-bottom:10px}
+.saved{margin-bottom:18px}
+.saved-t{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.kid{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;border:1.5px solid var(--line);border-radius:16px;background:#fff;margin-bottom:8px;width:100%;cursor:pointer;transition:border .15s}
+.kid:hover{border-color:var(--navy)}
+.kid .av{width:40px;height:40px;border-radius:12px;background:linear-gradient(140deg,#4b5bd6,var(--navy));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.kid .who{flex:1;min-width:0}.kid b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kid small{color:var(--muted);font-size:12.5px}
+.kid .x{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--faint)}
+.kid .x:hover{background:var(--line-2);color:var(--text)}
+.spinner{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ CARNÉ ============ */
+.carnet{position:relative;overflow:hidden;border-radius:24px;color:#fff;padding:22px 22px 20px;min-height:220px;display:flex;flex-direction:column;
+  background:
+    radial-gradient(120% 140% at 100% 0%,rgba(255,90,0,.38) 0%,transparent 42%),
+    radial-gradient(90% 120% at 0% 100%,rgba(192,57,43,.45) 0%,transparent 50%),
+    linear-gradient(135deg,#1e2a9a 0%,var(--navy) 40%,#241466 70%,#3d1450 100%);
+  box-shadow:0 2px 4px rgba(14,20,80,.18),0 30px 60px -24px rgba(14,20,80,.6),inset 0 1px 0 rgba(255,255,255,.18);
+  animation:rise .6s var(--ease) both}
+@keyframes rise{from{transform:translateY(14px) scale(.985);opacity:0}}
+.carnet::before{content:"";position:absolute;inset:0;opacity:.13;pointer-events:none;
+  background:repeating-radial-gradient(circle at 85% 120%,transparent 0 10px,rgba(255,255,255,.9) 10px 11px),repeating-radial-gradient(circle at -10% -20%,transparent 0 14px,rgba(255,255,255,.7) 14px 15px)}
+.carnet::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,rgba(255,255,255,.20) 0%,rgba(255,255,255,.04) 28%,transparent 42%)}
+.cn-top{position:relative;z-index:1;display:flex;align-items:center;gap:12px}
+.cn-top .crest{background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.cn-top>div:not(.crest){min-width:0}.cn-top b{display:block;font-size:14px;line-height:1.25}.cn-top small{opacity:.7;font-size:12.5px}
+@media(max-width:420px){.cn-top b{font-size:12.5px}.cn-top .crest{width:34px;height:34px;font-size:12px}}
+.cn-state{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap;flex-shrink:0;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.cn-state i{width:9px;height:9px;border-radius:50%;background:#56e39a;box-shadow:0 0 0 3px rgba(86,227,154,.25)}
+.cn-state.bad i{background:#ff8b7a;box-shadow:0 0 0 3px rgba(255,139,122,.25)}
+.cn-name{position:relative;z-index:1;font-size:clamp(24px,6vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin:auto 0 16px;padding-top:26px;max-width:16ch}
+.cn-row{position:relative;z-index:1;display:flex;gap:26px;flex-wrap:wrap}
+.cn-row small{display:block;font-size:12px;opacity:.65}
+.cn-row b{font-size:14.5px;font-weight:700}
+.holo{position:absolute;z-index:1;right:22px;bottom:20px;width:54px;height:54px;border-radius:50%;
+  background:conic-gradient(from 20deg,#ffd1e8,#c5d4ff,#b9ffe9,#fff4b3,#ffc8b0,#ffd1e8);opacity:.85;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 4px 14px rgba(0,0,0,.25);
+  -webkit-mask:radial-gradient(circle,transparent 0 9px,#000 9.5px);mask:radial-gradient(circle,transparent 0 9px,#000 9.5px)}
+@media(max-width:520px){.holo{width:44px;height:44px;right:16px;bottom:16px}.cn-row{gap:18px}}
+
+/* ============ RESUMEN ============ */
+.summary{display:flex;align-items:center;gap:20px;margin-top:16px}
+.ring{position:relative;width:112px;height:112px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .pct b{font-family:var(--mono);font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.ring .pct small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.summary h2{font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.summary p{color:var(--muted);margin-top:4px}
+.summary p b{color:var(--text);font-family:var(--mono);font-weight:700}
+.next{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:7px 12px;border-radius:12px;background:var(--orange-50);color:#a83c00;font-size:13.5px;font-weight:600}
+.next.ok{background:var(--green-50);color:var(--green-d)}
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:16px;background:var(--red-50);border:1px solid var(--red-100);color:#8c2016;margin-top:16px}
+.alert b{display:block;font-size:15px}.alert span{font-size:13.5px}
+
+/* ============ MESES ============ */
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:28px 0 12px}
+.sec h3{font-size:17px;font-weight:800;letter-spacing:-.015em}
+.sec small{color:var(--muted);font-size:13px}
+.list{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:680px){.list{grid-template-columns:1fr 1fr}.list .row.mat{grid-column:1/-1}}
+.row{background:#fff;border:1.5px solid var(--line);border-radius:18px;overflow:hidden;transition:border .15s,box-shadow .15s}
+.row-hd{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 14px;width:100%}
+.r-ic{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex-shrink:0}
+.r-main{flex:1;min-width:0}
+.r-main b{display:block;font-size:15.5px;font-weight:800}
+.r-main small{display:block;font-size:13px;color:var(--muted);line-height:1.35}
+.r-end{text-align:right;flex-shrink:0}
+.r-end b{display:block;font-family:var(--mono);font-size:14.5px;font-weight:700}
+.r-rec{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:7px;margin-top:3px}
+.chev{color:var(--faint);transition:transform .2s;flex-shrink:0}
+.row.open .chev{transform:rotate(90deg)}
+.row.pagado,.row.exento{border-color:var(--green-100)}
+.row.pagado .r-ic,.row.exento .r-ic{background:var(--green);color:#fff}
+.row.pagado .r-main small,.row.exento .r-main small{color:var(--green-d);font-weight:600}
+.row.pagado .r-rec,.row.exento .r-rec{background:var(--green-50);color:var(--green-d)}
+.row.abonado{border-color:var(--blue-100)}.row.abonado .r-ic{background:var(--blue-50);color:var(--blue)}.row.abonado .r-main small{color:var(--blue);font-weight:600}
+.row.abonado .r-rec{background:var(--blue-50);color:var(--blue)}
+.row.vencido{border-color:var(--red-100);background:linear-gradient(180deg,#fff,var(--red-50))}.row.vencido .r-ic{background:var(--red-50);color:var(--red)}.row.vencido .r-main small{color:var(--red);font-weight:600}
+.row.del_mes{border-color:var(--orange-100)}.row.del_mes .r-ic{background:var(--orange-50);color:var(--orange)}.row.del_mes .r-main small{color:#a83c00;font-weight:600}
+.row.proximo,.row.sin_tarifa{border-style:dashed;background:transparent}.row.proximo .r-ic,.row.sin_tarifa .r-ic{background:var(--line-2);color:var(--faint)}
+.row.proximo .r-end b,.row.sin_tarifa .r-end b{color:var(--muted)}
+.prog{height:6px;border-radius:999px;background:var(--blue-100);overflow:hidden;margin-top:7px;max-width:220px}
+.prog i{display:block;height:100%;background:var(--blue);border-radius:999px}
+.row-bd{padding:0 14px 14px 66px}
+.pay{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line-2);font-size:13.5px}
+.pay .p-main{flex:1;min-width:0}.pay b{display:block}.pay small{color:var(--muted);font-size:12.5px}
+.pay .p-amt{font-family:var(--mono);font-weight:700}
+.disc{font-size:13px;color:var(--green-d);padding:10px 0 2px;border-top:1px solid var(--line-2)}
+.none{font-size:13.5px;color:var(--muted);padding:10px 0 0;border-top:1px solid var(--line-2)}
+
+/* ============ TARIFAS ============ */
+.rates{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.rates table{width:100%;border-collapse:collapse;font-size:14px}
+.rates th{text-align:left;font-size:12.5px;color:var(--muted);font-weight:600;padding:12px 16px;border-bottom:1px solid var(--line);background:#fafbfd}
+.rates td{padding:13px 16px;border-bottom:1px solid var(--line-2)}
+.rates tr:last-child td{border-bottom:0}
+.rates .r{text-align:right;font-family:var(--mono);white-space:nowrap}
+.rates th.r{font-family:var(--font)}
+.rates tr.mine td{background:var(--navy-50);font-weight:700}
+.rates tr.mine td:first-child{box-shadow:inset 3px 0 0 var(--navy)}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;background:var(--navy);color:#fff;border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:1px}
+
+.foot-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.updated{text-align:center;color:var(--faint);font-size:12.5px;margin-top:14px}
+.legal{text-align:center;color:var(--muted);font-size:12.5px;max-width:520px;margin:26px auto 0;line-height:1.55}
+
+@media print{
+  body{background:#fff}.top,.foot-actions,.legal,.chev{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .carnet,.row,.rates{box-shadow:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid}
+  .row-bd[hidden]{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="top-in"><div class="crest">LM</div><div><b>Liceo Moderno Suesca</b><small>Estado de pensión</small></div><span class="grow"></span><button class="btn-quiet" id="btnOther" hidden data-a="other">Otro estudiante</button></div></header>
+
+<main class="wrap">
+  <!-- ========== ACCESO ========== -->
+  <section id="access" class="access">
+    <div class="access-hero">
+      <div class="mini-months" aria-hidden="true"><span class="ok">FEB</span><span class="ok">MAR</span><span class="ok">ABR</span><span>MAY</span><span>JUN</span></div>
+      <h1>¿Cómo va la pensión de su hijo?</h1>
+      <p>Mes por mes, con la fecha del pago y el número de recibo.</p>
+    </div>
+    <div id="saved" class="saved"></div>
+    <form class="panel" id="accessForm" autocomplete="off" novalidate>
+      <div class="field"><label class="lbl" for="fDoc">Documento del estudiante</label><input class="input" id="fDoc" inputmode="numeric" placeholder="Ej: 1023456789" required></div>
+      <div class="field" style="margin-bottom:10px"><label class="lbl" id="codeLbl">Código de acceso</label>
+        <div class="otp" role="group" aria-labelledby="codeLbl"></div>
+        <p class="help">Son los últimos 4 dígitos del documento del estudiante.</p></div>
+      <label class="remember"><input type="checkbox" id="fRemember" checked> Recordar en este celular</label>
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn btn-primary" id="btnGo" type="submit">Ver estado de pensión</button>
+    </form>
+    <p class="legal">Si pagó y no lo ve aquí, acérquese a coordinación con su recibo. El recibo entregado por el colegio es su soporte oficial.</p>
+  </section>
+
+  <!-- ========== RESULTADO ========== -->
+  <section id="card" hidden></section>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0",
+  authDomain: "liceo-suesca-notas.firebaseapp.com",
+  projectId: "liceo-suesca-notas",
+  storageBucket: "liceo-suesca-notas.firebasestorage.app",
+  messagingSenderId: "1000406739498",
+  appId: "1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+
+const MESES = ["Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre"];
+const LEVELS = { preescolar: 'Preescolar', primaria: 'Primaria', secundaria: 'Secundaria', tecnica: 'Técnica' };
+const CARTILLA_SALT = 'LMS-CARTILLA';          // igual en pagos.html
+const KIDS_KEY = 'lms_cartilla_hijos2';
+const LOCK_KEY = 'lms_cartilla_lock';
+const LOCK = { attempts: 5, minutes: 3 };
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const COP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+const fmt$ = n => COP.format(Math.round(Number(n) || 0));
+const docKeyOf = d => String(d ?? '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+const parseISO = s => { const [y, m, d] = String(s || '').split('-').map(Number); return new Date(y || 1970, (m || 1) - 1, d || 1); };
+const longDate = s => s ? parseISO(s).toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+const title = n => String(n || '').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+async function sha256hex(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+const cartillaId = (docKey, code) => sha256hex(`${CARTILLA_SALT}|${docKey}|${code}`);
+
+const ICONS = {
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>', alert: '<path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', half: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>',
+  dot: '<circle cx="12" cy="12" r="3"/>', chevR: '<path d="m9 6 6 6-6 6"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  print: '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+};
+const ic = (n, s = 20, w = 2) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+
+/* ---------- Código de 4 casillas ---------- */
+const otpBox = $('.otp');
+otpBox.innerHTML = [0, 1, 2, 3].map(i => `<input class="input" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Dígito ${i + 1}" data-i="${i}">`).join('');
+const otps = $$('.otp input');
+const otpValue = () => otps.map(i => i.value).join('').toUpperCase();
+function setOtp(v) { const s = String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 4); otps.forEach((i, k) => { i.value = s[k] || ''; }); }
+otps.forEach((inp, i) => {
+  inp.addEventListener('input', () => {
+    const v = inp.value.toUpperCase().replace(/[^0-9A-Z]/g, '');
+    if (v.length > 1) { setOtp(otpValue().slice(0, i) + v); otps[Math.min(3, i + v.length)].focus(); return; }
+    inp.value = v; if (v && i < 3) otps[i + 1].focus();
+    if (otpValue().length === 4 && docKeyOf($('#fDoc').value).length >= 4) $('#accessForm').requestSubmit();
+  });
+  inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && i > 0) { otps[i - 1].focus(); otps[i - 1].value = ''; } });
+  inp.addEventListener('paste', e => { e.preventDefault(); setOtp((e.clipboardData || window.clipboardData).getData('text')); otps[3].focus(); });
+  inp.addEventListener('focus', () => inp.select());
+});
+
+/* ---------- Hijos guardados y bloqueo ---------- */
+const readJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || 'null') ?? d; } catch { return d; } };
+const writeJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } };
+const kids = () => readJSON(KIDS_KEY, []);
+function rememberKid(k) { writeJSON(KIDS_KEY, [k, ...kids().filter(x => x.docKey !== k.docKey)].slice(0, 6)); }
+function forgetKid(docKey) { writeJSON(KIDS_KEY, kids().filter(x => x.docKey !== docKey)); renderSaved(); }
+function renderSaved() {
+  const list = kids();
+  $('#saved').innerHTML = list.length ? `<div class="saved-t">Sus consultas</div>` + list.map(k => `<div class="kid" role="button" tabindex="0" data-open="${esc(k.docKey)}"><span class="av">${esc(initials(k.name))}</span><span class="who"><b>${esc(title(k.name))}</b><small>${esc(k.course)}</small></span><button type="button" class="x" data-forget="${esc(k.docKey)}" aria-label="Quitar de este celular">${ic('x', 18)}</button>${ic('chevR', 20)}</div>`).join('') : '';
+}
+const lockLeft = () => { const l = readJSON(LOCK_KEY, {}); return l.until && l.until > Date.now() ? l.until - Date.now() : 0; };
+
+/* ---------- Estado con la fecha de hoy ---------- */
+function curIdx(year) { const now = new Date(), y = now.getFullYear(); if (y > year) return MESES.length; if (y < year) return -1; return Math.max(0, Math.min(MESES.length - 1, now.getMonth() - 1)); }
+function liveItem(it, cur) {
+  const idx = it.id === 'MAT' ? -1 : MESES.indexOf(it.id), overdue = idx < cur;
+  let status = it.status;
+  if (!['pagado', 'exento', 'sin_tarifa'].includes(status)) status = it.paid > 0 && it.balance > 0 ? 'abonado' : (overdue ? 'vencido' : (idx === cur ? 'del_mes' : 'proximo'));
+  return { ...it, idx, overdue, status, inMora: it.balance > 0 && overdue && status !== 'sin_tarifa' };
+}
+
+/* ---------- Render ---------- */
+let CURRENT = null;
+function rowHTML(it) {
+  const last = it.stamps?.[it.stamps.length - 1];
+  let icon, sub, end = `<b>${it.status === 'sin_tarifa' ? '—' : fmt$(it.due)}</b>`, extra = '';
+  switch (it.status) {
+    case 'pagado': icon = ic('check', 20, 2.8); sub = `Pagado el ${esc(longDate(last?.date))}`; if (last?.receipt) end += `<span class="r-rec">${esc(last.receipt)}</span>`; break;
+    case 'exento': icon = ic('check', 20, 2.8); sub = 'Exento por descuento'; break;
+    case 'abonado': icon = ic('half', 20, 1.6); sub = `Abonó ${fmt$(it.paid)}, le falta ${fmt$(it.balance)}${it.overdue ? ' (vencido)' : ''}`; if (last?.receipt) end += `<span class="r-rec">${esc(last.receipt)}</span>`; extra = `<div class="prog"><i style="width:${Math.round(it.paid / it.due * 100)}%"></i></div>`; break;
+    case 'vencido': icon = ic('alert', 20); sub = 'Pendiente, ya está vencido'; break;
+    case 'del_mes': icon = ic('clock', 20); sub = 'Vence este mes'; break;
+    case 'sin_tarifa': icon = ic('dot', 20); sub = 'Sin valor configurado'; break;
+    default: icon = ic('dot', 20); sub = 'Próximo';
+  }
+  const body = (it.stamps?.length ? it.stamps.slice().reverse().map(s => `<div class="pay"><span class="p-main"><b>${s.type === 'abono' ? 'Abono' : s.type === 'saldo' ? 'Pago del saldo' : 'Pago'}${s.receipt ? `, recibo ${esc(s.receipt)}` : ''}</b><small>${esc(longDate(s.date))}${s.method ? ', ' + esc(s.method.toLowerCase()) : ''}</small></span><span class="p-amt">${fmt$(s.amount)}</span></div>`).join('') : `<div class="none">Aún no hay pagos de ${esc(it.label.toLowerCase())}.</div>`)
+    + (it.discount > 0 && it.reason ? `<div class="disc">Descuento de ${fmt$(it.discount)} sobre ${fmt$(it.gross)}: ${esc(it.reason.toLowerCase())}.</div>` : '');
+  return `<div class="row ${it.status} ${it.id === 'MAT' ? 'mat' : ''}" data-row="${esc(it.id)}">
+    <button class="row-hd" data-toggle="${esc(it.id)}" aria-expanded="false"><span class="r-ic">${icon}</span><span class="r-main"><b>${esc(it.label)}</b><small>${sub}</small>${extra}</span><span class="r-end">${end}</span>${ic('chevR', 18)}</button>
+    <div class="row-bd" hidden>${body}</div></div>`;
+}
+function ringSVG(pct) {
+  const r = 48, c = 2 * Math.PI * r, off = c * (1 - pct / 100);
+  return `<svg width="112" height="112" viewBox="0 0 112 112"><circle cx="56" cy="56" r="${r}" fill="none" stroke="#e6e8f0" stroke-width="11"/><circle cx="56" cy="56" r="${r}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a237e"/><stop offset="1" stop-color="#27ae60"/></linearGradient></defs></svg>`;
+}
+function renderCard(d) {
+  const cur = curIdx(d.year), items = d.items.map(it => liveItem(it, cur));
+  CURRENT = { ...d, items };
+  const mora = items.filter(i => i.inMora), moraTotal = mora.reduce((a, i) => a + i.balance, 0);
+  const due = items.reduce((a, i) => a + (i.due || 0), 0), paid = items.reduce((a, i) => a + (i.paid || 0), 0);
+  const pct = due ? Math.min(100, Math.round(paid / due * 100)) : 0;
+  const next = items.find(i => i.balance > 0 && i.status !== 'sin_tarifa' && !i.inMora);
+  const done = items.every(i => ['pagado', 'exento', 'sin_tarifa'].includes(i.status)) && items.some(i => ['pagado', 'exento'].includes(i.status));
+  const lastPaid = [...items].reverse().find(i => ['pagado', 'exento'].includes(i.status));
+  const head = mora.length ? 'Tiene pagos vencidos' : done ? 'Año pagado completo' : 'Va al día';
+  const rates = d.rates || {};
+  $('#card').innerHTML = `
+  <div class="carnet">
+    <div class="cn-top"><div class="crest">LM</div><div><b>I.E.T. Liceo Moderno Suesca</b><small>Pensión ${esc(d.year)}</small></div><span class="cn-state ${mora.length ? 'bad' : ''}"><i></i>${mora.length ? 'En mora' : 'Al día'}</span></div>
+    <div class="cn-name">${esc(title(d.studentName))}</div>
+    <div class="cn-row"><div><small>Curso</small><b>${esc(d.courseName)}</b></div><div><small>Nivel</small><b>${esc(d.levelLabel || LEVELS[d.level] || '')}</b></div><div><small>Documento</small><b class="num">${esc(d.docMasked)}</b></div></div>
+    <span class="holo" aria-hidden="true"></span>
+  </div>
+  <div class="summary">
+    <div class="ring">${ringSVG(pct)}<div class="pct"><div><b>${pct}%</b><small>pagado</small></div></div></div>
+    <div><h2>${head}</h2><p>Ha pagado <b>${fmt$(paid)}</b> de <b>${fmt$(due)}</b> del año.</p>
+      ${!mora.length && next ? `<span class="next">${ic('cal', 17)}Siguiente: ${esc(next.label.toLowerCase())}, ${fmt$(next.balance)}${next.status === 'del_mes' ? ', vence este mes' : ''}</span>` : ''}
+      ${!mora.length && !next && lastPaid ? `<span class="next ok">${ic('check', 17, 2.6)}Todo pagado hasta ${esc(lastPaid.label.toLowerCase())}</span>` : ''}</div>
+  </div>
+  ${mora.length ? `<div class="alert">${ic('alert', 22)}<div><b>Debe ${fmt$(moraTotal)}</b><span>${mora.map(i => i.label.toLowerCase() + (i.status === 'abonado' ? ' (saldo)' : '')).join(', ').replace(/^./, c => c.toUpperCase())}. Acérquese a coordinación para ponerse al día.</span></div></div>` : ''}
+  <div class="sec"><h3>Matrícula y pensiones</h3><small>Toque un mes para ver el detalle</small></div>
+  <div class="list">${items.map(rowHTML).join('')}</div>
+  ${Object.keys(rates).length ? `<div class="sec"><h3>Valores ${esc(d.year)}</h3><small>Por nivel</small></div>
+  <div class="rates"><table><thead><tr><th>Nivel</th><th class="r">Matrícula</th><th class="r">Pensión mensual</th></tr></thead><tbody>
+    ${Object.keys(LEVELS).filter(k => rates[k]).map(k => `<tr class="${k === d.level ? 'mine' : ''}"><td>${esc(rates[k].label || LEVELS[k])}${k === d.level ? '<span class="tag">su nivel</span>' : ''}</td><td class="r">${rates[k].matricula ? fmt$(rates[k].matricula) : '—'}</td><td class="r">${rates[k].mensualidad ? fmt$(rates[k].mensualidad) : '—'}</td></tr>`).join('')}
+  </tbody></table></div>` : ''}
+  <div class="foot-actions"><button class="btn btn-soft" data-a="print">${ic('print', 18)}Imprimir o guardar en PDF</button><button class="btn btn-soft" data-a="other">${ic('user', 18)}Consultar otro estudiante</button></div>
+  <p class="updated">Actualizado el ${new Date(d.updatedAt || Date.now()).toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })}</p>
+  <p class="legal">Si pagó y no lo ve aquí, acérquese a coordinación con su recibo. El recibo entregado por el colegio es su soporte oficial.</p>`;
+  $('#access').hidden = true; $('#card').hidden = false; $('#btnOther').hidden = false;
+  window.scrollTo({ top: 0 });
+}
+function showAccess() {
+  $('#card').hidden = true; $('#access').hidden = false; $('#btnOther').hidden = true;
+  $('#fDoc').value = ''; setOtp(''); $('#err').textContent = ''; renderSaved(); window.scrollTo({ top: 0 }); $('#fDoc').focus();
+}
+
+/* ---------- Consulta ---------- */
+async function lookup(docRaw, codeRaw, remember) {
+  const err = $('#err'), btn = $('#btnGo');
+  err.textContent = '';
+  const left = lockLeft();
+  if (left) { err.textContent = `Demasiados intentos. Intente de nuevo en ${Math.ceil(left / 60000)} min.`; return; }
+  const docKey = docKeyOf(docRaw), code = String(codeRaw || '').toUpperCase();
+  if (docKey.length < 4) { err.textContent = 'Escriba el número de documento completo del estudiante.'; return; }
+  if (code.length !== 4) { err.textContent = 'Escriba los 4 dígitos del código.'; return; }
+  if (code !== docKey.slice(-4)) { err.textContent = 'El código no coincide: son los últimos 4 dígitos del documento.'; return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Buscando…';
+  try {
+    const snap = await getDoc(doc(db, 'cartilla_publica', await cartillaId(docKey, code)));
+    if (!snap.exists()) {
+      const fails = (readJSON(LOCK_KEY, {}).fails || 0) + 1;
+      if (fails >= LOCK.attempts) { writeJSON(LOCK_KEY, { fails: 0, until: Date.now() + LOCK.minutes * 60000 }); err.textContent = `No encontramos ese documento. Por seguridad, espere ${LOCK.minutes} minutos.`; }
+      else { writeJSON(LOCK_KEY, { fails }); err.textContent = 'No encontramos un estudiante con ese documento. Revíselo o pregunte en coordinación.'; }
+      return;
+    }
+    writeJSON(LOCK_KEY, {});
+    const d = snap.data();
+    if (remember) rememberKid({ docKey, name: d.studentName, course: d.courseName });
+    renderCard(d);
+  } catch (e) { console.error(e); err.textContent = 'No hay conexión en este momento. Intente de nuevo.'; }
+  finally { btn.disabled = false; btn.textContent = 'Ver estado de pensión'; }
+}
+
+/* ---------- Eventos ---------- */
+$('#accessForm').addEventListener('submit', e => { e.preventDefault(); lookup($('#fDoc').value, otpValue(), $('#fRemember').checked); });
+$('#fDoc').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); otps[0].focus(); } });
+document.addEventListener('click', e => {
+  const f = e.target.closest('[data-forget]'); if (f) { e.stopPropagation(); return forgetKid(f.dataset.forget); }
+  const o = e.target.closest('[data-open]'); if (o) return lookup(o.dataset.open, o.dataset.open.slice(-4), true);
+  const t = e.target.closest('[data-toggle]');
+  if (t) { const row = t.closest('.row'), bd = row.querySelector('.row-bd'), open = bd.hidden; bd.hidden = !open; row.classList.toggle('open', open); t.setAttribute('aria-expanded', String(open)); return; }
+  const a = e.target.closest('[data-a]');
+  if (a?.dataset.a === 'print') window.print();
+  if (a?.dataset.a === 'other') showAccess();
+});
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-open]')) { e.preventDefault(); e.target.click(); } });
+
+/* ---------- Arranque ---------- */
+renderSaved();
+const qDoc = new URLSearchParams(location.search).get('doc');
+if (qDoc) { $('#fDoc').value = qDoc; otps[0].focus(); }
+</script>
+</body>
+</html>
