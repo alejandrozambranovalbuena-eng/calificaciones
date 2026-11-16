@@ -264,9 +264,13 @@ import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebase
 import { getFirestore, initializeFirestore, doc, getDoc, getDocs, getDocFromServer, getDocsFromServer, setDoc, collection, updateDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const APP_VERSION = "v6.6.0";
+const APP_VERSION = "v6.6.1";
 const APP_BUILD   = "2026-11-16";
 const CHANGELOG = [
+  { v:"v6.6.1", fecha:"2026-11-16", cambios:[
+    "Evaluación docente: se evalúa al DOCENTE una sola vez por curso (no por cada materia) — el análisis agrupa por docente y curso y muestra las materias que dicta ahí",
+    "Control de duplicados: una respuesta por celular, docente y curso",
+  ]},
   { v:"v6.6.0", fecha:"2026-11-16", cambios:[
     "Evaluación docente: nuevo diseñador de encuesta para niños — escala configurable de 1 a 3…7 (por defecto 1 a 6) con emoticones, estilos (caritas, corazones, semáforo, estrellas) y paleta de emojis",
     "Editor de preguntas con emoji, orden (subir/bajar), quitar, banco de preguntas listas y plantillas (Para niños, Rápida, Bachillerato)",
@@ -9647,8 +9651,9 @@ window.iqTopSheet=function(cid,i){ const R=_iqR(); const S=window._IQ; const mod
 // ═══════════════════════════════════════════════════════════════════
 // v6.6.0 — 🗣️ EVALUACIÓN DOCENTE (lo que dicen los estudiantes)
 // CONTRATO DE DATOS (la encuesta escribe, el consolidado solo lee):
-//   evaluacion_docentes/{autoId} = { v:2, campana, courseId, courseName,
-//       teacherId, teacherName, subjectId, subjectName,
+//   evaluacion_docentes/{autoId} = { v:3, campana, courseId, courseName,
+//       teacherId, teacherName, materias (texto, solo informativo),
+//       → se evalúa al DOCENTE una vez por curso, no por materia
 //       r:{p1..pN: 1..max}, max, comentario, ts, dev, seg }
 //     (respuestas sin "max" = formato anterior, escala 1–5)
 //   evaluacion_config/actual = { campana, abierta, desdeGrado, cierre,
@@ -9727,12 +9732,15 @@ const _evPct=m=>(m-1)/(EV_M-1);
 const _evFavMin=()=>EV_M-Math.floor((EV_M-1)/3);
 
 // ── motor ─────────────────────────────────────────────────────────
+// materias que un docente dicta en un curso (para mostrar; la evaluación es al docente, no a la materia)
+function _evMaterias(tId, cId){ const D=window._DB||{}; return (D.subjectAssignments||[]).filter(a=>a.courseId===cId&&(a.currentTeacherId===tId||(!a.currentTeacherId&&(a.history||[]).some(h=>h.teacherId===tId&&!h.removedAt)))&&!MATERIAS_ESPECIALES.includes(a.subjectId))
+  .map(a=>(D.subjects||[]).find(s=>s.id===a.subjectId)?.name).filter(Boolean).join(', '); }
 function _evAnal(camp, incluirSosp){
   const cfg=_evCfg(); _evSetEscala(cfg);
   _memoCheck(); const ck='EV|'+camp+'|'+(incluirSosp?1:0)+'|'+(window._EVD?.at||0)+'|'+EV_M; if(_MEMO.sg.has(ck)) return _MEMO.sg.get(ck);
   const PQ=cfg.preguntas; const D=window._DB; const M=EV_M;
   let all=(window._EVD?.rows||[]).filter(x=>!camp||x.campana===camp);
-  const ult=new Map(); all.forEach(x=>{ const k=[x.dev||x._id,x.teacherId,x.subjectId,x.courseId].join('|'); const p=ult.get(k); if(!p||(x.ts||0)>(p.ts||0)) ult.set(k,x); });
+  const ult=new Map(); all.forEach(x=>{ const k=[x.dev||x._id,x.teacherId,x.courseId].join('|'); const p=ult.get(k); if(!p||(x.ts||0)>(p.ts||0)) ult.set(k,x); });
   const dup=all.length-ult.size; let rows=[...ult.values()];
   // normalizar cada respuesta a la escala actual (respuestas sin "max" eran 1–5)
   let mezcla=false;
@@ -9749,7 +9757,7 @@ function _evAnal(camp, incluirSosp){
   const docs=Object.values(porT).map(t=>{
     const q={}; PQ.forEach(p=>{ const a=t.rows.map(x=>x.rn[p.id]).filter(n=>n!==undefined); q[p.id]={m:mean(a), n:a.length, fav:a.length?a.filter(n=>n>=favMin).length/a.length:null}; });
     const allv=t.rows.flatMap(vals); const m=mean(allv);
-    const cursos={}; t.rows.forEach(x=>{ const k=x.courseId+'|'+x.subjectId; const c=(cursos[k]=cursos[k]||{courseId:x.courseId, curso:(D.courses||[]).find(c=>c.id===x.courseId)?.name||x.courseName||x.courseId, materia:(D.subjects||[]).find(s=>s.id===x.subjectId)?.name||x.subjectName||'', rows:[]}); c.rows.push(x); });
+    const cursos={}; t.rows.forEach(x=>{ const k=x.courseId; const c=(cursos[k]=cursos[k]||{courseId:x.courseId, curso:(D.courses||[]).find(c=>c.id===x.courseId)?.name||x.courseName||x.courseId, materia:_evMaterias(t.id,x.courseId)||x.subjectName||'', rows:[]}); c.rows.push(x); });
     const cl=Object.values(cursos).map(c=>{ const qq={}; PQ.forEach(p=>{ qq[p.id]=mean(c.rows.map(x=>x.rn[p.id]).filter(n=>n!==undefined)); }); return {...c, n:c.rows.length, m:mean(c.rows.flatMap(vals)), q:qq}; }).sort((a,b)=>b.m-a.m);
     const ord=PQ.filter(p=>q[p.id].m!==null).sort((a,b)=>q[b.id].m-q[a.id].m);
     const com=t.rows.filter(x=>String(x.comentario||'').trim()).map(x=>({t:String(x.comentario).trim().slice(0,500), curso:(D.courses||[]).find(c=>c.id===x.courseId)?.name||x.courseName||'', m:mean(vals(x)), ts:x.ts||0})).sort((a,b)=>b.ts-a.ts);
