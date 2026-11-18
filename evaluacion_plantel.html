@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F2D5C">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Evaluación institucional · I.E.T. Liceo Moderno Suesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<!-- Fuente cargada sin bloquear: si no llega, se usa la del sistema -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{
+  --rojo:#C8202F;--rojo-d:#8E1520;
+  --azul:#1F2D5C;--azul-d:#111A3A;
+  --dorado:#D4A445;--dorado-d:#9C7526;
+  --crema:#FBF6EC;--crema2:#F3EAD6;
+  --tinta:#1D2433;--gris:#5F6675;--borde:#E7DCC4;
+  --ok:#1E7A3A;--okbg:#E5F3E8;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--crema);color:var(--tinta);
+  font-family:"Baloo 2","Segoe UI","Trebuchet MS",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;line-height:1.45;min-height:100vh;display:flex;flex-direction:column}
+button,input,textarea{font-family:inherit}
+h1,h2,h3{line-height:1.2;margin:0 0 .4em;color:var(--azul)}
+h1{font-size:1.55em}h2{font-size:1.3em}
+p{margin:.45em 0}
+img.emoji{height:1.1em;width:1.1em;margin:0 .05em;vertical-align:-.2em;display:inline-block}
+
+/* ---------- Encabezado ---------- */
+.top{background:var(--azul);color:#fff;border-bottom:5px solid var(--dorado);
+  box-shadow:0 2px 0 var(--rojo),0 6px 14px rgba(17,26,58,.25);position:relative}
+.top .in{max-width:900px;margin:0 auto;display:flex;align-items:center;padding:10px 16px}
+.escudo{width:50px;height:58px;flex:none;margin-right:12px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.escudo img,.escudo svg{width:100%;height:100%;object-fit:contain;display:block}
+.top .t1{font-weight:800;font-size:1.12em;letter-spacing:.2px;line-height:1.15}
+.top .t2{font-size:.86em;opacity:.88;line-height:1.2}
+.top .t2 b{color:var(--dorado)}
+
+main{flex:1;width:100%;max-width:900px;margin:0 auto;padding:16px 14px 28px}
+footer{text-align:center;font-size:.78em;color:var(--gris);padding:10px 12px 18px}
+footer button{background:none;border:0;color:var(--gris);text-decoration:underline;cursor:pointer;font-size:1em;padding:2px}
+#cambios{max-width:560px;margin:8px auto 0;text-align:left;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:10px 14px}
+#cambios ul{margin:4px 0 0;padding-left:18px}
+
+/* ---------- Tarjetas 3D ---------- */
+.card{background:#fff;border:1px solid var(--borde);border-radius:18px;padding:16px 16px;margin:0 0 14px;
+  box-shadow:0 3px 0 var(--crema2),0 3px 0 1px var(--borde),0 10px 20px rgba(31,45,92,.07)}
+.centro{text-align:center}
+.big{font-size:2.6em;line-height:1.1;margin:.1em 0 .2em}
+.hero{border-top:5px solid var(--dorado)}
+.lista{list-style:none;margin:10px 0 4px;padding:0}
+.lista li{display:flex;align-items:flex-start;margin:6px 0}
+.lista li .ic{width:28px;flex:none;text-align:center}
+.pre{white-space:pre-line}
+.suave{color:var(--gris);font-size:.92em}
+
+/* ---------- Botones 3D ---------- */
+.btn{--c:var(--azul);--d:var(--azul-d);--t:#fff;
+  -webkit-appearance:none;appearance:none;border:0;border-radius:14px;padding:12px 24px;
+  font-size:1.02em;font-weight:700;color:var(--t);background:var(--c);cursor:pointer;
+  position:relative;overflow:hidden;display:inline-block;line-height:1.2;
+  box-shadow:0 4px 0 var(--d),0 8px 14px rgba(17,26,58,.2),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .07s ease,box-shadow .07s ease;-webkit-tap-highlight-color:transparent}
+.btn::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;pointer-events:none;
+  background:linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.04));border-radius:14px 14px 40% 40%/14px 14px 10px 10px}
+.btn:active:not([disabled]){transform:translateY(4px);box-shadow:0 0 0 var(--d),0 2px 5px rgba(17,26,58,.2),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
+.btn[disabled]{opacity:.62;cursor:default}
+.btn.rojo{--c:var(--rojo);--d:var(--rojo-d)}
+.btn.oro{--c:var(--dorado);--d:var(--dorado-d);--t:var(--azul)}
+.btn.claro{--c:#fff;--d:#D6CBB2;--t:var(--azul);border:1px solid var(--borde)}
+.btn.grande{font-size:1.12em;padding:15px 30px;min-width:230px}
+.btn.mini{padding:7px 12px;font-size:.88em;border-radius:11px;box-shadow:0 3px 0 var(--d),0 4px 8px rgba(17,26,58,.12)}
+.btn.mini::before{border-radius:11px}
+.acciones{text-align:center;margin:18px 0 6px}
+
+/* ---------- Campo PIN ---------- */
+.pin{margin:14px auto 4px;max-width:320px;text-align:left}
+.pin label{font-weight:700;color:var(--azul);display:block;margin-bottom:4px}
+.pin input{width:100%;font-size:1.25em;letter-spacing:.25em;text-align:center;padding:10px 12px;border-radius:12px;
+  border:2px solid var(--borde);background:#FFFDF8;box-shadow:inset 0 2px 3px rgba(0,0,0,.06);color:var(--azul)}
+.pin input:focus{outline:none;border-color:var(--azul)}
+.err{color:var(--rojo);font-weight:700;min-height:1.4em;margin-top:6px;text-align:center}
+.sacude{animation:sacude .35s}
+@keyframes sacude{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+/* ---------- Progreso ---------- */
+.pbar{height:10px;border-radius:99px;background:var(--crema2);overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.12)}
+.pbar i{display:block;height:100%;width:0;background:var(--dorado);border-radius:99px;transition:width .3s ease;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35)}
+.pbar.big{height:14px;margin:10px 0 4px}
+
+/* ---------- Menú de secciones ---------- */
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+.tcard{-webkit-appearance:none;appearance:none;display:flex;align-items:center;width:100%;text-align:left;
+  background:#fff;border:1px solid var(--borde);border-radius:18px;padding:14px;margin:0;color:var(--tinta);font-size:1em;
+  cursor:pointer;position:relative;box-shadow:0 4px 0 var(--borde),0 9px 16px rgba(31,45,92,.08);
+  transition:transform .07s ease,box-shadow .07s ease;-webkit-tap-highlight-color:transparent}
+.tcard:active{transform:translateY(4px);box-shadow:0 0 0 var(--borde),0 3px 6px rgba(31,45,92,.08)}
+.tcard:focus-visible{outline:3px solid var(--dorado);outline-offset:2px}
+div.tcard{cursor:default;flex-direction:column;align-items:stretch}
+div.tcard:active{transform:none;box-shadow:0 4px 0 var(--borde),0 9px 16px rgba(31,45,92,.08)}
+.tcard .em{font-size:1.9em;width:52px;height:52px;flex:none;border-radius:14px;background:var(--crema);display:flex;align-items:center;justify-content:center;
+  margin-right:12px;box-shadow:inset 0 -3px 0 var(--crema2)}
+.tcard .tx{flex:1;min-width:0}
+.tcard .ti{font-weight:800;color:var(--azul);line-height:1.2}
+.tcard .su{font-size:.86em;color:var(--gris)}
+.tcard.ok{background:#FCFEFC;border-color:#CFE5D5}
+.cabeza{display:flex;align-items:center}
+.chip{display:inline-block;font-size:.78em;font-weight:700;border-radius:99px;padding:3px 10px;white-space:nowrap;margin-left:8px;flex:none}
+.chip.pen{background:#FFF4DC;color:#8A6216;border:1px solid #F0D9A6}
+.chip.env{background:var(--okbg);color:var(--ok);border:1px solid #BFDFC8}
+.chip.va{background:#EEF2FB;color:#2F4C93;border:1px solid #CFD9F0}
+.chip.opc{background:#F4F0E6;color:var(--gris);border:1px solid var(--borde);margin:0 0 0 6px}
+.personas{margin-top:10px;border-top:1px dashed var(--borde);padding-top:8px}
+.pbtn{-webkit-appearance:none;appearance:none;display:flex;align-items:center;width:100%;text-align:left;background:var(--crema);
+  border:1px solid var(--borde);border-radius:12px;padding:9px 10px;margin:6px 0 0;font-size:.95em;color:var(--tinta);cursor:pointer;
+  box-shadow:0 3px 0 var(--borde);transition:transform .07s ease,box-shadow .07s ease}
+.pbtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--borde)}
+.pbtn .pn{flex:1;min-width:0}
+.pbtn .pn small{display:block;color:var(--gris);font-size:.86em;line-height:1.2}
+.aviso-fin{background:var(--azul);color:#fff;border-color:var(--azul-d)}
+.aviso-fin h2{color:#fff}
+
+/* ---------- Pantalla de sección ---------- */
+.barra{position:-webkit-sticky;position:sticky;top:0;z-index:20;background:rgba(251,246,236,.97);margin:-16px -14px 14px;padding:10px 14px 10px;
+  border-bottom:1px solid var(--borde);box-shadow:0 4px 10px rgba(31,45,92,.06)}
+.barra .bin{display:flex;align-items:center;margin-bottom:8px}
+.barra .bt{flex:1;min-width:0;margin:0 10px;line-height:1.15}
+.barra .bt b{color:var(--azul);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra .bt small{color:var(--gris)}
+.barra .cnt{font-weight:800;color:var(--azul);white-space:nowrap}
+.per{display:flex;align-items:center}
+.per .av{width:54px;height:54px;border-radius:50%;background:var(--azul);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6em;
+  margin-right:12px;flex:none;border:3px solid var(--dorado);box-shadow:0 3px 0 var(--azul-d)}
+.per .pn{font-weight:800;color:var(--azul);font-size:1.2em;line-height:1.2}
+.per .pc{color:var(--gris)}
+.per .ps{font-size:.84em;color:var(--rojo);font-weight:700}
+.nota{background:#FFF8E6;border-left:4px solid var(--dorado);border-radius:10px;padding:8px 12px;margin:10px 0 4px}
+.ayuda{color:var(--gris);font-size:.92em}
+
+.q{position:relative;transition:border-color .2s}
+.q .qt{display:flex;align-items:flex-start;font-weight:600}
+.q .qn{flex:none;width:30px;height:30px;border-radius:50%;background:var(--azul);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;
+  margin-right:10px;font-size:.92em;box-shadow:0 2px 0 var(--azul-d)}
+.q .dim{display:inline-block;font-size:.72em;font-weight:700;color:var(--dorado-d);background:#FBF1DA;border-radius:99px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.q.listo .qn{background:var(--ok);box-shadow:0 2px 0 #145429}
+.q.falta{border-color:var(--rojo);box-shadow:0 0 0 2px rgba(200,32,47,.25),0 10px 20px rgba(31,45,92,.07);animation:sacude .35s}
+.q.falta::before{content:"Falta esta respuesta";position:absolute;top:-11px;right:14px;background:var(--rojo);color:#fff;font-size:.74em;font-weight:700;
+  padding:1px 10px;border-radius:99px}
+
+/* Opciones de la escala */
+.opts{display:flex;flex-direction:column;margin-top:10px}
+.opt{--c:#C8202F;--d:#8E1520;--t:#fff;-webkit-appearance:none;appearance:none;display:flex;align-items:center;width:100%;min-height:50px;
+  margin:0 0 9px;padding:8px 46px 8px 12px;border-radius:14px;border:2px solid var(--c);background:#fff;color:var(--tinta);
+  font-size:1em;line-height:1.2;text-align:left;cursor:pointer;position:relative;
+  box-shadow:0 3px 0 var(--c);transition:transform .07s ease,box-shadow .07s ease,background-color .12s ease,color .12s ease;
+  -webkit-tap-highlight-color:transparent}
+.opt:last-child{margin-bottom:3px}
+.opt .e{font-size:1.4em;line-height:1;width:32px;flex:none;text-align:center;margin-right:8px}
+.opt .tx{flex:1}
+.opt:active:not([disabled]){transform:translateY(3px);box-shadow:0 0 0 var(--c)}
+.opt:focus-visible{outline:3px solid var(--azul);outline-offset:2px}
+.opt.sel{background:var(--c);color:var(--t);font-weight:700;box-shadow:0 3px 0 var(--d),inset 0 1px 0 rgba(255,255,255,.3)}
+.opt.sel::after{content:"";position:absolute;right:18px;top:50%;width:8px;height:16px;border:solid var(--t);border-width:0 3px 3px 0;
+  -webkit-transform:translateY(-62%) rotate(45deg);transform:translateY(-62%) rotate(45deg);animation:chulo .18s ease}
+@keyframes chulo{from{opacity:0;-webkit-transform:translateY(-62%) rotate(45deg) scale(.4);transform:translateY(-62%) rotate(45deg) scale(.4)}}
+.opt[disabled]{cursor:default;opacity:.85}
+@media (min-width:760px){
+  .opts{flex-direction:row}
+  .opt{flex:1 1 0;width:auto;min-width:0;flex-direction:column;justify-content:center;text-align:center;min-height:98px;
+    margin:0 8px 3px 0;padding:12px 6px 12px;font-size:.88em}
+  .opt:last-child{margin-right:0}
+  .opt .e{font-size:1.9em;width:auto;margin:0 0 6px}
+  .opt .tx{flex:none}
+  .opt.sel::after{right:11px;top:9px;width:7px;height:13px;-webkit-transform:rotate(45deg);transform:rotate(45deg)}
+  @keyframes chulo{from{opacity:0;-webkit-transform:rotate(45deg) scale(.4);transform:rotate(45deg) scale(.4)}}
+}
+
+/* Comentario */
+.com label{font-weight:700;color:var(--azul);display:block}
+.com textarea{width:100%;min-height:96px;resize:vertical;border-radius:12px;border:2px solid var(--borde);padding:10px 12px;font-size:1em;
+  background:#FFFDF8;box-shadow:inset 0 2px 3px rgba(0,0,0,.05);color:var(--tinta);margin-top:6px}
+.com textarea:focus{outline:none;border-color:var(--azul)}
+.com .pie{display:flex;justify-content:space-between;font-size:.84em;color:var(--gris);margin-top:4px}
+.com .pie b{color:var(--rojo-d)}
+
+/* Estados de envío */
+.est{border-radius:14px;padding:12px 14px;margin:12px 0 0;font-weight:600}
+.est.envi{background:#EEF2FB;color:#24407F;border:1px solid #CFD9F0}
+.est.lento{background:#FFF4DC;color:#7A5410;border:1px solid #F0D9A6}
+.est.mal{background:#FDECEE;color:#8E1520;border:1px solid #F3C3C8}
+.spin{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid rgba(31,45,92,.2);border-top-color:var(--azul);
+  animation:gira .8s linear infinite;vertical-align:-3px;margin-right:6px}
+.spin.g{width:34px;height:34px;border-width:4px;margin:6px auto 10px;display:block}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+/* Avisos */
+.toast{position:fixed;left:50%;bottom:18px;z-index:60;max-width:92%;background:var(--azul);color:#fff;padding:11px 18px;border-radius:14px;
+  font-weight:600;box-shadow:0 4px 0 var(--azul-d),0 10px 22px rgba(0,0,0,.25);opacity:0;pointer-events:none;
+  -webkit-transform:translate(-50%,20px);transform:translate(-50%,20px);transition:opacity .2s ease,transform .2s ease;text-align:center}
+.toast.on{opacity:1;-webkit-transform:translate(-50%,0);transform:translate(-50%,0)}
+.toast.mal{background:var(--rojo);box-shadow:0 4px 0 var(--rojo-d),0 10px 22px rgba(0,0,0,.25)}
+.red{position:fixed;top:0;left:0;right:0;z-index:70;background:var(--rojo);color:#fff;text-align:center;font-weight:700;font-size:.9em;padding:6px 10px}
+
+/* Celebración */
+.fiesta{position:fixed;top:0;left:0;right:0;bottom:0;z-index:80;display:flex;align-items:center;justify-content:center;pointer-events:none;
+  background:rgba(31,45,92,.12)}
+.fiesta .msg{background:#fff;border-radius:22px;padding:18px 28px;text-align:center;border-top:5px solid var(--dorado);
+  box-shadow:0 5px 0 var(--borde),0 16px 34px rgba(0,0,0,.2);animation:pop .32s cubic-bezier(.2,1.4,.5,1)}
+.fiesta .msg .big{margin:0}
+.fiesta .msg b{display:block;color:var(--azul);font-size:1.25em}
+.conf{position:fixed;top:-14px;width:9px;height:14px;border-radius:2px;z-index:81;animation:caer 1.35s ease-in forwards}
+@keyframes caer{to{-webkit-transform:translateY(108vh) rotate(560deg);transform:translateY(108vh) rotate(560deg)}}
+@keyframes pop{from{opacity:0;-webkit-transform:scale(.7);transform:scale(.7)}}
+.entra{animation:entra .22s ease}
+@keyframes entra{from{opacity:0;-webkit-transform:translateY(8px);transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="red" class="red" hidden>📡 Sin conexión a internet. Lo que marcaste no se pierde.</div>
+
+<header class="top">
+  <div class="in">
+    <div class="escudo" id="escudo" aria-hidden="true">
+      <!-- Escudo provisional. Para usar el escudo real, pegar el base64 en ESCUDO_SRC (más abajo). -->
+      <svg viewBox="0 0 100 116" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 3 L95 15 V58 C95 86 74 104 50 113 C26 104 5 86 5 58 V15 Z" fill="#fff"/>
+        <path d="M50 9 L89 19.5 V58 C89 82 71 98 50 106 C29 98 11 82 11 58 V19.5 Z" fill="#1F2D5C" stroke="#D4A445" stroke-width="4"/>
+        <path d="M13 44 H87 V60 H13 Z" fill="#C8202F"/>
+        <text x="50" y="57" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">LMS</text>
+        <path d="M50 20 L54 29 L64 30 L56.5 36.5 L59 46 L50 41 L41 46 L43.5 36.5 L36 30 L46 29 Z" fill="#D4A445" transform="translate(0,-3) scale(1)"/>
+        <path d="M30 70 Q50 64 70 70 L70 86 Q50 80 30 86 Z" fill="#fff" opacity=".92"/>
+        <path d="M50 67 V83" stroke="#1F2D5C" stroke-width="2"/>
+      </svg>
+    </div>
+    <div>
+      <div class="t1">Evaluación institucional</div>
+      <div class="t2">I.E.T. Liceo Moderno Suesca <span id="hcamp"></span></div>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+  <div class="card centro"><div class="spin g"></div><p>Cargando la evaluación…</p></div>
+</main>
+
+<footer>
+  🔒 Encuesta anónima · <button type="button" id="ver">v<span id="vtxt"></span></button>
+  <div id="cambios" hidden></div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<noscript>
+  <div style="max-width:600px;margin:20px auto;padding:16px;background:#fff;border-radius:14px;text-align:center">
+    Para responder la evaluación necesitas activar JavaScript en el navegador.
+  </div>
+</noscript>
+
+<!-- ============ Vigilante (ES3): navegadores viejos y módulo que no carga ============ -->
+<script>
+(function () {
+  function aviso(msg) {
+    var a = document.getElementById('app');
+    if (!a) return;
+    a.innerHTML = '<div class="card centro"><div class="big">⚠️</div><h2>No pudimos abrir la evaluación</h2><p>' + msg +
+      '</p><p class="acciones"><button class="btn" type="button" onclick="location.reload()">Intentar de nuevo</button></p></div>';
+  }
+  window.__evpAviso = aviso;
+  var s = document.createElement('script');
+  if (!('noModule' in s)) {
+    window.__EVP_VIEJO = true;
+    aviso('Este navegador es demasiado antiguo para la encuesta. Ábrela desde tu celular o en un navegador actualizado (Chrome, Edge o Firefox).');
+    return;
+  }
+  window.setTimeout(function () {
+    if (!window.__EVP_FB_OK && !window.__EVP_FB_FALLO) {
+      window.__EVP_FB_FALLO = true;
+      aviso('Pasaron 20 segundos sin poder conectarnos con el servidor. ' + (window.__evpCausa ? window.__evpCausa() :
+        'Revisa tu conexión a internet e inténtalo de nuevo. Si sigue igual, ábrela desde tu celular o desde un navegador actualizado.'));
+    }
+  }, 20000);
+})();
+</script>
+
+<!-- ============ Aplicación ============ -->
+<script>
+(function () {
+  'use strict';
+  if (window.__EVP_VIEJO) return;
+
+  /* ---------------- Versión ---------------- */
+  var APP_VERSION = '1.0.1';
+  var APP_BUILD = '2026-11-18.2';
+  var CHANGELOG = [
+    { v: '1.0.1', fecha: '2026-11-18', cambios: [
+      'Si Firebase no se puede descargar, el aviso explica la causa: sin internet, vista previa sin acceso a la red, o bloqueo de gstatic.',
+      'Probado con los archivos reales de Firebase 10.12.0, abriendo desde un enlace https y desde un archivo descargado.'
+    ] },
+    { v: '1.0.0', fecha: '2026-11-18', cambios: [
+      'Primera versión: evaluación anónima del plantel por parte de los docentes.',
+      'Configuración desde evaluacion_plantel_config/actual (campaña, apertura, cierre, PIN, escala y secciones).',
+      'Una sección por pantalla; las secciones tipo persona se evalúan persona por persona.',
+      'Un documento por sección o persona con addDoc en evaluacion_plantel; sin datos personales.',
+      'Control de reenvío por equipo, reintento sin duplicados, aviso de conexión lenta.',
+      'Emojis con Twemoji en PC sin emojis de color; botón atrás del celular dentro de la encuesta.'
+    ] }
+  ];
+
+  /* Escudo: pegar aquí 'data:image/webp;base64,....' (unos 20 KB). Vacío = escudo provisional. */
+  var ESCUDO_SRC = '';
+
+  var TWEMOJI_JS = 'https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js';
+  var TWEMOJI_BASE = 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/';
+  var T_CONFIG = 15000;   // espera máxima al leer la configuración
+  var T_LENTO = 20000;    // a partir de aquí se avisa "conexión lenta"
+  var MAX_COM = 500;
+
+  var PALETA = ['#C8202F', '#DD4B39', '#E08A2E', '#D4A445', '#3F62B5', '#1F2D5C'];
+
+  var ESCALA_DEF = { max: 5, niveles: [
+    { v: 1, emoji: '😞', texto: 'Totalmente en desacuerdo' },
+    { v: 2, emoji: '🙁', texto: 'En desacuerdo' },
+    { v: 3, emoji: '😐', texto: 'Ni de acuerdo ni en desacuerdo' },
+    { v: 4, emoji: '🙂', texto: 'De acuerdo' },
+    { v: 5, emoji: '😄', texto: 'Totalmente de acuerdo' }
+  ] };
+
+  var COM_DEF = { activo: true, texto: '¿Algo que quieras sugerir? (opcional)' };
+  function P(id, texto, dim) { return { id: id, texto: texto, dim: dim }; }
+  var SECCIONES_DEF = [
+    { id: 'rect', emoji: '🏛️', titulo: 'Rectoría', tipo: 'persona', cargo: 'Rector(a)', preguntas: [
+      P('q1', 'Tiene un rumbo claro para el colegio', 'Rumbo institucional'),
+      P('q2', 'Escucha y trata con respeto a los docentes', 'Escucha y respeto'),
+      P('q3', 'Toma decisiones justas y a tiempo', 'Decisiones'),
+      P('q4', 'Comunica oportunamente lo que hay que saber', 'Comunicación'),
+      P('q5', 'Respalda al docente frente a padres y situaciones difíciles', 'Respaldo')] },
+    { id: 'coac', emoji: '📋', titulo: 'Coordinación académica', tipo: 'persona', cargo: 'Coordinación académica', preguntas: [
+      P('q1', 'Da orientaciones pedagógicas claras', 'Orientación pedagógica'),
+      P('q2', 'Avisa los plazos con tiempo y son razonables', 'Plazos'),
+      P('q3', 'Hace retroalimentación útil de mi trabajo', 'Retroalimentación'),
+      P('q4', 'Apoya el manejo de estudiantes con dificultades académicas', 'Apoyo académico')] },
+    { id: 'coco', emoji: '🤝', titulo: 'Coordinación de convivencia', tipo: 'persona', cargo: 'Coordinación de convivencia', preguntas: [
+      P('q1', 'Atiende los casos a tiempo', 'Oportunidad'),
+      P('q2', 'Aplica el manual de convivencia con justicia', 'Justicia'),
+      P('q3', 'Respalda al docente en los casos de disciplina', 'Respaldo'),
+      P('q4', 'Hace seguimiento a lo acordado', 'Seguimiento')] },
+    { id: 'admin', emoji: '🗂️', titulo: 'Secretaría y administrativos', tipo: 'area', preguntas: [
+      P('q1', 'Atención amable', 'Amabilidad'),
+      P('q2', 'Trámites ágiles', 'Agilidad'),
+      P('q3', 'Información precisa y a tiempo', 'Información')] },
+    { id: 'inst', emoji: '🏫', titulo: 'Instalaciones y recursos', tipo: 'area', preguntas: [
+      P('q1', 'Los salones están en buen estado', 'Salones'),
+      P('q2', 'Hay material y recursos para mis clases', 'Material'),
+      P('q3', 'El internet y los equipos funcionan', 'Internet y equipos'),
+      P('q4', 'Baños y aseo adecuados', 'Baños y aseo'),
+      P('q5', 'Me siento seguro en el colegio', 'Seguridad')] },
+    { id: 'plat', emoji: '💻', titulo: 'Plataformas digitales del Liceo', tipo: 'area', preguntas: [
+      P('q1', 'La plataforma de notas es fácil de usar', 'Facilidad de uso'),
+      P('q2', 'Recibo ayuda cuando tengo problemas con ella', 'Soporte'),
+      P('q3', 'Confío en los boletines y reportes que genera', 'Confianza')] },
+    { id: 'clima', emoji: '💬', titulo: 'Clima laboral y comunicación', tipo: 'area', preguntas: [
+      P('q1', 'Me siento valorado en el colegio', 'Valoración'),
+      P('q2', 'Hay buen trabajo en equipo entre docentes', 'Trabajo en equipo'),
+      P('q3', 'La comunicación interna es clara y oportuna', 'Comunicación interna'),
+      P('q4', 'Mi carga de trabajo es razonable', 'Carga laboral'),
+      P('q5', 'Hay espacios de capacitación útiles', 'Capacitación')] },
+    { id: 'auto', emoji: '🪞', titulo: 'Autoevaluación', tipo: 'area', opcional: true,
+      nota: 'Esta sección es opcional y también es anónima: no se asocia a tu nombre. Sirve para comparar, a nivel de todo el colegio, cómo nos vemos los docentes frente a lo que dicen los estudiantes en su encuesta.',
+      preguntas: [
+      P('q1', 'Explico de forma que mis estudiantes entienden', 'Didáctica'),
+      P('q2', 'Mis clases son ordenadas y aprovecho el tiempo', 'Organización'),
+      P('q3', 'Califico de forma justa', 'Evaluación justa'),
+      P('q4', 'Le digo al estudiante en qué se equivocó para mejorar', 'Retroalimentación'),
+      P('q5', 'Trato a mis estudiantes con respeto y cariño', 'Trato'),
+      P('q6', 'Ayudo al que no entiende', 'Acompañamiento'),
+      P('q7', 'Mis clases motivan a aprender', 'Motivación'),
+      P('q8', 'Llego a tiempo y cumplo lo que prometo', 'Cumplimiento')] }
+  ];
+
+  var BIENVENIDA_DEF = 'Esta encuesta es anónima: no te pedimos tu nombre ni ningún dato que te identifique.\n' +
+    'Tus respuestas ayudan a mejorar el colegio para todos. Responde con honestidad y con respeto; te tomará unos 10 minutos.';
+  var GRACIAS_DEF = '¡Gracias por tu tiempo y tu honestidad! Tus respuestas nos ayudan a construir un mejor Liceo.';
+
+  /* ---------------- Estado ---------------- */
+  var S = {
+    fb: null, listo: false, hist: true,
+    campana: '', cierre: '', pinHash: '', pinOk: false,
+    escala: null, secciones: [], unidades: [], mapa: {},
+    bienvenida: '', gracias: '',
+    vista: null, actual: null, entrada: 0,
+    resp: {}, coment: {}, seg: {}, pend: {},
+    mem: {}, tw: false, tt: 0
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function esc(x) {
+    return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function hoyISO() {
+    var d = new Date(), m = d.getMonth() + 1, a = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (a < 10 ? '0' : '') + a;
+  }
+  var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  function fechaBonita(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    return m ? (parseInt(m[3], 10) + ' de ' + MESES[parseInt(m[2], 10) - 1] + ' de ' + m[1]) : iso;
+  }
+
+  /* ---------------- localStorage seguro ---------------- */
+  function lsGet(k) {
+    try { var v = window.localStorage.getItem(k); if (v !== null) return v; } catch (e) {}
+    return S.mem.hasOwnProperty(k) ? S.mem[k] : null;
+  }
+  function lsSet(k, v) {
+    S.mem[k] = v;
+    try { window.localStorage.setItem(k, v); } catch (e) {}
+  }
+
+  function uuid() {
+    try { if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID(); } catch (e) {}
+    var b = [], i;
+    try {
+      var a = new Uint8Array(16); window.crypto.getRandomValues(a);
+      for (i = 0; i < 16; i++) b.push(a[i]);
+    } catch (e2) {
+      b = []; for (i = 0; i < 16; i++) b.push(Math.floor(Math.random() * 256));
+    }
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    var h = '';
+    for (i = 0; i < 16; i++) {
+      h += (b[i] < 16 ? '0' : '') + b[i].toString(16);
+      if (i === 3 || i === 5 || i === 7 || i === 9) h += '-';
+    }
+    return h;
+  }
+  function devId() {
+    var d = lsGet('evp_dev');
+    if (!d) { d = uuid(); lsSet('evp_dev', d); }
+    return d;
+  }
+  function claveEnv(k) { return 'evp_env:' + k; }
+  function enviada(k) { return lsGet(claveEnv(k)) === '1'; }
+  function marcarEnviada(k) { lsSet(claveEnv(k), '1'); }
+
+  /* ---------------- SHA-256 ---------------- */
+  function hex(buf) {
+    var a = new Uint8Array(buf), s = '', i;
+    for (i = 0; i < a.length; i++) s += (a[i] < 16 ? '0' : '') + a[i].toString(16);
+    return s;
+  }
+  // Respaldo en JS puro por si el navegador no trae crypto.subtle.
+  function sha256js(txt) {
+    var ascii = unescape(encodeURIComponent(txt));
+    function rr(v, n) { return (v >>> n) | (v << (32 - n)); }
+    var maxWord = Math.pow(2, 32), i, j, result = '', words = [];
+    var bitLen = ascii.length * 8, hash = [], k = [], pc = 0, isC = {};
+    for (var cand = 2; pc < 64; cand++) {
+      if (!isC[cand]) {
+        for (i = 0; i < 313; i += cand) isC[i] = cand;
+        hash[pc] = (Math.pow(cand, 0.5) * maxWord) | 0;
+        k[pc++] = (Math.pow(cand, 1 / 3) * maxWord) | 0;
+      }
+    }
+    hash = hash.slice(0, 8);
+    ascii += '\x80';
+    while (ascii.length % 64 - 56) ascii += '\x00';
+    for (i = 0; i < ascii.length; i++) {
+      j = ascii.charCodeAt(i);
+      words[i >> 2] |= j << ((3 - i) % 4) * 8;
+    }
+    words[words.length] = ((bitLen / maxWord) | 0);
+    words[words.length] = bitLen;
+    for (j = 0; j < words.length;) {
+      var w = words.slice(j, j += 16), old = hash;
+      hash = hash.slice(0, 8);
+      for (i = 0; i < 64; i++) {
+        var w15 = w[i - 15], w2 = w[i - 2], a = hash[0], e = hash[4];
+        var t1 = hash[7] + (rr(e, 6) ^ rr(e, 11) ^ rr(e, 25)) + ((e & hash[5]) ^ ((~e) & hash[6])) + k[i] +
+          (w[i] = (i < 16) ? w[i] : (w[i - 16] + (rr(w15, 7) ^ rr(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rr(w2, 17) ^ rr(w2, 19) ^ (w2 >>> 10))) | 0);
+        var t2 = (rr(a, 2) ^ rr(a, 13) ^ rr(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+        hash = [(t1 + t2) | 0].concat(hash);
+        hash[4] = (hash[4] + t1) | 0;
+      }
+      for (i = 0; i < 8; i++) hash[i] = (hash[i] + old[i]) | 0;
+    }
+    for (i = 0; i < 8; i++) for (j = 3; j + 1; j--) {
+      var by = (hash[i] >> (j * 8)) & 255;
+      result += (by < 16 ? '0' : '') + by.toString(16);
+    }
+    return result;
+  }
+  function sha256Hex(txt) {
+    try {
+      if (window.crypto && window.crypto.subtle && window.TextEncoder) {
+        return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)).then(hex, function () { return sha256js(txt); });
+      }
+    } catch (e) {}
+    return Promise.resolve(sha256js(txt));
+  }
+
+  /* ---------------- Colores de la escala ---------------- */
+  function rgb(h) { h = h.replace('#', ''); return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+  function oscurecer(h, f) {
+    var c = rgb(h), s = '#', i, v;
+    for (i = 0; i < 3; i++) { v = Math.round(c[i] * (1 - f)); s += (v < 16 ? '0' : '') + v.toString(16); }
+    return s;
+  }
+  function lum(h) {
+    var c = rgb(h), i, r = [];
+    for (i = 0; i < 3; i++) { var x = c[i] / 255; r.push(x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)); }
+    return 0.2126 * r[0] + 0.7152 * r[1] + 0.0722 * r[2];
+  }
+  function textoSobre(h) {
+    var L = lum(h), conBlanco = 1.05 / (L + 0.05), conAzul = (L + 0.05) / (lum('#1F2D5C') + 0.05);
+    return conBlanco >= conAzul ? '#FFFFFF' : '#1F2D5C';
+  }
+
+  /* ---------------- Normalizar configuración ---------------- */
+  function normEscala(e) {
+    var src = (e && e.niveles && e.niveles.length) ? e.niveles : null, nv = [], i;
+    if (src) for (i = 0; i < src.length; i++) {
+      var n = src[i];
+      if (n && isFinite(Number(n.v)) && Number(n.v) >= 1) nv.push({ v: Math.round(Number(n.v)), emoji: String(n.emoji || ''), texto: String(n.texto || n.v) });
+    }
+    if (nv.length < 2) nv = ESCALA_DEF.niveles.map(function (n) { return { v: n.v, emoji: n.emoji, texto: n.texto }; });
+    nv.sort(function (a, b) { return a.v - b.v; });
+    var top = nv[nv.length - 1].v;
+    var max = (e && isFinite(Number(e.max)) && Math.round(Number(e.max)) >= top) ? Math.round(Number(e.max)) : top;
+    var n1 = nv.length;
+    nv.forEach(function (n, k) {
+      var idx = n1 === 1 ? 0 : Math.round(k * (PALETA.length - 1) / (n1 - 1));
+      if (idx > PALETA.length - 1) idx = PALETA.length - 1;
+      n.c = PALETA[idx]; n.d = oscurecer(n.c, 0.3); n.t = textoSobre(n.c);
+    });
+    return { max: max, niveles: nv };
+  }
+
+  function normSecciones(lista) {
+    var out = [], usados = {};
+    (lista || []).forEach(function (s, i) {
+      if (!s || typeof s !== 'object') return;
+      var id = String(s.id || ('s' + (i + 1)));
+      if (usados[id]) return; usados[id] = 1;
+      var pregs = [], qids = {};
+      (s.preguntas || []).forEach(function (q, j) {
+        if (!q || !q.texto) return;
+        var qid = String(q.id || ('q' + (j + 1)));
+        if (qids[qid]) return; qids[qid] = 1;
+        pregs.push({ id: qid, texto: String(q.texto), dim: q.dim ? String(q.dim) : '' });
+      });
+      if (!pregs.length) return;
+      var tipo = s.tipo === 'persona' ? 'persona' : 'area';
+      var pers = [];
+      if (tipo === 'persona' && s.personas && s.personas.length) {
+        var pids = {};
+        s.personas.forEach(function (p, k) {
+          if (!p || !p.nombre) return;
+          var pid = String(p.id || ('p' + (k + 1)));
+          if (pids[pid]) return; pids[pid] = 1;
+          pers.push({ id: pid, nombre: String(p.nombre), cargo: p.cargo ? String(p.cargo) : '' });
+        });
+      }
+      var c = s.comentario;
+      var com = { activo: c ? c.activo !== false : true, texto: (c && c.texto) ? String(c.texto) : COM_DEF.texto };
+      out.push({
+        id: id, emoji: String(s.emoji || '📌'), titulo: String(s.titulo || id), tipo: tipo,
+        personas: pers, cargo: s.cargo ? String(s.cargo) : '', preguntas: pregs, comentario: com,
+        opcional: s.opcional === true, nota: String(s.nota || s.descripcion || '')
+      });
+    });
+    return out;
+  }
+
+  function armarUnidades() {
+    S.unidades = []; S.mapa = {};
+    S.secciones.forEach(function (s) {
+      var lista;
+      if (s.tipo === 'persona' && s.personas.length) {
+        lista = s.personas.map(function (p) { return { objetoId: p.id, objetoNombre: p.nombre, cargo: p.cargo }; });
+      } else {
+        lista = [{ objetoId: s.id, objetoNombre: s.titulo, cargo: s.tipo === 'persona' ? s.cargo : '' }];
+      }
+      s.unidades = [];
+      lista.forEach(function (o, i) {
+        var u = { k: S.campana + '|' + s.id + '|' + o.objetoId, sec: s, i: i, total: lista.length,
+          objetoId: o.objetoId, objetoNombre: o.objetoNombre, cargo: o.cargo || '' };
+        S.unidades.push(u); S.mapa[u.k] = u; s.unidades.push(u);
+      });
+    });
+  }
+
+  function obligCompletas() {
+    for (var i = 0; i < S.unidades.length; i++) if (!S.unidades[i].sec.opcional && !enviada(S.unidades[i].k)) return false;
+    return true;
+  }
+  function todasEnviadas() {
+    for (var i = 0; i < S.unidades.length; i++) if (!enviada(S.unidades[i].k)) return false;
+    return true;
+  }
+
+  /* ---------------- Utilidades de UI ---------------- */
+  function pintar(html) {
+    var a = $('app');
+    a.innerHTML = '<div class="entra">' + html + '</div>';
+  }
+  function toast(msg, tipo) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast on' + (tipo ? ' ' + tipo : '');
+    clearTimeout(S.tt);
+    S.tt = setTimeout(function () { t.className = 'toast'; }, 3800);
+  }
+  function arriba() { try { window.scrollTo(0, 0); } catch (e) {} }
+
+  function conTiempo(p, ms) {
+    return new Promise(function (res, rej) {
+      var t = setTimeout(function () { rej({ timeout: true }); }, ms);
+      p.then(function (v) { clearTimeout(t); res(v); }, function (e) { clearTimeout(t); rej(e); });
+    });
+  }
+
+  /* ---------------- Emojis: Twemoji en PC sin emojis de color ---------------- */
+  function emojisDeColor() {
+    try {
+      var c = document.createElement('canvas'); c.width = c.height = 40;
+      var x = c.getContext && (c.getContext('2d', { willReadFrequently: true }) || c.getContext('2d'));
+      if (!x || typeof x.fillText !== 'function') return false;
+      var lista = ['🤩', '🧠'], ok = 0, i, n;
+      for (n = 0; n < lista.length; n++) {
+        x.clearRect(0, 0, 40, 40);
+        x.textBaseline = 'top';
+        x.font = '32px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Segoe UI Symbol",sans-serif';
+        x.fillStyle = '#000';
+        x.fillText(lista[n], 0, 0);
+        var d = x.getImageData(0, 0, 40, 40).data;
+        for (i = 0; i < d.length; i += 4) {
+          if (d[i + 3] > 40 && (Math.abs(d[i] - d[i + 1]) > 25 || Math.abs(d[i + 1] - d[i + 2]) > 25 || Math.abs(d[i] - d[i + 2]) > 25)) { ok++; break; }
+        }
+      }
+      return ok === lista.length;
+    } catch (e) { return true; }
+  }
+  function modoEmoji() {
+    var m = /[?&]emoji=([^&#]*)/.exec(location.search || '');
+    var v = m ? decodeURIComponent(m[1]).toLowerCase() : '';
+    if (v === 'img') return 'img';
+    if (v === 'sistema') return 'sistema';
+    return emojisDeColor() ? 'sistema' : 'img';
+  }
+  var twPend = false;
+  function twParse() {
+    if (!S.tw || !window.twemoji) return;
+    try { window.twemoji.parse(document.body, { base: TWEMOJI_BASE, folder: 'svg', ext: '.svg', className: 'emoji' }); } catch (e) {}
+  }
+  function twProgramar() {
+    if (twPend || !S.tw) return;
+    twPend = true;
+    setTimeout(function () { twPend = false; twParse(); }, 0);
+  }
+  function twRevertir() {
+    S.tw = false;
+    var imgs = document.querySelectorAll('img.emoji'), i;
+    for (i = imgs.length - 1; i >= 0; i--) {
+      var im = imgs[i];
+      if (im.parentNode) im.parentNode.replaceChild(document.createTextNode(im.getAttribute('alt') || ''), im);
+    }
+  }
+  function iniciarEmojis() {
+    document.documentElement.setAttribute('data-emoji', 'sistema');
+    if (modoEmoji() !== 'img') return;
+    document.documentElement.setAttribute('data-emoji', 'img');
+    // Si el servidor de imágenes falla, se vuelve a los emojis del sistema y la encuesta sigue igual.
+    document.addEventListener('error', function (ev) {
+      var t = ev.target;
+      if (t && t.tagName === 'IMG' && /(^|\s)emoji(\s|$)/.test(t.className || '')) twRevertir();
+    }, true);
+    var s = document.createElement('script');
+    s.src = TWEMOJI_JS; s.async = true; s.crossOrigin = 'anonymous';
+    s.onload = function () {
+      if (!window.twemoji) return;
+      S.tw = true; twParse();
+      try {
+        new MutationObserver(function () { twProgramar(); })
+          .observe(document.body, { childList: true, subtree: true, characterData: true });
+      } catch (e) {}
+    };
+    s.onerror = function () { S.tw = false; };
+    (document.head || document.documentElement).appendChild(s);
+  }
+
+  /* ---------------- Navegación (botón atrás del celular) ---------------- */
+  function ir(st, reemplazar) {
+    try { history[reemplazar ? 'replaceState' : 'pushState'](st, ''); } catch (e) { S.hist = false; }
+    mostrar(st);
+  }
+  function volverMenu() {
+    var st = null;
+    try { st = history.state; } catch (e) {}
+    if (S.hist && st && st.s === 'unidad') { history.back(); return; }
+    ir({ s: 'menu' }, true);
+  }
+  window.addEventListener('popstate', function (e) {
+    if (!S.listo) return;
+    mostrar(e.state || { s: 'bienvenida' });
+  });
+
+  function acumularSeg() {
+    if (S.vista === 'unidad' && S.actual && S.entrada) {
+      var now = Date.now();
+      S.seg[S.actual] = (S.seg[S.actual] || 0) + Math.max(0, (now - S.entrada) / 1000);
+      S.entrada = now;
+    }
+  }
+
+  function mostrar(st) {
+    st = st || { s: 'bienvenida' };
+    acumularSeg();
+    if (st.s !== 'bienvenida' && S.pinHash && !S.pinOk) st = { s: 'bienvenida' };
+    if (st.s === 'unidad' && (!S.mapa[st.k] || enviada(st.k))) st = { s: 'menu' };
+    S.vista = st.s;
+    S.actual = st.s === 'unidad' ? st.k : null;
+    if (st.s === 'menu') vistaMenu();
+    else if (st.s === 'unidad') { vistaUnidad(st.k); S.entrada = Date.now(); }
+    else if (st.s === 'gracias') vistaGracias();
+    else vistaBienvenida();
+    arriba();
+  }
+
+  /* ---------------- Vistas ---------------- */
+  function vistaCargando(txt) {
+    pintar('<div class="card centro"><div class="spin g"></div><p>' + esc(txt || 'Cargando…') + '</p></div>');
+  }
+  function vistaError(msg) {
+    S.vista = 'error';
+    pintar('<div class="card centro"><div class="big">📡</div><h2>No pudimos conectarnos</h2><p>' + esc(msg) +
+      '</p><div class="acciones"><button class="btn" type="button" data-act="reintentarCfg">Intentar de nuevo</button></div></div>');
+  }
+  function vistaCerrada(fecha) {
+    S.vista = 'cerrada';
+    pintar('<div class="card centro hero"><div class="big">🔒</div><h1>La evaluación está cerrada por ahora</h1>' +
+      (fecha ? '<p>Esta campaña estuvo abierta hasta el <b>' + esc(fechaBonita(fecha)) + '</b>.</p>' : '') +
+      '<p>Cuando coordinación la abra, podrás responderla desde este mismo enlace. ¡Gracias por tu interés! 🙌</p></div>');
+  }
+
+  function vistaBienvenida() {
+    var pide = !!S.pinHash && !S.pinOk;
+    var h = '<section class="card hero"><div class="centro"><div class="big">📝</div><h1>Evaluación institucional ' + esc(S.campana) + '</h1></div>' +
+      '<p class="pre">' + esc(S.bienvenida) + '</p>' +
+      '<ul class="lista">' +
+      '<li><span class="ic">🔒</span><span><b>Anónima:</b> no se guarda tu nombre, correo, área, jornada ni nada que te identifique.</span></li>' +
+      '<li><span class="ic">⏱️</span><span>Toma unos <b>10 minutos</b>. Cada sección se envía por separado.</span></li>' +
+      '<li><span class="ic">🧭</span><span>Puedes responder las secciones <b>en el orden que quieras</b>.</span></li>' +
+      '<li><span class="ic">🤝</span><span>Responde con <b>honestidad y respeto</b>. Eso es lo que nos ayuda a mejorar.</span></li>' +
+      '</ul>' +
+      (S.cierre ? '<p class="suave centro">Disponible hasta el ' + esc(fechaBonita(S.cierre)) + '.</p>' : '');
+    if (pide) {
+      h += '<div class="pin"><label for="pin">PIN de acceso</label>' +
+        '<input id="pin" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="64" placeholder="••••">' +
+        '<div class="err" id="pinErr" role="alert"></div></div>';
+    }
+    h += '<div class="acciones"><button class="btn rojo grande" type="button" id="bComenzar" data-act="comenzar">Comenzar →</button></div></section>';
+    pintar(h);
+  }
+
+  function chipEstado(u) {
+    if (enviada(u.k)) return '<span class="chip env">✅ Enviada</span>';
+    if (S.pend[u.k]) return '<span class="chip va">⏳ Enviando…</span>';
+    return '<span class="chip pen">Pendiente</span>';
+  }
+
+  function vistaMenu() {
+    var tot = 0, hechas = 0;
+    S.unidades.forEach(function (u) { if (!u.sec.opcional) { tot++; if (enviada(u.k)) hechas++; } });
+    var pct = tot ? Math.round(hechas * 100 / tot) : 100;
+    var h = '';
+    if (obligCompletas()) {
+      h += '<section class="card aviso-fin centro"><h2>🎉 ¡Ya enviaste todas las secciones obligatorias!</h2>' +
+        '<p>' + (todasEnviadas() ? 'También completaste las opcionales.' : 'Si quieres, todavía puedes responder las opcionales.') + '</p>' +
+        '<div class="acciones"><button class="btn oro" type="button" data-act="fin">Finalizar</button></div></section>';
+    }
+    h += '<section class="card hero"><h2>Secciones</h2>' +
+      '<p class="suave">Elige una sección. Puedes hacerlas en cualquier orden y saltar las opcionales. Cada una se guarda apenas la envías.</p>' +
+      '<div class="pbar big"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="suave"><b>' + hechas + '</b> de <b>' + tot + '</b> obligatorias enviadas</div></section>';
+    h += '<div class="grid">';
+    S.secciones.forEach(function (s) {
+      var n = s.preguntas.length;
+      var sub = n + (n === 1 ? ' pregunta' : ' preguntas');
+      var opc = s.opcional ? '<span class="chip opc">Opcional</span>' : '';
+      if (s.unidades.length === 1) {
+        var u = s.unidades[0], ok = enviada(u.k);
+        if (s.tipo === 'persona' && u.objetoNombre !== s.titulo) sub = esc(u.objetoNombre) + ' · ' + sub;
+        h += '<button type="button" class="tcard' + (ok ? ' ok' : '') + '" data-act="abrir" data-k="' + esc(u.k) + '">' +
+          '<span class="em">' + esc(s.emoji) + '</span><span class="tx"><span class="ti">' + esc(s.titulo) + '</span>' + opc +
+          '<br><span class="su">' + sub + '</span></span>' + chipEstado(u) + '</button>';
+      } else {
+        var env = 0; s.unidades.forEach(function (x) { if (enviada(x.k)) env++; });
+        h += '<div class="tcard' + (env === s.unidades.length ? ' ok' : '') + '"><div class="cabeza"><span class="em">' + esc(s.emoji) + '</span>' +
+          '<span class="tx"><span class="ti">' + esc(s.titulo) + '</span>' + opc + '<br><span class="su">' + s.unidades.length + ' personas · ' + sub +
+          ' c/u · ' + env + ' de ' + s.unidades.length + ' enviadas</span></span></div><div class="personas">';
+        s.unidades.forEach(function (x) {
+          h += '<button type="button" class="pbtn" data-act="abrir" data-k="' + esc(x.k) + '"><span class="pn">👤 ' + esc(x.objetoNombre) +
+            (x.cargo ? '<small>' + esc(x.cargo) + '</small>' : '') + '</span>' + chipEstado(x) + '</button>';
+        });
+        h += '</div></div>';
+      }
+    });
+    h += '</div>';
+    pintar(h);
+  }
+  function refrescarMenu() {
+    if (S.vista !== 'menu') return;
+    var y = window.pageYOffset || 0;
+    vistaMenu();
+    try { window.scrollTo(0, y); } catch (e) {}
+  }
+
+  function vistaUnidad(k) {
+    var u = S.mapa[k], s = u.sec, r = S.resp[k] || (S.resp[k] = {});
+    var h = '<div class="barra"><div class="bin"><button type="button" class="btn claro mini" data-act="volver">‹ Secciones</button>' +
+      '<div class="bt"><b>' + esc(s.emoji) + ' ' + esc(s.titulo) + '</b>' +
+      (u.total > 1 ? '<small>Persona ' + (u.i + 1) + ' de ' + u.total + '</small>' : '<small>' + s.preguntas.length + ' preguntas</small>') +
+      '</div><div class="cnt" id="cnt">0/' + s.preguntas.length + '</div></div><div class="pbar"><i id="pfill"></i></div></div>';
+    h += '<section class="card hero">';
+    if (s.tipo === 'persona') {
+      h += '<div class="per"><div class="av">👤</div><div><div class="pn">' + esc(u.objetoNombre) + '</div>' +
+        (u.cargo ? '<div class="pc">' + esc(u.cargo) + '</div>' : '') +
+        (u.total > 1 ? '<div class="ps">Persona ' + (u.i + 1) + ' de ' + u.total + ' · cada persona se evalúa por separado</div>' : '') +
+        '</div></div>';
+    } else {
+      h += '<h2>' + esc(s.emoji) + ' ' + esc(s.titulo) + (s.opcional ? ' <span class="chip opc">Opcional</span>' : '') + '</h2>';
+    }
+    if (s.nota) h += '<p class="nota">' + esc(s.nota) + '</p>';
+    h += '<p class="ayuda">Marca la opción que mejor refleje tu experiencia. Todas las preguntas son obligatorias' +
+      (s.comentario.activo ? '; el comentario es opcional' : '') + '.</p></section>';
+
+    s.preguntas.forEach(function (q, i) {
+      var val = r[q.id];
+      h += '<div class="card q' + (val ? ' listo' : '') + '" id="q_' + i + '" data-q="' + esc(q.id) + '">' +
+        '<div class="qt"><span class="qn">' + (i + 1) + '</span><div>' + esc(q.texto) +
+        (q.dim ? ' <span class="dim">' + esc(q.dim) + '</span>' : '') + '</div></div>' +
+        '<div class="opts" role="radiogroup" aria-label="Pregunta ' + (i + 1) + '">';
+      S.escala.niveles.forEach(function (n) {
+        var sel = val === n.v;
+        h += '<button type="button" class="opt' + (sel ? ' sel' : '') + '" role="radio" aria-checked="' + (sel ? 'true' : 'false') + '"' +
+          ' data-act="op" data-q="' + esc(q.id) + '" data-v="' + n.v + '" style="--c:' + n.c + ';--d:' + n.d + ';--t:' + n.t + '">' +
+          '<span class="e">' + esc(n.emoji) + '</span><span class="tx">' + esc(n.texto) + '</span></button>';
+      });
+      h += '</div></div>';
+    });
+
+    if (s.comentario.activo) {
+      var txt = S.coment[k] || '';
+      h += '<div class="card com"><label for="com">💬 ' + esc(s.comentario.texto) + '</label>' +
+        '<textarea id="com" maxlength="' + MAX_COM + '" placeholder="Escribe aquí (opcional)">' + esc(txt) + '</textarea>' +
+        '<div class="pie"><span>✍️ <b>Escribe con respeto y sin nombres de terceros.</b></span><span id="ccount">' + txt.length + '/' + MAX_COM + '</span></div></div>';
+    }
+    h += '<div id="est" aria-live="polite"></div>';
+    h += '<div class="acciones"><button type="button" class="btn rojo grande" id="bGuardar" data-act="guardar">Guardar y seguir →</button></div>';
+    pintar(h);
+    actualizarProgreso();
+    var rec = S.pend[k];
+    if (rec) { bloquear(true); if (rec.lento) estLento(); else estEnviando(); }
+  }
+
+  function vistaGracias() {
+    var falt = [];
+    S.secciones.forEach(function (s) {
+      if (!s.opcional) return;
+      for (var i = 0; i < s.unidades.length; i++) if (!enviada(s.unidades[i].k)) { falt.push(s.titulo); break; }
+    });
+    var h = '<section class="card hero centro"><div class="big">🙌</div><h1>¡Gracias!</h1><p class="pre">' + esc(S.gracias) + '</p>';
+    if (!obligCompletas()) {
+      h += '<p class="suave">Aún tienes secciones obligatorias pendientes.</p>';
+    } else {
+      h += '<p class="suave">Tus respuestas ya quedaron guardadas. Puedes cerrar esta página.</p>';
+    }
+    if (falt.length && obligCompletas()) h += '<p>Si quieres, todavía puedes responder: <b>' + esc(falt.join(', ')) + '</b> (opcional).</p>';
+    h += '<div class="acciones"><button type="button" class="btn claro" data-act="menu">Volver a las secciones</button></div></section>';
+    pintar(h);
+  }
+
+  /* ---------------- Interacción en la sección ---------------- */
+  function actualizarProgreso() {
+    var u = S.mapa[S.actual]; if (!u) return;
+    var r = S.resp[S.actual] || {}, n = 0, tot = u.sec.preguntas.length;
+    u.sec.preguntas.forEach(function (q) { if (r[q.id]) n++; });
+    var c = $('cnt'), f = $('pfill');
+    if (c) c.textContent = n + '/' + tot;
+    if (f) f.style.width = Math.round(n * 100 / tot) + '%';
+  }
+
+  function marcar(btn) {
+    var k = S.actual; if (!k || S.pend[k] || btn.disabled) return;
+    var q = btn.getAttribute('data-q'), v = parseInt(btn.getAttribute('data-v'), 10);
+    (S.resp[k] || (S.resp[k] = {}))[q] = v;
+    var grupo = btn.parentNode, bs = grupo.querySelectorAll('.opt'), i;
+    for (i = 0; i < bs.length; i++) {
+      var on = bs[i] === btn;
+      bs[i].className = 'opt' + (on ? ' sel' : '');
+      bs[i].setAttribute('aria-checked', on ? 'true' : 'false');
+    }
+    var card = grupo.parentNode;
+    card.className = 'card q listo';
+    actualizarProgreso();
+    var est = $('est'); if (est && /mal/.test(est.className || '') && est.getAttribute('data-faltan')) est.innerHTML = '';
+  }
+
+  function bloquear(b) {
+    var bs = document.querySelectorAll('#app .opt'), i;
+    for (i = 0; i < bs.length; i++) bs[i].disabled = b;
+    var t = $('com'); if (t) t.readOnly = b;
+  }
+  function setBoton(txt, deshab) {
+    var b = $('bGuardar'); if (!b) return;
+    b.innerHTML = txt; b.disabled = !!deshab;
+  }
+  function setEst(cls, html) {
+    var e = $('est'); if (!e) return;
+    e.innerHTML = html ? '<div class="est ' + cls + '">' + html + '</div>' : '';
+  }
+  function estEnviando() {
+    setEst('envi', '<span class="spin"></span>Guardando tus respuestas…');
+    setBoton('<span class="spin"></span>Guardando…', true);
+  }
+  function estLento() {
+    setEst('lento', '⏳ <b>La conexión está lenta.</b> Tu envío sigue en camino: no cierres esta página. ' +
+      'Puedes esperar aquí o tocar «Reintentar»; no se va a guardar dos veces.');
+    setBoton('🔄 Reintentar', false);
+  }
+  function estError(msg) {
+    setEst('mal', '⚠️ <b>No se pudo guardar.</b> ' + esc(msg) + ' Tus respuestas siguen marcadas; vuelve a intentarlo.');
+    setBoton('🔄 Reintentar envío', false);
+  }
+
+  function marcarFaltantes(faltan) {
+    var cards = document.querySelectorAll('#app .q'), i;
+    for (i = 0; i < cards.length; i++) cards[i].className = cards[i].className.replace(/\s?falta/g, '');
+    var nums = [];
+    faltan.forEach(function (idx) {
+      var el = $('q_' + idx);
+      if (el) { void el.offsetWidth; el.className += ' falta'; }
+      nums.push(idx + 1);
+    });
+    var msg = nums.length === 1 ? 'Te falta responder la pregunta ' + nums[0] + '.' :
+      'Te faltan ' + nums.length + ' preguntas: ' + nums.join(', ') + '.';
+    toast('✋ ' + msg, 'mal');
+    var p = $('q_' + faltan[0]);
+    if (p) {
+      try { p.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { p.scrollIntoView(true); }
+      var b = p.querySelector('.opt');
+      if (b) { try { b.focus({ preventScroll: true }); } catch (e2) {} }
+    }
+  }
+
+  function describirError(err) {
+    var c = err && (err.code || err.name) ? String(err.code || err.name) : '';
+    if (/permission/i.test(c)) return 'El servidor no aceptó el envío (permisos). Avísale a coordinación.';
+    if (/unavailable|offline|network/i.test(c) || navigator.onLine === false) return 'No hay conexión con el servidor. Revisa tu internet.';
+    return 'Hubo un problema de conexión.';
+  }
+
+  function iniciarEnvio(k) {
+    var u = S.mapa[k], s = u.sec, r = {};
+    acumularSeg();
+    s.preguntas.forEach(function (q) { r[q.id] = parseInt(S.resp[k][q.id], 10); });
+    var com = s.comentario.activo ? String(S.coment[k] || '').replace(/^\s+|\s+$/g, '').slice(0, MAX_COM) : '';
+    var payload = {
+      v: 1, campana: S.campana, seccionId: s.id, seccionTitulo: s.titulo, tipo: s.tipo,
+      objetoId: u.objetoId, objetoNombre: u.objetoNombre, cargo: u.cargo || '',
+      r: r, max: S.escala.max, comentario: com, ts: Date.now(), dev: devId(), seg: Math.round(S.seg[k] || 0)
+    };
+    var rec = { payload: payload, lento: false, t: 0 };
+    S.pend[k] = rec;
+    var p;
+    try { p = S.fb.enviar(payload); } catch (e) { p = Promise.reject(e); }
+    p.then(function () {
+      if (S.pend[k] !== rec) return;
+      clearTimeout(rec.t); delete S.pend[k];
+      var antes = obligCompletas();
+      marcarEnviada(k);
+      alConfirmar(k, antes);
+    }, function (err) {
+      if (S.pend[k] !== rec) return;
+      clearTimeout(rec.t); delete S.pend[k];
+      alFallar(k, err);
+    });
+    return rec;
+  }
+
+  function guardar() {
+    var k = S.actual, u = S.mapa[k];
+    if (!u) return;
+    if (enviada(k)) { toast('Esta sección ya fue enviada desde este equipo.'); volverMenu(); return; }
+    var rec = S.pend[k];
+    if (!rec) {
+      var r = S.resp[k] || {}, faltan = [];
+      u.sec.preguntas.forEach(function (q, i) { if (!r[q.id]) faltan.push(i); });
+      if (faltan.length) { marcarFaltantes(faltan); return; }
+      if (!S.fb) { estError('Todavía no hay conexión con el servidor.'); return; }
+      rec = iniciarEnvio(k);   // un solo addDoc por envío pendiente
+    }
+    // Reintento: si ya hay un envío en camino se reutiliza (no se crea otro documento).
+    bloquear(true);
+    estEnviando();
+    rec.lento = false;
+    clearTimeout(rec.t);
+    rec.t = setTimeout(function () {
+      if (S.pend[k] !== rec) return;
+      rec.lento = true;
+      if (S.vista === 'unidad' && S.actual === k) estLento();
+    }, T_LENTO);
+  }
+
+  function alConfirmar(k, antes) {
+    var u = S.mapa[k];
+    if (S.vista === 'unidad' && S.actual === k) {
+      setEst('', '');
+      setBoton('¡Guardado! 🎉', true);
+      celebrar(function () {
+        if (!(S.vista === 'unidad' && S.actual === k)) { refrescarMenu(); return; }
+        if ((!antes && obligCompletas()) || todasEnviadas()) ir({ s: 'gracias' }, true);
+        else volverMenu();
+      });
+    } else {
+      toast('✅ Se confirmó el envío: ' + u.sec.titulo + (u.total > 1 ? ' · ' + u.objetoNombre : ''));
+      refrescarMenu();
+    }
+  }
+  function alFallar(k, err) {
+    var u = S.mapa[k], msg = describirError(err);
+    if (S.vista === 'unidad' && S.actual === k) {
+      bloquear(false);
+      estError(msg);
+    } else {
+      toast('⚠️ No se pudo guardar «' + u.sec.titulo + '». Ábrela y vuelve a intentarlo.', 'mal');
+      refrescarMenu();
+    }
+  }
+
+  function celebrar(cb) {
+    var quieto = false;
+    try { quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    var f = document.createElement('div');
+    f.className = 'fiesta';
+    f.innerHTML = '<div class="msg"><div class="big">🎉</div><b>¡Enviada!</b><span class="suave">Gracias por tu respuesta</span></div>';
+    document.body.appendChild(f);
+    var piezas = [];
+    if (!quieto) {
+      var cols = ['#C8202F', '#D4A445', '#1F2D5C', '#3F62B5', '#FFFFFF'], i;
+      for (i = 0; i < 26; i++) {
+        var c = document.createElement('i');
+        c.className = 'conf';
+        c.style.left = Math.round(Math.random() * 100) + 'vw';
+        c.style.background = cols[i % cols.length];
+        c.style.animationDelay = Math.round(Math.random() * 250) + 'ms';
+        if (cols[i % cols.length] === '#FFFFFF') c.style.boxShadow = '0 0 0 1px #E7DCC4';
+        document.body.appendChild(c); piezas.push(c);
+      }
+    }
+    setTimeout(function () {
+      if (f.parentNode) f.parentNode.removeChild(f);
+      piezas.forEach(function (p) { if (p.parentNode) p.parentNode.removeChild(p); });
+      cb();
+    }, quieto ? 700 : 1400);
+  }
+
+  /* ---------------- PIN ---------------- */
+  function comenzar() {
+    if (!S.pinHash || S.pinOk) { ir({ s: 'menu' }); return; }
+    var inp = $('pin'), err = $('pinErr'), b = $('bComenzar');
+    var val = inp ? String(inp.value || '').replace(/^\s+|\s+$/g, '') : '';
+    if (!val) { err.textContent = 'Escribe el PIN para continuar.'; if (inp) inp.focus(); return; }
+    b.disabled = true; err.textContent = '';
+    sha256Hex(val).then(function (h) {
+      if (inp) inp.value = '';
+      val = '';
+      b.disabled = false;
+      if (String(h).toLowerCase() === S.pinHash) { S.pinOk = true; ir({ s: 'menu' }); }
+      else {
+        err.textContent = 'PIN incorrecto';
+        inp.className = ''; void inp.offsetWidth; inp.className = 'sacude';
+        inp.focus();
+      }
+    }, function () { b.disabled = false; err.textContent = 'No se pudo verificar el PIN. Intenta de nuevo.'; });
+  }
+
+  /* ---------------- Eventos (delegados) ---------------- */
+  document.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!t) return;
+    var act = t.getAttribute('data-act');
+    if (act === 'op') marcar(t);
+    else if (act === 'guardar') guardar();
+    else if (act === 'abrir') {
+      var k = t.getAttribute('data-k');
+      if (enviada(k)) { toast('✅ Esta ya fue enviada desde este equipo. ¡Gracias!'); return; }
+      ir({ s: 'unidad', k: k });
+    }
+    else if (act === 'volver') volverMenu();
+    else if (act === 'comenzar') comenzar();
+    else if (act === 'fin') ir({ s: 'gracias' });
+    else if (act === 'menu') ir({ s: 'menu' });
+    else if (act === 'reintentarCfg') cargarConfig();
+  });
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t && t.id === 'com' && S.actual) {
+      if (t.value.length > MAX_COM) t.value = t.value.slice(0, MAX_COM);
+      S.coment[S.actual] = t.value;
+      var c = $('ccount'); if (c) c.textContent = t.value.length + '/' + MAX_COM;
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.target && e.target.id === 'pin' && (e.key === 'Enter' || e.keyCode === 13)) { e.preventDefault(); comenzar(); }
+  });
+  function estadoRed() { var r = $('red'); if (r) r.hidden = navigator.onLine !== false; }
+  window.addEventListener('online', estadoRed);
+  window.addEventListener('offline', estadoRed);
+  window.addEventListener('beforeunload', function (e) {
+    for (var k in S.pend) if (S.pend.hasOwnProperty(k)) { e.preventDefault(); e.returnValue = ''; return ''; }
+  });
+
+  /* ---------------- Configuración ---------------- */
+  function cargarConfig() {
+    if (!S.fb) return;
+    vistaCargando('Abriendo la evaluación…');
+    var p;
+    try { p = S.fb.leerConfig(); } catch (e) { p = Promise.reject(e); }
+    conTiempo(p, T_CONFIG).then(procesarConfig, function (err) {
+      vistaError(err && err.timeout ? 'El servidor está tardando demasiado en responder. Revisa tu conexión.' : describirError(err));
+    });
+  }
+
+  function procesarConfig(c) {
+    if (!c || typeof c !== 'object' || c.abierta !== true) { vistaCerrada(''); return; }
+    var cierre = (typeof c.cierre === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(c.cierre)) ? c.cierre : '';
+    if (cierre && hoyISO() > cierre) { vistaCerrada(cierre); return; }
+    S.campana = String(c.campana || 'sin-campana');
+    S.cierre = cierre;
+    S.pinHash = typeof c.pinHash === 'string' ? c.pinHash.replace(/\s+/g, '').toLowerCase() : '';
+    S.escala = normEscala(c.escala);
+    var secs = normSecciones(c.secciones);
+    S.secciones = secs.length ? secs : normSecciones(SECCIONES_DEF);
+    S.bienvenida = c.bienvenida ? String(c.bienvenida) : BIENVENIDA_DEF;
+    S.gracias = c.gracias ? String(c.gracias) : GRACIAS_DEF;
+    armarUnidades();
+    var hc = $('hcamp'); if (hc) hc.innerHTML = '· <b>' + esc(S.campana) + '</b>';
+    S.listo = true;
+    ir({ s: 'bienvenida' }, true);
+  }
+
+  /* Puente con el módulo de Firebase */
+  window.__evpFb = function (api, err) {
+    if (S.fb) return;
+    if (api) { S.fb = api; cargarConfig(); }
+    else {
+      var w = window.__evpAviso;
+      if (w) w(causaFallo());
+    }
+  };
+  function enMarco() { try { return window.self !== window.top; } catch (e) { return true; } }
+  function causaFallo() {
+    if (navigator.onLine === false) return 'Este equipo no tiene conexión a internet. Conéctate y toca «Intentar de nuevo».';
+    if (enMarco()) return 'Estás viendo la encuesta dentro de una vista previa que no permite conectarse a internet. ' +
+      'Para responderla, ábrela desde su enlace publicado (por ejemplo, GitHub Pages) o descarga el archivo y ábrelo directamente en Chrome, Edge o Firefox.';
+    return 'No se pudo descargar el componente de conexión (Firebase) desde www.gstatic.com. Puede ser una falla del internet, ' +
+      'un bloqueador de anuncios o un filtro de la red. Inténtalo de nuevo; si sigue igual, prueba desde tu celular con datos móviles.';
+  }
+  window.__evpCausa = causaFallo;
+
+  /* ---------------- Arranque ---------------- */
+  (function () {
+    $('vtxt').textContent = APP_VERSION;
+    $('ver').title = 'Build ' + APP_BUILD;
+    $('ver').onclick = function () {
+      var c = $('cambios');
+      if (c.hidden && !c.innerHTML) {
+        var h = '<b>Versión ' + esc(APP_VERSION) + '</b> · build ' + esc(APP_BUILD);
+        CHANGELOG.forEach(function (x) {
+          h += '<div style="margin-top:6px"><b>' + esc(x.v) + '</b> (' + esc(x.fecha) + ')<ul>';
+          x.cambios.forEach(function (y) { h += '<li>' + esc(y) + '</li>'; });
+          h += '</ul></div>';
+        });
+        c.innerHTML = h;
+      }
+      c.hidden = !c.hidden;
+    };
+    if (ESCUDO_SRC) $('escudo').innerHTML = '<img alt="" src="' + ESCUDO_SRC + '">';
+    estadoRed();
+    iniciarEmojis();
+    window.APP_VERSION = APP_VERSION; window.APP_BUILD = APP_BUILD; window.CHANGELOG = CHANGELOG;
+    if (window.__EVP_FB_API) window.__evpFb(window.__EVP_FB_API);
+  })();
+})();
+</script>
+
+<!-- ============ Firebase (módulo). Solo lee la configuración y solo crea documentos con addDoc. ============ -->
+<script type="module">
+var V = '10.12.0', B = 'https://www.gstatic.com/firebasejs/' + V + '/';
+var firebaseConfig = {
+  apiKey: 'AIzaSyBoQmO-jPv9b5VnKpoBA9g_GhIdHC9q7I0',
+  authDomain: 'liceo-suesca-notas.firebaseapp.com',
+  projectId: 'liceo-suesca-notas',
+  storageBucket: 'liceo-suesca-notas.firebasestorage.app',
+  messagingSenderId: '1000406739498',
+  appId: '1:1000406739498:web:0a4f75c4e7e8c03f9a4e2a'
+};
+function fallo(e) {
+  if (window.__EVP_FB_OK) return;
+  window.__EVP_FB_FALLO = true;
+  try { console.warn('[evaluacion_plantel] No se pudo descargar Firebase desde ' + B + ' (sin internet, bloqueador o vista previa sin acceso a la red).', e); } catch (x) {}
+  if (window.__evpFb) window.__evpFb(null, e);
+}
+Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-firestore.js')]).then(function (m) {
+  var A = m[0], F = m[1];
+  var app = A.initializeApp(firebaseConfig);
+  var db;
+  try { db = F.initializeFirestore(app, { experimentalForceLongPolling: true }); }
+  catch (e) { db = F.getFirestore(app); }
+  var api = Object.freeze({
+    // ÚNICA lectura: la configuración de la campaña.
+    leerConfig: function () {
+      return F.getDoc(F.doc(db, 'evaluacion_plantel_config', 'actual')).then(function (s) { return s.exists() ? s.data() : null; });
+    },
+    // ÚNICA escritura: crear un documento nuevo en evaluacion_plantel.
+    enviar: function (data) {
+      return F.addDoc(F.collection(db, 'evaluacion_plantel'), data).then(function (ref) { return ref.id; });
+    }
+  });
+  window.__EVP_FB_OK = true;
+  window.__EVP_FB_API = api;
+  if (window.__evpFb) window.__evpFb(api);
+}).catch(fallo);
+</script>
+</body>
+</html>
